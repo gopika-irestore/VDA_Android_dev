@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/navList"
+    android:layout_width="312dp"
+    android:layout_height="match_parent"
+    android:background="@color/textColor"
+    android:layout_gravity="left|start"
+    android:clickable="true"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/menuHeading"
+        android:text="CP Manager"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:orientation="vertical"
+
+        >
+
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/homeBtn"
+        android:text="Home"
+        android:textSize="14sp"
+        android:background="#00000000"
+        android:gravity="left"
+
+        android:textColor="@color/blue"
+
+        />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateProfileButton"
+            android:text="Update Profile"
+            android:textSize="14sp"
+            android:gravity="left"
+            android:textColor="@color/blue"
+            android:background="#00000000"
+
+
+            />
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/manageAssetsBtn"
+        android:text="Manage Assets"
+        android:textSize="14sp"
+        android:gravity="left"
+        android:textColor="@color/blue"
+        android:background="#00000000"
+
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:id="@+id/performInspectionBtn"
+        android:text="Perform Inspection"
+        android:textSize="14sp"
+        android:textColor="@color/blue"
+        android:background="#00000000"
+
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:id="@+id/reviewInspectionBtn"
+        android:text="Review Inspections"
+        android:textSize="14sp"
+        android:textColor="@color/blue"
+        android:visibility="gone"
+        android:background="#00000000"
+
+
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:id="@+id/manageComplianceBtn"
+        android:text="Manage Compliance"
+        android:textSize="14sp"
+        android:background="#00000000"
+        android:visibility="gone"
+
+        android:textColor="@color/blue"
+
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:id="@+id/manageNotificationsBtn"
+        android:text="Manage Notifications"
+        android:textSize="14sp"
+        android:background="#00000000"
+        android:visibility="gone"
+        android:textColor="@color/blue"
+
+        />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:id="@+id/manageBluetoothBtn"
+            android:text="Manage Bluetooth Multimeter"
+            android:textSize="14sp"
+            android:background="#00000000"
+            android:visibility="gone"
+
+            android:textColor="@color/blue"
+
+            />
+
+</LinearLayout>
+</LinearLayout>

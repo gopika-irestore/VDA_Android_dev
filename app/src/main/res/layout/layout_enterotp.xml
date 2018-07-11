@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/logoHolder"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="33dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/logoholder"
+            >
+            <ImageView
+                android:layout_width="231dp"
+                android:layout_height="95dp"
+                android:id="@+id/client_logo"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dummyTextView"
+                 />
+        </LinearLayout>
+        <TextView
+            android:text="OTP has been sent to"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:textColor="#ffffff"
+            android:textSize="13dp" />
+        <TextView
+            android:id="@+id/OtpText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#ffffff"
+            android:textSize="13dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/enterOTP"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"
+            android:hint="OTP"
+            android:inputType="numberPassword"
+            android:singleLine="true"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:backgroundTint="#ffffff"
+            android:layout_marginTop="43dp"
+            android:textSize="16dp"
+            android:gravity="center" />
+        <Button
+        android:layout_width="249dp"
+        android:layout_height="72dp"
+        android:text="Next"
+        android:id="@+id/nextBtn"
+        android:background="@mipmap/whitebutton"
+        android:textColor="#666666"
+        android:layout_marginTop="31dp"
+        android:textSize="16dp" />
+      <!--  <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resend OTP"
+            android:id="@+id/resendBtn"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/otptimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:hint="dfhfhsdhdh"/>-->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/otptimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="false"
+                android:textColor="#ffffff"
+                android:text="05:16"
+                android:textSize="16dp"
+                android:layout_toLeftOf="@+id/resendBtn"
+                android:gravity="center"
+                android:layout_marginRight="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resend OTP"
+                android:id="@+id/resendBtn"
+                android:textColor="#ffffff"
+                android:background="@android:color/transparent"
+                android:textSize="16dp"
+                android:layout_centerInParent="true"
+                android:gravity="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="4dp"
+                />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_gravity="end"
+
+            android:src="@mipmap/footerlogo"
+            android:layout_width="192dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="17dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

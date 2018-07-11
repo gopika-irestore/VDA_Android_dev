@@ -1,0 +1,208 @@
+<resources>
+    <string name="app_name">VDA</string>
+    <string name="title_activity_app_info_screen">Sign in</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="choose_gallery">Choose From Gallery</string>
+    <string name="internet_error">Either internet is not enabled on your mobile phone or there is no coverage in your area.</string>
+    <string name="capture_camera">Capture From Camera</string>
+
+    <string name="msg_enter_text_to_draw">Please enter text</string>
+
+    <string name="msg_tap_image">Please tap on image to type text.</string>
+
+    <string name="btn_ok">Ok</string>
+
+    <string name="btn_cancel">Cancel</string>
+
+    <string name="btn_done">Done</string>
+
+    <string name="msg_please_wait">Please wait ...</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="empty_email">Please enter your email</string>
+    <string name="invalid_email">Please enter a valid email address</string>
+    <string name="empty_phone_number">Please enter a valid Area Code and Phone Number</string>
+    <string name="invalid_field_length1">can not contain more than 150 characters</string>
+    <!--Strings related to Welcome Screen -->
+    <string name="welcomeAppName">Maintenance Activity Card</string>
+    <string name="welcomeMsg">Welcome to CP Manager</string>
+    <string name="welcomeInfo">Use this app to document service referrals \nand other deficiencies in the field.</string>
+    <string name="dontAskAgain">Don\'t show this again</string>
+    <string name="documentConditions">Document conditions</string>
+    <string name="includeInfo">Include relevant info</string>
+    <string name="reviewSubmit">Review and submit</string>
+    <string name="whatIsIrestore">What is iRestore?</string>
+    <string name="title_activity_dashboard_screen">DashboardScreen</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="no_location">Fetching location, try again!</string>
+    <string name="select_utility">Please select the Utility</string>
+    <string name="error">Server Error, please try again later</string>
+    <string name="enable_location">Please enable location services for iRestore CP Manager. </string>
+    <string name="admin_approval">Thank you for registering for iRestore.</string>
+    <string name="admin_approval_utility">Administrator will respond to your request within 48 hours and you will be notified of the response.</string>
+    <!--Strings related to submit new card Screen -->
+    <string name="responsibleParty">Responsible Department*</string>
+    <string name="problemType">Problem Type</string>
+    <string name="priority">Priority</string>
+    <string name="textviewCancel">Cancel</string>
+    <string name="textviewAppName">VDA</string>
+    <string name="textViewWire">Wire</string>
+    <string name="textViewPoleTop">Pole Top</string>
+    <string name="textViewSPLEquipment">SPL<br>Equipment</br></string>
+    <string name="textViewPole">Pole</string>
+    <string name="textViewTree">Tree</string>
+    <string name="textViewOther">Other</string>
+    <string name="buttonNext">Next</string>
+    <string name="textviewPoledata">Pole Data</string>
+    <string name="textviewPolenumber">Pole Number</string>
+    <string name="textviewPoleheight">Pole Height</string>
+    <string name="textviewFeederLine1">Feeder Line 1</string>
+    <string name="textviewFeederLine2">Feeder Line 2</string>
+    <string name="textviewtakePhoto">take a photo\nfor reference</string>
+    <string name="textviewPanorama">Panorama</string>
+    <string name="polenumber_hint"><font size="12">Pole Number</font></string>
+    <string name="feederline1_hint"><font size="12">Feeder Line1</font></string>
+    <string name="feederline2_hint"><font size="12">Feeder Line2</font></string>
+    <!--Strings related to submit new card Screen -->
+    <string name="pole_preferences">vda_polePreferences</string>
+    <string name="scopes_preferences">vda_scopePreferences</string>
+    <string name="metadataPreferences">vda_metadataPreferences</string>
+
+
+    <string name="preference_file_key">vdaPreferences</string>
+
+    <string name="preference_file_key_uidata">vdaPreferencesUIData</string>
+    <string name="preference_file_key_filters">PreferencesFilters</string>
+    vda
+    <string-array name="navigation_drawer_items_array">
+        <item>Connect</item>
+        <item>Fixtures</item>
+        <item>Table</item>
+    </string-array>
+    <string name="title_activity_update_card">UpdateCardActivity</string>
+    <string name="title_activity_sort">SortActivity</string>
+    <string name="title_activity_filter">FilterActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_android_camera_api">AndroidCameraApi</string>
+    <string name="title_activity_manage_notification">ManageNotificationActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_priority">PriorityActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_review_photos">ReviewPhotosActivity</string>
+    <string name="title_activity_multiple_images">MultipleImagesActivity</string>
+    <string name="title_activity_irestore_info">IRestoreInfoActivity</string>
+    <string name="tc_html">
+    <![CDATA[
+    <p><b>iRestore Visual Damage Assesment App Terms of Service</b><br />
+Last Modified: April 21, 2016<br />
+By downloading, installing, or using any of the iRestore apps, accessing or using the iRestore service (together, the &quot;Products&quot; or &quot;Services&quot;), or accessing or using any of the content available within the Products, you agree to be bound by the following terms and conditions set forth below (the &quot;Additional Terms&quot;). Before you continue, you should read each of these three documents, as together they form a binding agreement between you and Business Radar regarding your use of the Products. Collectively, the Universal Terms, the Legal Notices, and the Additional Terms are referred to as the &quot;Terms&quot;.<br />
+As a condition of downloading, accessing, or using the Products, you also agree to the terms of the Business Radar privacy policy detailed herein.<br />
+<b>1. Use of the Products.</b> Business Radar grants you a non-exclusive, non-transferable license to access the iRestore service, to download and use the iRestore software and service, and to create or access the Content (as defined below) within the Products and according to the Terms.<br />
+<b>2. Restrictions on Use.</b> Unless you have received prior written authorization from Business Radar (or, as applicable, from the provider of particular Content), you must not: (a) copy, translate, modify, or make derivative works of the Content or any part thereof; (b) redistribute, sublicense, rent, publish, sell, assign, lease, market, transfer, or otherwise make the Products or Content available to third parties; (c) reverse engineer, decompile or otherwise attempt to extract the source code of the Service or any part thereof, unless this is expressly permitted or required by applicable law; (d) use the Products in a manner that gives you or any other person access to mass downloads or bulk feeds of any Content, including but not limited to numerical latitude or longitude coordinates, imagery, and visible map data; (e) delete, obscure, or in any manner alter any warning or link that appears in the Products or the Content; or (f) use the Products to create a database of places or other local listings information.<br />
+<b>3. Appropriate Conduct; Compliance with Law and Business Radar Policies.</b> You agree that you are responsible for your own conduct and content while using the Products, and for any consequences thereof. You agree to use the Products only for purposes that are proper and in accordance with the Terms and any applicable policies or guidelines Business Radar may make available. By way of example, and not as a limitation, you agree that when using the Products or the Content, you will not: (a) defame, abuse, harass, stalk, threaten or otherwise violate the legal rights (such as rights of privacy and publicity) of others; (b) upload, post, email, transmit or otherwise make available any inappropriate, defamatory, obscene, or unlawful content; (c) upload, post, transmit or otherwise make available any content that infringes any patent, trademark, copyright, trade secret or other proprietary right of any party, unless you are the owner of the rights, or have the permission of the owner or other legal justification to use such content; (d) upload, post, email, transmit or otherwise make available messages that promote pyramid schemes, chain letters, or disruptive commercial messages or advertisements; (e) upload, post, email, transmit or otherwise make available any other content, message, or communication prohibited by applicable law, the Terms or any applicable Product policies or guidelines; (f) download any file posted by another that you know, or reasonably should know, cannot be legally distributed in such manner; (g) impersonate another person or entity, or falsify or delete any author attributions or proprietary designations or labels of the origin or source of Content, software or other material; (h) restrict or inhibit any other user from using and enjoying the Products or Business Radar services; (i) use any robot, spider, site search/retrieval application, or other device to retrieve or index any portion of the iRestore services or Content, or collect information about users for any unauthorized purpose; (j) submit content that falsely expresses or implies that such content is sponsored or endorsed by Business Radar or its customers or partners; (k) create user accounts by automated means or under false or fraudulent pretenses; (l) promote or provide instructional information about illegal activities; (m) promote physical harm or injury against any group or individual; or (n) transmit any viruses, worms, defects, Trojan horses, or any items of a destructive nature.<br />
+<b>4. Content in the Products.</b> iRestore allows you to create and view utility damage reports, including but not limited to photographic imagery, map and address data,</p><p>location information, damage metadata, and other related information provided by Business Radar, its licensors, and its users (the &quot;Content&quot;). Additionally, you may choose to access other third party content made available in the Products through Google services such as Google Maps or Directions. You understand and agree to the following: (a) Map data, traffic, directions, and related Content are provided for planning purposes only. You may find that weather conditions, extreme weather, road closures, or other events may cause conditions to differ from the Content. You should exercise judgment in your use of this Content. (b) Certain Content is provided under license from third parties. Your use of third party Content, including but not limited to printing or use in marketing or promotional materials, is subject to additional restrictions located on pages relating to third party terms of service.</p>
+
+<p><b>5. Photo &amp; Video Policy.</b> We reserve the right to both remove photographs and videos that violate our content policy, and suspend users who upload such media. Photos or videos that violate our content policy might contain:</p>
+
+<p><b>&bull; Illegal content</b><br />
+<b>&bull; Violations of copyright</b><br />
+<b>&bull; Trademark infringement</b><br />
+<b>&bull; Pornography</b><br />
+<b>&bull; Incitement of violence</b><br />
+<b>&bull; Promotions of hate</b><br />
+<b>&bull; Invasion of privacy</b></p>
+
+<p><b>5. Privacy Policy.</b> Your privacy matters to us so please do take the time to get to know our practices &ndash; and if you have any questions contact us. </p>
+
+<p><b>Information we collect:</b> We collect information to provide damage reports to utility customers &ndash; reports of wires or poles down, for example, to speed diagnosis and repair of utility damage associated with power outages.<br />
+<b>Information you give us.</b> For example, iRestore requires users to sign up and create an account. When you do, we&rsquo;ll ask for personal information, like your name, email address, telephone number or organization to store with your account. <br />
+<b>Information we get from your use of our services.</b> We <b>collect information</b> about the services that you use and how you use them, like when you report a downed wire using the iRestore app, visit a website that shows damage reports, or <b>view and interact with iRestore content.</b> This information includes: <br />
+<b>Device information</b> <br />
+We collect device&not;-specific information (such as your hardware model, operating system version, unique device identifiers, and mobile network information including phone number). Business Radar may associate your device identifiers or phone number with your iRestore Account. <br />
+<b>Log information</b><br />
+</p><p>When you use our services or view content provided by Business Radar, we automatically collect and store certain information in server logs. This includes: <br />
+details of how you used our service, such as your app usage log information, your phone number, time and date of reports, number of reports, SMS routing information and Internet protocol address.<br />
+Also device event information such as crashes, system activity, hardware settings, browser type, browser language, the date and time of your request and referral URL.<br />
+cookies that may uniquely identify your browser or your iRestore Account. <br />
+<b>Location information</b> <br />
+When you use iRestore, we may collect and process information about your actual location. We use various technologies to determine location, including IP address, GPS, and other sensors that may, for example, provide Business Radar with information on nearby devices, Wi&not;Fi access points and cell towers. <br />
+<b>Unique application numbers</b> <br />
+Certain services include a unique application number. This number and information about your installation (for example, the operating system type and application version number) may be sent to Business Radar when you install or uninstall that service or when that service periodically contacts our servers, such as for automatic updates. <br />
+<b>Local storage</b> <br />
+We may collect and store information (including personal information) locally on your device using mechanisms such as browser web storage (including HTML 5) and application data caches. <br />
+Cookies and similar technologies <br />
+We and our partners use various technologies to collect and store information when you visit iRestore, and this may include using cookies or similar technologies to identify your browser or device. <br />
+<b>How we use information we collect</b> <br />
+We use the information we collect from all of our services to enable our utility customers and iRestore users to create and share location-tagged images and videos of utility asset damage. We use the information to provide, maintain, protect and improve iRestore products, to develop new ones, and to protect Business Radar and our users. We also use this information to offer you tailored content &ndash; like giving you more relevant search results. <br />
+We use information collected from cookies and other technologies, like pixel tags, to improve your user experience and the overall quality of our services. <br />
+Business Radar processes personal information on our servers in many countries around the world. We may process your personal information on a server located outside the country where you live. <br />
+<b>Information we share</b> <br />
+We do not share personal information with companies, organizations and individuals outside of Business Radar or our utility and municipal customers unless one of the following circumstances applies: <br />
+<b>With your consent</b> <br />
+</p><p>We will share personal information with companies, organizations or individuals when you submit a damage report in iRestore. Your use and submission of a report in iRestore grants Business Radar opt&not;in consent for the sharing of any sensitive personal information. This is important for security purposes and to validate the information flowing into iRestore.<br />
+<b>For damage response</b> <br />
+We provide personal information to our utility customers, municipalities or other trusted businesses or persons to alert them of damage so that they may respond appropriately. <br />
+<b>For legal reasons</b> <br />
+We will share personal information with companies, organizations or individuals outside of Business Radar if we have a good&not; faith belief that access, use, preservation or disclosure of the information is reasonably necessary to: <br />
+meet any applicable law, regulation, legal process or enforceable governmental request.<br />
+enforce applicable Terms of Service, including investigation of potential violations.<br />
+detect, prevent, or otherwise address fraud, security or technical issues.<br />
+protect against harm to the rights, property or safety of Business Radar, our users or the public as required or permitted by law. <br />
+<b>We may share aggregated</b>, non&not;personally identifiable information publicly and with our partners &ndash; like publishers, advertisers or connected sites. For example, we may share information publicly <b>to show trends</b> about the general use of our services. <br />
+If Business Radar is involved in a merger, acquisition or asset sale, we will continue to ensure the confidentiality of any personal <br />
+information and give affected users notice before personal information is transferred or becomes subject to a different privacy policy. <br />
+<b>Information security</b> <br />
+We work hard to protect iRestore users from unauthorized access to or unauthorized alteration, disclosure or destruction of information we hold. In particular, we encrypt many of our services using SSL.</p>
+
+<p><b>Changes</b> <br />
+Our Privacy Policy may change from time to time. We will post any privacy policy changes on this page and, if the changes are significant, we will provide a more prominent notice (including, for certain services, email notification of privacy policy changes). </p>
+
+<p>
+<b>6. DISCLAIMER OF WARRANTIES AND LIMITATIONS ON LIABILITY.</b> (a) BUSINESS RADAR AND ITS LICENSORS (INCLUDING BUT NOT LIMITED TO UTILITY AND MUNICIPAL CUSTOMERS) MAKE NO REPRESENTATIONS OR WARRANTIES REGARDING THE ACCURACY OR COMPLETENESS OF ANY CONTENT OR THE PRODUCTS. (b) BUSINESS RADAR AND ITS LICENSORS (INCLUDING BUT NOT LIMITED TO UTILITY AND MUNICIPAL CUSTOMERS) DISCLAIM ALL WARRANTIES IN CONNECTION WITH THE CONTENT AND THE PRODUCTS, AND WILL NOT BE LIABLE FOR ANY DAMAGE OR LOSS RESULTING FROM YOUR USE OF THE CONTENT OR THE PRODUCTS.<br />
+</p>
+    ]]>
+    </string>
+
+    <string name="empty_fname">Please enter your first name</string>
+    <string name="empty_lname">Please enter your last name</string>
+
+    <string name="empty_title">Please enter your Job Title</string>
+    <string name="empty_Organization">Please enter your Organization</string>
+
+    <string name="empty_otp">Please enter the One Time PIN texted to your cell.</string>
+    <string name="empty_correct_otp">Invalid One Time PIN. Please enter the One Time PIN texted to your cell.</string>
+    <string name="empty_user_email">User Email not Entered!!!</string>
+    <string name="otp_expire">OTP Expired!!</string>
+
+    <string name="invalid_fname">Please enter your name in the correct format.</string>
+    <string name="invalid_lname">Please enter your name in the correct format.</string>
+    <string name="accept_terms">Please accept the terms of service to continue using the app.</string>
+    <string name="invalid_title">Please enter valid title.</string>
+    <string name="invalid_org">Please enter valid organization name.</string>
+    <string name="title_activity_update_details_view">UpdateDetailsView</string>
+    <string name="title_activity_create_permissions">CreatePermissions</string>
+    <string name="title_activity_manage_compliance_screen">ManageComplianceScreen</string>
+    <string name="title_activity_rectifier_inspection_screen">AssetInspectionScreen</string>
+    <string name="title_activity_add_new_asset">AddNewAsset</string>
+    <string name="title_activity_view_asset">ViewAsset</string>
+    <string name="title_activity_view_selected_asset">ViewSelectedAsset</string>
+    <string name="title_activity_select_inspection_medium">SelectInspectionMedium</string>
+    <string name="title_activity_inspection_submitted">InspectionSubmitted</string>
+    <string name="title_activity_test">Test</string>
+    <string name="title_activity_oos_">OOS_Activity</string>
+    <string name="title_activity_home">HomeActivity</string>
+</resources>
+

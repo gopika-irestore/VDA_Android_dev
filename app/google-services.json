@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "19234126651",
+    "firebase_url": "https://vda-ios.firebaseio.com",
+    "project_id": "vda-ios",
+    "storage_bucket": "vda-ios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19234126651:android:4315548c84ecb130",
+        "android_client_info": {
+          "package_name": "vda.irestore.com.vda_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19234126651-mt54gavnli6hruvr2t8h8s6mm6u35equ.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1vgS6sANmc_dM-IZSCpJASKqwmlo21pI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

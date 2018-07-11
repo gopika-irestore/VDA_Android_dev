@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        android:background="@color/white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <TextView
+            android:id="@+id/poledata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textviewPoledata"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="left"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true">
+            <ImageView
+                android:id="@+id/camera"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/capacitorbank"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/camera_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textviewtakePhoto"
+                android:layout_toRightOf="@id/camera"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/camera"
+                android:paddingLeft="10dp"/>
+
+            <Switch
+                android:id="@+id/panorama_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="Panorama"
+                android:textColor="#959292"
+                android:layout_alignParentRight="true"
+                 />
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textviewPolenumber"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+        <EditText
+            android:id="@+id/pole_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/polenumber_hint"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textviewPoleheight"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+           />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:visibility="visible"
+                android:background="@drawable/custom_spinner_background"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ft"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right"
+                />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="200dp"
+            android:layout_height="1dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:background="#b6b3b3" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/textviewFeederLine1"
+            />
+        <EditText
+            android:id="@+id/feeder_line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/feederline1_hint"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textviewFeederLine2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+        <EditText
+            android:id="@+id/feeder_line2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/feederline2_hint"
+            android:layout_marginLeft="10dp"/>
+        <Button
+            android:id="@+id/nextButton_inDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/buttonNext"
+            android:background="#347234"
+            android:textColor="#ffff"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
