@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import vda.irestore.com.vda_android.Global.Global;
+import vda.irestore.com.vda_android.Global.GlobalData;
 
 public class MainActivity extends AppCompatActivity {
     ImageView wire,poleTop,splEquipment,pole,tree,other;
@@ -247,13 +248,15 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Gson gson = new Gson();
-              //  String othersJSON = gson.toJson(dataSnapshot.child("Others").child("parts").getValue());
-               // String poleTopJSON = gson.toJson(dataSnapshot.child("PoleTopEquipment").child("parts").getValue());
+                String othersJSON = gson.toJson(dataSnapshot.child("Others").child("parts").getValue());
+                String poleTopJSON = gson.toJson(dataSnapshot.child("PoleTopEquipment").child("parts").getValue());
                 String poleJSON = gson.toJson(dataSnapshot.child("Pole").child("parts").getValue());
-              //  String undergroundJSON = gson.toJson(dataSnapshot.child("Underground").child("parts").getValue());
+                String wireeJSON = gson.toJson(dataSnapshot.child("Wire").child("parts").getValue());
+                String treeJSON = gson.toJson(dataSnapshot.child("Tree").child("parts").getValue());
+                String splJSON = gson.toJson(dataSnapshot.child("SPLEquipment").child("parts").getValue());
 
                try {
-/*
+
                     JSONObject otherObject = new JSONObject(othersJSON);
                     Iterator othersX = otherObject.keys();
                     JSONArray jsonArray = new JSONArray();
@@ -296,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //JSONObject poleTopObject= null;
 
-                    JSONObject poleTopObject= new JSONObject(poleTopJSON);
+                JSONObject poleTopObject= new JSONObject(poleTopJSON);
                     Iterator poleTopX = poleTopObject.keys();
                     JSONArray poleTopJsonArray = new JSONArray();
 
@@ -335,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
-*/
+
                     /// pole
 
 
@@ -386,22 +389,22 @@ public class MainActivity extends AppCompatActivity {
 
                     // JSONObject undergroundObject= null;
 
-                /*    JSONObject undergroundObject = new JSONObject(undergroundJSON);
-                    Iterator undergroundX = undergroundObject.keys();
-                    JSONArray undergroundJsonArray = new JSONArray();
+                   JSONObject wireeObject = new JSONObject(wireeJSON);
+                    Iterator wireeX = wireeObject.keys();
+                    JSONArray wireeJsonArray = new JSONArray();
 
-                    while (undergroundX.hasNext()) {
-                        String key = (String) undergroundX.next();
-                        undergroundJsonArray.put(undergroundObject.get(key));
+                    while (wireeX.hasNext()) {
+                        String key = (String) wireeX.next();
+                        wireeJsonArray.put(wireeObject.get(key));
                     }
 
-                    JSONArray sortedundergroundJsonArray = new JSONArray();
-                    List<JSONObject> undergroundJsonList = new ArrayList<JSONObject>();
-                    for (int i = 0; i < undergroundJsonArray.length(); i++) {
-                        undergroundJsonList.add(undergroundJsonArray.getJSONObject(i));
+                    JSONArray sortedwireeJsonArray = new JSONArray();
+                    List<JSONObject> wireeJsonList = new ArrayList<JSONObject>();
+                    for (int i = 0; i < wireeJsonArray.length(); i++) {
+                        wireeJsonList.add(wireeJsonArray.getJSONObject(i));
                     }
 
-                    Collections.sort(undergroundJsonList, new Comparator<JSONObject>() {
+                    Collections.sort(wireeJsonList, new Comparator<JSONObject>() {
 
                         public int compare(JSONObject a, JSONObject b) {
                             Integer valA = 0;
@@ -418,16 +421,99 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    for (int i = 0; i < undergroundJsonArray.length(); i++) {
-                        sortedundergroundJsonArray.put(undergroundJsonList.get(i));
+                    for (int i = 0; i < wireeJsonArray.length(); i++) {
+                        sortedwireeJsonArray.put(wireeJsonList.get(i));
 
                     }
-                */
-                //GlobalData.scopesPreferencesEditor.putString("othersJSON", sortedOthersJsonArray.toString());
-                  //  GlobalData.scopesPreferencesEditor.putString("poleTopJSON", sortedPOleTopJsonArray.toString());
+
+
+
+                   JSONObject splObject = new JSONObject(splJSON);
+                   Iterator splX = splObject.keys();
+                   JSONArray splJsonArray = new JSONArray();
+
+                   while (splX.hasNext()) {
+                       String key = (String) splX.next();
+                       splJsonArray.put(splObject.get(key));
+                   }
+
+                   JSONArray sortedsplJsonArray = new JSONArray();
+                   List<JSONObject> splJsonList = new ArrayList<JSONObject>();
+                   for (int i = 0; i < splJsonArray.length(); i++) {
+                       splJsonList.add(splJsonArray.getJSONObject(i));
+                   }
+
+                   Collections.sort(splJsonList, new Comparator<JSONObject>() {
+
+                       public int compare(JSONObject a, JSONObject b) {
+                           Integer valA = 0;
+                           Integer valB = 0;
+
+                           try {
+                               valA = (Integer) a.get("displayOrder");
+                               valB = (Integer) b.get("displayOrder");
+                           } catch (JSONException e) {
+                               //do something
+                           }
+
+                           return valA.compareTo(valB);
+                       }
+                   });
+
+                   for (int i = 0; i < splJsonArray.length(); i++) {
+                       sortedsplJsonArray.put(splJsonList.get(i));
+
+                   }
+
+
+
+                   JSONObject treeObject = new JSONObject(treeJSON);
+                   Iterator treeX = treeObject.keys();
+                   JSONArray treeJsonArray = new JSONArray();
+
+                   while (treeX.hasNext()) {
+                       String key = (String) treeX.next();
+                       treeJsonArray.put(treeObject.get(key));
+                   }
+
+                   JSONArray sortedtreeJsonArray = new JSONArray();
+                   List<JSONObject> treeJsonList = new ArrayList<JSONObject>();
+                   for (int i = 0; i < treeJsonArray.length(); i++) {
+                       treeJsonList.add(treeJsonArray.getJSONObject(i));
+                   }
+
+                   Collections.sort(treeJsonList, new Comparator<JSONObject>() {
+
+                       public int compare(JSONObject a, JSONObject b) {
+                           Integer valA = 0;
+                           Integer valB = 0;
+
+                           try {
+                               valA = (Integer) a.get("displayOrder");
+                               valB = (Integer) b.get("displayOrder");
+                           } catch (JSONException e) {
+                               //do something
+                           }
+
+                           return valA.compareTo(valB);
+                       }
+                   });
+
+                   for (int i = 0; i < treeJsonArray.length(); i++) {
+                       sortedtreeJsonArray.put(treeJsonList.get(i));
+
+                   }
+
+                   Global.scopesPreferencesEditor.putString("othersJSON", sortedOthersJsonArray.toString());
+                   Global.scopesPreferencesEditor.putString("poleTopJSON", sortedPOleTopJsonArray.toString());
+                   Global.scopesPreferencesEditor.putString("poleJSON", sortedPOleJsonArray.toString());
+                   Global.scopesPreferencesEditor.putString("wireeJSON", sortedwireeJsonArray.toString());
+                   Global.scopesPreferencesEditor.putString("splJSON", sortedsplJsonArray.toString());
+                   Global.scopesPreferencesEditor.putString("treeJSON", sortedtreeJsonArray.toString());
                    Log.i("vidisha","poleJSON==="+sortedPOleJsonArray.toString());
-                    Global.scopesPreferencesEditor.putString("poleJSON", sortedPOleJsonArray.toString());
-                   // GlobalData.scopesPreferencesEditor.putString("undergroundJSON", sortedundergroundJsonArray.toString());
+                   Log.i("vidisha","othersJSON==="+sortedOthersJsonArray.toString());
+                   Log.i("vidisha","poleTopJSON==="+sortedPOleTopJsonArray.toString());
+                   Log.i("vidisha","wireeJSON==="+wireeJSON.toString());
 
                     Global.scopesPreferencesEditor.commit();
 
