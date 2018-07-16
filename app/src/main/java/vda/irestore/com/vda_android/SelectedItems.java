@@ -3,6 +3,7 @@ package vda.irestore.com.vda_android;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,7 @@ public class SelectedItems extends AppCompatActivity {
 
     Typeface typeFace;
     JSONArray poleJsonArray;
-
+    int code = 0;
 
     static int polePartCompleted = 0;
 
@@ -141,16 +142,19 @@ public class SelectedItems extends AppCompatActivity {
             m6.setLayoutParams(lp);
 
             if(firstimage != 0) {
-                m1.setBackgroundResource(R.drawable.logo_box2);
-                m1.setBackgroundResource(R.drawable.logo_box);
                 m1.setImageResource(firstimage);
                 m1.setAdjustViewBounds(true);
                 linearLayout.addView(m1);
+                String default_title="Wire";
+                String default_title_color = "#736AFF";
+                int drawable = R.drawable.logo_box;
+                ++code;
+                if(code == 1)
+                    setdefault(default_title,default_title_color,m1,drawable);
                 m1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                        // m1.setLayoutParams(lp1);
-                        m1.setBackgroundResource(R.drawable.logo_box2);
                         m1.setBackgroundResource(R.drawable.logo_box);
                         m2.setBackgroundResource(0);
                         m3.setBackgroundResource(0);
@@ -158,6 +162,7 @@ public class SelectedItems extends AppCompatActivity {
                         m5.setBackgroundResource(0);
                         m6.setBackgroundResource(0);
                         Title.setText("Wire");
+                        Title.setTextColor(Color.parseColor("#736AFF"));
                         Gson poleGson = new Gson();
                         try {
 
@@ -206,17 +211,23 @@ public class SelectedItems extends AppCompatActivity {
 
                 m2.setImageResource(secondimage);
                 linearLayout.addView(m2);
+                String default_title="Pole Top";
+                String default_title_color = "#3EA99F";
+                int drawable = R.drawable.logo_box2;
+                ++code;
+                if(code == 1)
+                    setdefault(default_title,default_title_color,m2,drawable);
                 m2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         m2.setBackgroundResource(R.drawable.logo_box2);
-                        m2.setBackgroundResource(R.drawable.logo_box);
                         m1.setBackgroundResource(0);
                         m3.setBackgroundResource(0);
                         m4.setBackgroundResource(0);
                         m5.setBackgroundResource(0);
                         m6.setBackgroundResource(0);
                         Title.setText("Pole Top");
+                        Title.setTextColor(Color.parseColor("#3EA99F"));
                         Gson poleGson = new Gson();
                         try {
 
@@ -265,17 +276,23 @@ public class SelectedItems extends AppCompatActivity {
             {
                 m3.setImageResource(thirdimage);
                 linearLayout.addView(m3);
+                String default_title="SPL Equipment";
+                String default_title_color = "#800080";
+                int drawable = R.drawable.logo_box3;
+                ++code;
+                if(code == 1)
+                    setdefault(default_title,default_title_color,m3,drawable);
                 m3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        m3.setBackgroundResource(R.drawable.logo_box2);
-                        m3.setBackgroundResource(R.drawable.logo_box);
+                        m3.setBackgroundResource(R.drawable.logo_box3);
                         m2.setBackgroundResource(0);
                         m1.setBackgroundResource(0);
                         m4.setBackgroundResource(0);
                         m5.setBackgroundResource(0);
                         m6.setBackgroundResource(0);
                         Title.setText("SPL Equipment");
+                        Title.setTextColor(Color.parseColor("#800080"));
                         Gson poleGson = new Gson();
                         try {
 
@@ -324,17 +341,23 @@ public class SelectedItems extends AppCompatActivity {
             {
                 m4.setImageResource(fourthimage);
                 linearLayout.addView(m4);
+                String default_title="Pole";
+                String default_title_color = "#FDD017";
+                int drawable = R.drawable.logo_box4;
+                ++code;
+                if(code == 1)
+                    setdefault(default_title,default_title_color,m4,drawable);
                 m4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        m4.setBackgroundResource(R.drawable.logo_box2);
-                        m4.setBackgroundResource(R.drawable.logo_box);
+                        m4.setBackgroundResource(R.drawable.logo_box4);
                         m2.setBackgroundResource(0);
                         m3.setBackgroundResource(0);
                         m1.setBackgroundResource(0);
                         m5.setBackgroundResource(0);
                         m6.setBackgroundResource(0);
                         Title.setText("Pole");
+                        Title.setTextColor(Color.parseColor("#FDD017"));
                         Gson poleGson = new Gson();
                         try {
 
@@ -383,17 +406,23 @@ public class SelectedItems extends AppCompatActivity {
             {
                 m5.setImageResource(fifthimage);
                 linearLayout.addView(m5);
+                String default_title="Tree";
+                String default_title_color = "#43BFC7";
+                int drawable = R.drawable.logo_box5;
+                ++code;
+                if(code == 1)
+                    setdefault(default_title,default_title_color,m5,drawable);
                 m5.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        m5.setBackgroundResource(R.drawable.logo_box2);
-                        m5.setBackgroundResource(R.drawable.logo_box);
+                        m5.setBackgroundResource(R.drawable.logo_box5);
                         m2.setBackgroundResource(0);
                         m3.setBackgroundResource(0);
                         m4.setBackgroundResource(0);
                         m1.setBackgroundResource(0);
                         m6.setBackgroundResource(0);
                         Title.setText("Tree");
+                        Title.setTextColor(Color.parseColor("#43BFC7"));
                         Gson poleGson = new Gson();
                         try {
 
@@ -442,17 +471,23 @@ public class SelectedItems extends AppCompatActivity {
             {
                 m6.setImageResource(sixthimage);
                 linearLayout.addView(m6);
-                m6.setOnClickListener(new View.OnClickListener() {
+                String default_title="Other";
+                String default_title_color = "#0000A0";
+                int drawable = R.drawable.logo_box6;
+                ++code;
+                if(code == 1)
+                    setdefault(default_title,default_title_color,m6,drawable );
+                    m6.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        m6.setBackgroundResource(R.drawable.logo_box2);
-                        m6.setBackgroundResource(R.drawable.logo_box);
+                        m6.setBackgroundResource(R.drawable.logo_box6);
                         m2.setBackgroundResource(0);
                         m3.setBackgroundResource(0);
                         m4.setBackgroundResource(0);
                         m5.setBackgroundResource(0);
                         m1.setBackgroundResource(0);
                         Title.setText("Other");
+                        Title.setTextColor(Color.parseColor("#0000A0"));
                         Gson poleGson = new Gson();
                         try {
 
@@ -497,5 +532,9 @@ public class SelectedItems extends AppCompatActivity {
             }
         }
     }
-
+    private void setdefault(String default_title,String default_title_color,ImageView m,int drawable) {
+        Title.setText(default_title);
+        Title.setTextColor(Color.parseColor(default_title_color));
+        m.setBackgroundResource(drawable);
+    }
 }

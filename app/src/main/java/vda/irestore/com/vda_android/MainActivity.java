@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
@@ -149,9 +150,11 @@ public class MainActivity extends AppCompatActivity {
                 if (changeOf_imageWire == 0) {
                     wire.setImageResource(R.drawable.wire_complete);
                     changeOf_imageWire = 1;
+                    EnableNextButton();
                 } else if (changeOf_imageWire == 1) {
                     wire.setImageResource(R.drawable.wire);
                     changeOf_imageWire = 0;
+                    EnableNextButton();
                 }
 
             }
@@ -162,9 +165,11 @@ public class MainActivity extends AppCompatActivity {
                 if (changeOf_imagePoleTop == 0) {
                     poleTop.setImageResource(R.drawable.pole_top_complete);
                     changeOf_imagePoleTop = 1;
+                    EnableNextButton();
                 } else if (changeOf_imagePoleTop == 1) {
                     poleTop.setImageResource(R.drawable.pole_top);
                     changeOf_imagePoleTop = 0;
+                    EnableNextButton();
                 }
             }
         });
@@ -174,9 +179,11 @@ public class MainActivity extends AppCompatActivity {
                 if (changeOf_imageSplEquipment == 0) {
                     splEquipment.setImageResource(R.drawable.pole_equip_complete);
                     changeOf_imageSplEquipment = 1;
+                    EnableNextButton();
                 } else if (changeOf_imageSplEquipment == 1) {
                     splEquipment.setImageResource(R.drawable.pole_equip);
                     changeOf_imageSplEquipment = 0;
+                    EnableNextButton();
                 }
             }
         });
@@ -186,9 +193,11 @@ public class MainActivity extends AppCompatActivity {
                 if (changeOf_imagePole == 0) {
                     pole.setImageResource(R.drawable.pole_complete);
                     changeOf_imagePole = 1;
+                    EnableNextButton();
                 } else if (changeOf_imagePole == 1) {
                     pole.setImageResource(R.drawable.pole);
                     changeOf_imagePole = 0;
+                    EnableNextButton();
                 }
             }
         });
@@ -198,9 +207,11 @@ public class MainActivity extends AppCompatActivity {
                 if (changeOf_imageTree == 0) {
                     tree.setImageResource(R.drawable.tree_complete);
                     changeOf_imageTree = 1;
+                    EnableNextButton();
                 } else if (changeOf_imageTree == 1) {
                     tree.setImageResource(R.drawable.tree);
                     changeOf_imageTree = 0;
+                    EnableNextButton();
                 }
             }
         });
@@ -210,12 +221,32 @@ public class MainActivity extends AppCompatActivity {
                 if (ChangeOf_imageOther == 0) {
                     other.setImageResource(R.drawable.other_complete);
                     ChangeOf_imageOther = 1;
+                    EnableNextButton();
                 } else if (ChangeOf_imageOther == 1) {
                     other.setImageResource(R.drawable.other);
                     ChangeOf_imageOther = 0;
+                    EnableNextButton();
+
                 }
             }
         });
+
+
+    }
+
+    private void EnableNextButton()
+    {
+        if(ChangeOf_imageOther==1||changeOf_imageWire==1 || changeOf_imagePole==1||changeOf_imagePoleTop==1
+                ||changeOf_imageSplEquipment==1||changeOf_imageTree==1)
+        {
+            nextButton.setBackgroundColor(Color.parseColor("#00A699"));
+            nextButton.setClickable(true);
+        }
+        else
+        {
+            nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
+            nextButton.setClickable(false);
+        }
     }
 
     private int getStatusBarHeight() {

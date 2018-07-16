@@ -12,6 +12,7 @@
     <color name="black">#000000</color>
     <color name="backgroundcolor">#F7F7F7</color>
     <color name="dividercolor">#E8E9EA</color>
+    <color name="lightGray">#D3D3D3</color>
 
 
 </resources>
