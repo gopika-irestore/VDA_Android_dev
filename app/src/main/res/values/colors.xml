@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#00A699</color>
     <color name="blue">#018FD9</color>
     <color name="white">#FFFFFF</color>
     <color name="textColor">#333333</color>
@@ -13,6 +13,35 @@
     <color name="backgroundcolor">#F7F7F7</color>
     <color name="dividercolor">#E8E9EA</color>
     <color name="lightGray">#D3D3D3</color>
+    <color name="green">#00A699</color>
+
+    <color name="color_black">#A5000000</color>
+    <color name="color_toast_background">#96323232</color>
+    <color name="color_wb_button">#C8CCCCCC</color>
+    <color name="color_wb_button_touched">#C8FFDF80</color>
+    <color name="color_textviewinfo">#FF0066CC</color>
+
+    <color name="button_bg_blue">#0072BC</color>
+    <color name="switch_color">#00A699</color>
+
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#f64c73</color>
+    <color name="bg_screen2">#20d2bb</color>
+    <color name="bg_screen3">#3395ff</color>
+    <color name="bg_screen4">#c873f4</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#009999</color>
+    <color name="dot_dark_screen2">#009999</color>
+    <color name="dot_dark_screen3">#009999</color>
+    <color name="dot_dark_screen4">#009999</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#ffffff</color>
+    <color name="dot_light_screen2">#ffffff</color>
+    <color name="dot_light_screen3">#ffffff</color>
+    <color name="dot_light_screen4">#ffffff</color>
 
 
 </resources>

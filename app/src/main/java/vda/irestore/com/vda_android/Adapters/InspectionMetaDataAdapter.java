@@ -99,22 +99,10 @@ public class InspectionMetaDataAdapter extends ArrayAdapter<InspectionMetaData> 
         viewHolder.inspectionName.setText(inspectionMetaData.getDisplayName());
         viewHolder.inspectionName.setTypeface(typeFace);
 //        dataSet.get(position).getImageUrl()
-        if(inspectionMetaData.getIsSelected() != null && inspectionMetaData.getDisplayName() != null && !inspectionMetaData.getDisplayName().isEmpty()) {
-            viewHolder.inspectionImage.setVisibility(View.VISIBLE);
-            viewHolder.inspectionName.setVisibility(View.VISIBLE);
-            if(!inspectionMetaData.getIsSelected()) {
-                Log.d("dinesh111", "displaying unselected/ default item");
-                Picasso.with(mContext).load(inspectionMetaData.getImageUrl()).placeholder(R.mipmap.ic_launcher)
-                        .into(viewHolder.inspectionImage);
-            }else {
-                Picasso.with(mContext).load("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png")
-                                    .into(viewHolder.inspectionImage);
-            Log.d("dinesh111", "displaying selected item");
-            }
-        } else {
-            viewHolder.inspectionName.setVisibility(View.GONE);
-            viewHolder.inspectionImage.setVisibility(View.GONE);
-        }
+
+
+        Picasso.with(mContext).load(inspectionMetaData.getImageUrl()).placeholder(R.mipmap.ic_launcher)
+                .into(viewHolder.inspectionImage);
         notifyDataSetChanged();
         return convertView;
     }

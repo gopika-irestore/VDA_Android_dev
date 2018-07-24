@@ -124,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:inputType="number"
             android:hint="@string/feederline1_hint"/>
 
         <TextView
@@ -137,15 +138,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/feederline2_hint"
+            android:inputType="number"
             android:layout_marginLeft="10dp"/>
         <Button
             android:id="@+id/nextButton_inDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/buttonNext"
-            android:background="#347234"
-            android:textColor="#ffff"
-            android:textStyle="bold" />
+            style="@style/TextStyleDarkTitleWhite"
+            android:background="@color/green"
+            android:textAllCaps="false"
+            />
     </LinearLayout>
 
 

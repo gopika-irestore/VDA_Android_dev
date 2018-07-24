@@ -25,7 +25,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/other_header"/>
+                android:src="@mipmap/damage_tick"/>
             <LinearLayout
                 android:layout_weight="2"
                 android:layout_width="0dp"

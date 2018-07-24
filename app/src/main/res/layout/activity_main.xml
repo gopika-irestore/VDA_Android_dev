@@ -106,8 +106,12 @@
             android:text="@string/buttonNext"
             android:textColor="@color/white"
             android:background="@color/lightGray"
-            android:textStyle="bold"
+            style="@style/TextStyleDarkTitleWhite"
+            android:layout_gravity="center"
             android:paddingBottom="15dp"
+            android:textAllCaps="false"
+            android:enabled="false"
+            android:clickable="false"
             android:gravity="clip_horizontal|center"
             />
     </LinearLayout>

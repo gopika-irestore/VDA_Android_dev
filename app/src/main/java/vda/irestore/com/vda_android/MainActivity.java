@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -76,6 +77,23 @@ public class MainActivity extends AppCompatActivity {
                 BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.simulator,null);
                 Spinner spinner = mView.findViewById(R.id.spinner);
+                ImageView photo = mView.findViewById(R.id.camera);
+                final Switch panorama_switch = mView.findViewById(R.id.panorama_switch);
+
+                photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(panorama_switch.isChecked()) {
+                            Intent intent = new Intent(MainActivity.this, ShooterActivity.class);
+                            startActivity(intent);
+                        }else
+                        {
+                            Intent intent = new Intent(MainActivity.this, AndroidCameraApi.class);
+                            startActivity(intent);
+                          //  Toast.makeText(MainActivity.this,"normal image",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
                 ArrayList<Integer> heights = new ArrayList<Integer>();
                 heights.add(35);
                 heights.add(40);
@@ -241,11 +259,13 @@ public class MainActivity extends AppCompatActivity {
         {
             nextButton.setBackgroundColor(Color.parseColor("#00A699"));
             nextButton.setClickable(true);
+            nextButton.setEnabled(true);
         }
         else
         {
             nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
             nextButton.setClickable(false);
+            nextButton.setEnabled(false);
         }
     }
 

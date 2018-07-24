@@ -2,8 +2,40 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vda.irestore.com.vda_android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.compass"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
 
     <application
         android:name=".MyFirebaseApp"
@@ -48,6 +80,7 @@
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".SelectedItems"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme"/>
         <activity android:name=".PoleActivity" />
         <activity
@@ -58,6 +91,20 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
         <activity android:name=".signup.AdminApprovalScreen" />
         <activity android:name=".signup.BaseActivity" />
+        <activity
+            android:name=".ShooterActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".ViewerActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".ShowPanoPictureTaken"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
         <!--
             <activity
             android:name=".MainActivity"
@@ -96,7 +143,16 @@
             android:name=".HomeActivity"
             android:theme="@style/Base.Theme.AppCompat"
             android:label="@string/title_activity_home"></activity>
-
+        <activity
+            android:name=".AndroidCameraApi"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
+        <activity
+            android:exported="false"
+            android:name=".ShowPictureTakenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
     </application>
 
 </manifest>

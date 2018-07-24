@@ -168,12 +168,6 @@ public class PoleActivity extends PermissionsActivity {
                 R.string.metadataPreferences), Context.MODE_PRIVATE);
         metadataPreferencesEditor = metadataPreferences.edit();
 
-        ImageView partsHeaderImage = (ImageView) findViewById(R.id.partsHeader);
-        partsHeaderImage.setImageResource(R.mipmap.pole_header);
-        partsCompleted = (TextView) findViewById(R.id.completedText);
-        partsCompleted.setTypeface(typeFace);
-        selectPartHeader = (TextView) findViewById(R.id.selectPartHeader);
-        selectPartHeader.setTypeface(typeFace);
 
         allOkBtn = (CheckBox) findViewById(R.id.allOkBtn);
         allOkBtn.setTypeface(typeFace);

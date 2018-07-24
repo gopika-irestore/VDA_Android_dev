@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
-                    android:text="Transformer"
+                    android:text=""
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -43,6 +43,7 @@
                     android:layout_below="@+id/dataHeading"
                     android:divider="@null"
                     android:orientation="horizontal" />
+
 
                 <HorizontalScrollView
                     android:id="@+id/hsv"
@@ -66,43 +67,12 @@
                             android:layout_weight="1"
                             android:src="@mipmap/icn_camera"
                             android:textColor="#666666" />
-
-                        <ImageView
-                            android:id="@+id/TestingPicture"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:textColor="#666666"
-                            android:visibility="visible" />
-
-                        <ImageView
-                            android:id="@+id/visualTestingPicture"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:textColor="#666666" />
-
-                        <ImageView
-                            android:id="@+id/soundTestingPicture"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:textColor="#666666" />
-
-                        <ImageView
-                            android:id="@+id/resistrographTestingPicture"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:textColor="#666666" />
                     </LinearLayout>
                 </HorizontalScrollView>
+
             </RelativeLayout>
 
+<!--
             <RelativeLayout
                 android:id="@+id/layoutaddNote"
                 android:layout_width="match_parent"
@@ -146,8 +116,9 @@
                         android:textColor="#666666" />
                 </LinearLayout>
             </RelativeLayout>
+-->
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:id="@+id/layoutUtility"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -174,12 +145,39 @@
                     android:textOff="No"
                     android:textOn="Yes" />
             </RelativeLayout>
+-->
+            <RelativeLayout
+                android:id="@+id/assetSize"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/layoutHeading"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
 
+                <TextView
+                    android:id="@+id/sizeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="Size"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/sizeValue"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@mipmap/arrow"
+                    android:textColor="#666666" />
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/typeAsset"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@+id/layoutUtility"
+                android:layout_below="@+id/assetSize"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:visibility="gone">
@@ -189,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:text=" "
+                    android:text="Type"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 
@@ -203,110 +201,17 @@
                     android:textColor="#666666" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layoutaddSize"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/typeAsset"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/addSizeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text=" "
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
-
-                <Spinner
-                    android:id="@+id/addSize"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:src="@mipmap/arrow"
-                    android:textColor="#666666" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/doublePoleLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layoutaddSize"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/doublePoleLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=" "
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
-
-                <Switch
-                    android:id="@+id/doublePoleSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:textColor="#666666"
-                    android:textOff="No"
-                    android:textOn="Yes" />
-            </RelativeLayout>
 
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/doublePoleLayout"
+                android:layout_below="@+id/typeAsset"
                 android:layout_marginTop="10dp"
                 android:background="#999999" />
 
-            <TextView
-                android:id="@+id/inspectionLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view1"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:text="Inspection: Please complete the inspection"
-                android:textColor="#333333"
-                android:textSize="14sp" />
 
-            <RelativeLayout
-                android:id="@+id/pendingInspectionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/inspectionLabel"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp">
 
-                <ImageView
-
-                    android:id="@+id/pendingImage"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/icn_pending"
-                    android:textColor="#666666" />
-
-                <TextView
-                    android:id="@+id/pendingInspectionHeading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/pendingImage"
-                    android:text="Pending Inspection"
-                    android:textColor="#333333"
-                    android:textSize="16sp"
-
-                    />
-            </RelativeLayout>
 
             <!-- </LinearLayout>-->
 
@@ -318,8 +223,8 @@
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_below="@+id/pendingInspectionLayout"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1"
                 android:fillViewport="false"
                 android:overScrollMode="never"
                 android:scrollbars="vertical">
@@ -328,292 +233,90 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <RelativeLayout
-                        android:id="@+id/checkedOkInspectionLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/pendingImage3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="20dp"
-                            android:src="@mipmap/tick_grey"
-                            android:textColor="#666666" />
-
-                        <TextView
-                            android:id="@+id/pendingInspectionHeading1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:layout_toRightOf="@+id/pendingImage3"
-                            android:text="Checked OK"
-                            android:textColor="#333333"
-                            android:textSize="16sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/voltestTestInspectionLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/checkedOkInspectionLayout"
-                        android:layout_marginTop="8dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/voltageTestImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="20dp"
-                                android:src="@mipmap/icn_test_ok"
-                                android:textColor="#666666" />
-
-                            <TextView
-                                android:id="@+id/voltageTestHeading"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/voltageTestImage"
-                                android:text="Voltage Test"
-                                android:textColor="#333333"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="10dp"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/voltageTestYesImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/voltageTestHeading"
-                                android:src="@mipmap/tick_grey"
-                                android:textColor="#666666" />
-
-                            <ImageView
-                                android:id="@+id/voltageTestNoImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/voltageTestYesImage"
-                                android:src="@mipmap/icn_cross_inactive"
-
-                                android:textColor="#666666" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/visualTestInspectionLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/voltestTestInspectionLayout"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/visualTestImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="20dp"
-                                android:src="@mipmap/icn_test_ok"
-                                android:textColor="#666666" />
-
-                            <TextView
-                                android:id="@+id/visualTestHeading"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/visualTestImage"
-                                android:text="Visual Test"
-                                android:textColor="#333333"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="10dp"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/visualTestYesImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/visualTestHeading"
-                                android:src="@mipmap/tick_grey"
-                                android:textColor="#666666" />
-
-                            <ImageView
-                                android:id="@+id/visualTestNoImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/visualTestYesImage"
-                                android:src="@mipmap/icn_cross_inactive"
-
-                                android:textColor="#666666" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/soundTestInspectionLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/visualTestInspectionLayout"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/soundTestImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="20dp"
-                                android:src="@mipmap/icn_test_ok"
-                                android:textColor="#666666" />
-
-                            <TextView
-                                android:id="@+id/soundTestHeading"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/soundTestImage"
-                                android:text="Sound Test"
-                                android:textColor="#333333"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="10dp"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/soundTestYesImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/soundTestHeading"
-                                android:src="@mipmap/tick_grey"
-                                android:textColor="#666666" />
-
-                            <ImageView
-                                android:id="@+id/soundTestNoImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/soundTestYesImage"
-                                android:src="@mipmap/icn_cross_inactive"
-
-                                android:textColor="#666666" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/resistrographTestInspectionLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/soundTestInspectionLayout"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/resistrographTestImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="20dp"
-                                android:src="@mipmap/icn_test_ok"
-                                android:textColor="#666666" />
-
-                            <TextView
-                                android:id="@+id/resistrographTestHeading"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/resistrographTestImage"
-                                android:text="Resistrograph Test"
-                                android:textColor="#333333"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="10dp"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:id="@+id/resistrographTestYesImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/resistrographTestHeading"
-                                android:src="@mipmap/tick_grey"
-                                android:textColor="#666666" />
-
-                            <ImageView
-                                android:id="@+id/resistrographTestNoImage"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@+id/resistrographTestYesImage"
-                                android:src="@mipmap/icn_cross_inactive"
-
-                                android:textColor="#666666" />
-                        </LinearLayout>
-                    </RelativeLayout>
 
 
-                    <inspectionapp.irestoreapp.com.inspectionapp.customUI.NonScrollListView
+
+                    <vda.irestore.com.vda_android.customUI.NonScrollListView
                         android:id="@+id/inspectionData_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/resistrographTestInspectionLayout"
                         android:descendantFocusability="afterDescendants"
                         android:divider="@android:color/transparent"
                         android:dividerHeight="0dp"
-                        android:focusable="false"></inspectionapp.irestoreapp.com.inspectionapp.customUI.NonScrollListView>
+                        android:focusable="false"></vda.irestore.com.vda_android.customUI.NonScrollListView>
                 </RelativeLayout>
             </android.support.v4.widget.NestedScrollView>
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/scroll_view"
+                android:layout_marginTop="10dp"
+                android:background="#999999" />
+            <EditText
+                android:id="@+id/comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Comments"
+                android:layout_below="@id/view2"
+                />
 
+           <!-- <vda.irestore.com.vda_android.customUI.SegmentedGroup
+                android:id="@+id/segmented2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/view2"
+               >
 
+                <RadioButton
+                    android:id="@+id/button21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Repair"
+                    android:checked="true"
+                    style="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/button22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Replace"
+                    style="@style/RadioButton" />
+            </vda.irestore.com.vda_android.customUI.SegmentedGroup>-->
+            <RelativeLayout
+                android:id="@+id/rel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/comments"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                >
+
+                <TextView
+                    android:id="@+id/repair"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Repair"
+                    android:textSize="17sp"
+                    android:padding="7dp"
+                    />
+
+                <TextView
+                    android:id="@+id/replace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Replace"
+                    android:textSize="17sp"
+                    android:layout_marginLeft="60dp"
+                    android:padding="7dp"/>
+            </RelativeLayout>
         </RelativeLayout>
 
         <Button

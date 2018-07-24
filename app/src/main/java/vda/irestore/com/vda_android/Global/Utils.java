@@ -40,6 +40,12 @@ public class Utils {
 
 
 
+    public static Bitmap panoBitmap1;
+    public static Bitmap panoBitmap2;
+    public static Bitmap assetImage;
+    public static Bitmap assetImageUncompressed;
+    public static Bitmap assetImage1;
+    public static Bitmap assetImageUncompressed1;
 
     public static String values = "\n"+
             "{\n"+

@@ -69,7 +69,7 @@
     <string name="textviewPoleheight">Pole Height</string>
     <string name="textviewFeederLine1">Feeder Line 1</string>
     <string name="textviewFeederLine2">Feeder Line 2</string>
-    <string name="textviewtakePhoto">take a photo\nfor reference</string>
+    <string name="textviewtakePhoto">Take a photo\nfor reference</string>
     <string name="textviewPanorama">Panorama</string>
     <string name="polenumber_hint"><font size="12">Pole Number</font></string>
     <string name="feederline1_hint"><font size="12">Feeder Line1</font></string>
@@ -104,6 +104,38 @@
     <string name="title_activity_review_photos">ReviewPhotosActivity</string>
     <string name="title_activity_multiple_images">MultipleImagesActivity</string>
     <string name="title_activity_irestore_info">IRestoreInfoActivity</string>
+    <string name="compass_interference_msg">Compass interference detected.\nPlease wave your device in a figure 8 pattern</string>
+    <string name="instruction_tap_start">Tap to start</string>
+    <string name="instruction_hold_vertically">Hold your device vertically</string>
+    <string name="instruction_focusing">Focusing</string>
+    <string name="instruction_first_shot">Rotate left or right or tap to restart</string>
+    <string name="instruction_finish_shot">Tap to finish when ready or continue rotating</string>
+    <string name="instruction_empty" />
+    <string name="empty" />
+    <string name="wb">White Balance</string>
+    <string name="wb_locked_start">Locked On Start</string>
+    <string name="wb_auto">Auto</string>
+    <string name="wb_cloudy_daylight">Cloudy Daylight</string>
+    <string name="wb_daylight">Daylight</string>
+    <string name="wb_fluorescent">Fluorescent</string>
+    <string name="wb_incandescent">Incandescent</string>
+    <string name="exp_auto">Auto</string>
+    <string name="exp_locked">Locked</string>
+    <string name="exp_locked_start">Locked On Start</string>
+    <string name="flash_off">Off</string>
+    <string name="latText">Lat</string>
+    <string name="longText">Long</string>
+    <string name="captureText">Capture</string>
+    <string name="flash_on">On</string>
+    <string name="flash_auto">Auto</string>
+    <string name="flash_torch">Torch</string>
+    <string name="warning">Warning!!!</string>
+    <string name="camera_error_msg">Cannot Access Camera, the application will close now.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="screen_error_msg">Screen resolution is not supported, the application will close now.</string>
+    <string name="memory_full_dialog_text">"Memory full! Please delete some files to save the panorama."</string>
+    <string name="sdcard_error_dialog_text">"USB storage unavailable! Panorama can't be saved."</string>
     <string name="tc_html">
     <![CDATA[
     <p><b>iRestore Visual Damage Assesment App Terms of Service</b><br />
