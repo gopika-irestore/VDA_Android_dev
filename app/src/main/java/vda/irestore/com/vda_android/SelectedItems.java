@@ -91,7 +91,7 @@ public class SelectedItems extends AppCompatActivity {
 
 
     AmazonS3 s3;
-    HashMap<String, String> hashMap;
+    HashMap<String, Button> hashMap;
     HashMap<String, Object> hashMapList =  new HashMap<String, Object>();;
 
     private Button firstButton=null, secondButton=null, thirdButton=null,fourthButton=null,fifthButton=null,sixthButton=null,seventhButton=null,eighthButton=null,ninethButton=null,tenthButton=null;
@@ -1289,26 +1289,26 @@ public class SelectedItems extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                hashMap = new HashMap<String, String>();
+                hashMap = new HashMap<String, Button>();
 
                 if (secondButton != null)
-                    hashMap.put("button2", secondButton.getText().toString());
+                    hashMap.put("button2", secondButton);
                 if (thirdButton != null)
-                    hashMap.put("button3", thirdButton.getText().toString());
+                    hashMap.put("button3", thirdButton);
                 if (fourthButton != null)
-                    hashMap.put("button4", fourthButton.getText().toString());
+                    hashMap.put("button4", fourthButton);
                 if (fifthButton != null)
-                    hashMap.put("button5", fifthButton.getText().toString());
+                    hashMap.put("button5", fifthButton);
                 if (sixthButton != null)
-                    hashMap.put("button6", sixthButton.getText().toString());
+                    hashMap.put("button6", sixthButton);
                 if (seventhButton != null)
-                    hashMap.put("button7", seventhButton.getText().toString());
+                    hashMap.put("button7", seventhButton);
                 if (eighthButton != null)
-                    hashMap.put("button8", eighthButton.getText().toString());
+                    hashMap.put("button8", eighthButton);
                 if (ninethButton != null)
-                    hashMap.put("button9", ninethButton.getText().toString());
+                    hashMap.put("button9", ninethButton);
                 if (tenthButton != null)
-                    hashMap.put("button10", tenthButton.getText().toString());
+                    hashMap.put("button10", tenthButton);
 
                 hashMapList.put(gridTitle,hashMap);
                 dialog.dismiss();
