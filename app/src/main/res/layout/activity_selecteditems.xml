@@ -41,6 +41,20 @@
         app:layout_constraintTop_toTopOf="@+id/topToolbar"
         app:layout_constraintRight_toRightOf="@+id/topToolbar"
         />
+    <TextView
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:typeface="sans"
+        android:textSize="17sp"
+        android:textColor="#068dc8"
+        android:text="Next"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/topToolbar"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="@+id/topToolbar"
+        />
         <LinearLayout
             android:id="@+id/imageGallery"
             android:layout_width="match_parent"

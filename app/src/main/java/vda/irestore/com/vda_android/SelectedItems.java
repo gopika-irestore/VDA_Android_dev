@@ -2,11 +2,15 @@ package vda.irestore.com.vda_android;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,65 +20,78 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import vda.irestore.com.vda_android.Adapters.GridViewAdapter;
 import vda.irestore.com.vda_android.Adapters.InspectionMetaDataAdapter;
 import vda.irestore.com.vda_android.Global.Global;
+import vda.irestore.com.vda_android.Global.GlobalData;
+import vda.irestore.com.vda_android.Global.Utils;
 import vda.irestore.com.vda_android.Pojo.GridItem;
 import vda.irestore.com.vda_android.Pojo.InspectionMetaData;
-import vda.irestore.com.vda_android.customUI.CustomList;
+import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
+import vda.irestore.com.vda_android.readData.UnderGroundData;
 
 import static java.lang.String.valueOf;
-import static vda.irestore.com.vda_android.Global.Global.initializeSharedPrefernceData;
 
-public class SelectedItems extends AppCompatActivity {
+
+public class SelectedItems extends AppCompatActivity implements View.OnClickListener{
+    HashMap<String,JSONObject> undergroundParts_Images  = new HashMap<>();
+    JSONObject damageDetailspadmountsOne = new JSONObject();
+    Button closeBtn, closeAddNoteBtn;
+    final int REQUEST_CAMERA_ONE = 41;
+    final int REQUEST_CAMERA_TWO = 42;
+    ImageView  partImage,testingImage;
+    String undergroundScopeImage,picturePath, testingPicturePath, partTitle,undergroundScopeTestingImage,voltageTestKey;
+    boolean isListSelected = true, isAddNoteSelected = true, isRepairSelected = true, isTestingImageSelected = true, isVoltageTestingSelected = true;
+    private ArrayList<GridItem> mGridDataJSON;
+    public int horizontalItemSelectedPosition = -1, verticalItemSelectedPosition = -1, gridPositionNew = 0, localIndexToAddNote = -1;
+    ArrayList<InspectionMetaData> localInspectionMetaData;
+    RelativeLayout pendingInspectionLayout;
+    ListView listView;
+    String gridTitle = null;
     private ImageView m1,m2,m3,m4,m5,m6;
     private TextView Title;
     private View v1;
-    String gridTitle;
+    ArrayList<InspectionMetaData> underground_inspectionData_list ,inspectionData_listNew;
     ArrayList<InspectionMetaData> pole_inspectionData_list;
     InspectionMetaDataAdapter arrayAdapter;
     JSONArray poleJsonArray,poleMetadataJsonArrayList;
-
+    JSONArray undergroundJsonArray,undergroundMetadataJsonArrayList;
     SharedPreferences sharedPref, scopesPreferences, metadataPreferences;
     SharedPreferences.Editor scopesPreferencesEditor, metadataPreferencesEditor;
-    boolean isListSelected = true, isJointOwnSelected = true, isAddNoteSelected = true, isCheckOkSelected = true, isTestingImageSelected = true,
-            isPoleClassSelected = true, isPoleHeightSelected = true, isDoublePoleselected = true, isVoltageTestingSelected = true, isVisualTestingSelected = true,
+    boolean
+            isPoleClassSelected = true, isPoleHeightSelected = true, isDoublePoleselected = true,  isVisualTestingSelected = true,
             isSoundTestingSelected = true, isResistographSelected = true;
     int i = 1;
 
@@ -82,7 +99,7 @@ public class SelectedItems extends AppCompatActivity {
     private GridViewAdapter mGridAdapter;
     private ArrayList<GridItem> mGridData_pole;
 
-
+    Boolean isSelected = false;
     Typeface typeFace;
 
     int code = 0;
@@ -91,17 +108,10 @@ public class SelectedItems extends AppCompatActivity {
 
 
     AmazonS3 s3;
-    HashMap<String, Button> hashMap;
-    HashMap<String, Object> hashMapList =  new HashMap<String, Object>();;
-
-    private Button firstButton=null, secondButton=null, thirdButton=null,fourthButton=null,fifthButton=null,sixthButton=null,seventhButton=null,eighthButton=null,ninethButton=null,tenthButton=null;
-    int flag1 = 1,flag2 = 0,flag3 = 0,flag4 = 0,flag5 = 0,flag6 = 0,flag7 = 0,flag8 = 0,flag9 = 0,flag10 = 0;
-    String com1 = null,com2 = null,com3 = null,com4 = null,com5 = null,com6 = null,com7 = null,com8 = null,com9 = null,com10 = null;
-    EditText dialog_comment;
-    int clickcount=0;
-    String[] web = {"Wire", "Pole", "Pole Top", "Tree"} ;
-    Integer[] imageId = {R.drawable.wire_sub, R.drawable.pole_sub, R.drawable.pole_sub1, R.drawable.tree_sub};
-
+    RecyclerView horizontalListView;
+    CountAdapter recyclerCountAdapter;
+    public int selectedItem;
+    TextView nextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,15 +123,15 @@ public class SelectedItems extends AppCompatActivity {
 
         polePartCompleted = 0;
 
-        isListSelected = true; isJointOwnSelected = true; isAddNoteSelected = true; isCheckOkSelected = true; isTestingImageSelected = true;
+        isListSelected = true;  isAddNoteSelected = true; isRepairSelected = true; isTestingImageSelected = true;
         isPoleClassSelected = true; isPoleHeightSelected = true; isDoublePoleselected = true; isVoltageTestingSelected = true; isVisualTestingSelected = true;
         isSoundTestingSelected = true; isResistographSelected = true;
 
-        initializeSharedPrefernceData(this);
+        GlobalData.initializeSharedPrefernceData(this);
         sharedPref = getSharedPreferences(getString(
                 R.string.preference_file_key), Context.MODE_PRIVATE);
 
-
+        instantiateListWithData();
 
         scopesPreferences = getSharedPreferences(getString(
                 R.string.scopes_preferences), Context.MODE_PRIVATE);
@@ -132,9 +142,10 @@ public class SelectedItems extends AppCompatActivity {
 
 
         mGridView_pole = (GridView) findViewById(R.id.grid);
+        nextButton = (TextView)findViewById(R.id.nextButton);
+        nextButton.setTypeface(typeFace);
 
-
-
+         nextButton.setOnClickListener(this);
 
         if(bundle != null) {
             int firstimage = bundle.getInt("wireImage");
@@ -363,17 +374,17 @@ public class SelectedItems extends AppCompatActivity {
         Gson poleGson = new Gson();
         try {
 
-            String response = Global.metadataPreferences.getString(key, "");
+            String response = GlobalData.metadataPreferences.getString(key, "");
             ArrayList<GridItem> poleGridItems_ArrayList = poleGson.fromJson(response,
                     new TypeToken<List<GridItem>>() {
                     }.getType());
 
             if (poleGridItems_ArrayList != null) {
                 mGridData_pole = poleGridItems_ArrayList;
-                poleJsonArray = new JSONArray(Global.metadataPreferences.getString(key, "").trim());
+                poleJsonArray = new JSONArray(GlobalData.metadataPreferences.getString(key, "").trim());
             } else {
                 mGridData_pole = new ArrayList<>();
-                poleJsonArray = new JSONArray(Global.scopesPreferences.getString(jsonKey, "").trim());
+                poleJsonArray = new JSONArray(GlobalData.scopesPreferences.getString(jsonKey, "").trim());
             }
             mGridAdapter = new GridViewAdapter(SelectedItems.this, R.layout.grid_single, mGridData_pole);
             mGridView_pole.setAdapter(mGridAdapter);
@@ -388,12 +399,17 @@ public class SelectedItems extends AppCompatActivity {
                 String title = poleObj.optString("displayName");
                 String name = poleObj.optString("name");
                 final String imageUrl = poleObj.optString("imageURL");
+                final String  imageName;
+                imageName = poleObj.optString("imageName");
+
                 inspectionData_map.put(title,poleObj.getJSONArray("MetaData").toString());
 
                 item = new GridItem();
                 item.setTitle(title);
                 item.setName(name);
                 item.setImage(imageUrl);
+                item.setImageName(imageName);
+
                 item.setData(inspectionData_map);
 
                 mGridData_pole.add(item);
@@ -408,455 +424,293 @@ public class SelectedItems extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final GridItem item = (GridItem) parent.getItemAtPosition(position);
-                ShowMetaDataDialog(SelectedItems.this, item, position,key,jsonKey);
+                ImageView img = (ImageView) view.findViewById(R.id.grid_image);
+
+                //   ShowMetaDataDialog(SelectedItems.this, item, position,key,jsonKey);
+                if(jsonKey.equalsIgnoreCase("othersJSON"))
+                    ShowOthersDialog(SelectedItems.this, item, img, position);
 
             }
         });
     }
 
-    private void ShowMetaDataDialog(final Context mContext, GridItem item, int position,String key,String JsonKey) {
+    public void instantiateListWithData() {
+        GlobalData.getInstance().numberOfPadmountsDefects = new ArrayList<String>();
+        GlobalData.getInstance().numberOfPullBoxDefect = new ArrayList<String>();
+        GlobalData.getInstance().numberOfSpiceBoxDefect = new ArrayList<String>();
+        GlobalData.getInstance().numberOfSectionalizerCabinetDefect= new ArrayList<String>();
 
+        GlobalData.getInstance().numberOfPadmountsDefects.add("1");
+        GlobalData.getInstance().numberOfPadmountsDefects.add("+");
+
+        GlobalData.getInstance().numberOfPullBoxDefect.add("1");
+        GlobalData.getInstance().numberOfPullBoxDefect.add("+");
+
+        GlobalData.getInstance().numberOfSpiceBoxDefect.add("1");
+        GlobalData.getInstance().numberOfSpiceBoxDefect.add("+");
+
+        GlobalData.getInstance().numberOfSectionalizerCabinetDefect.add("1");
+        GlobalData.getInstance().numberOfSectionalizerCabinetDefect.add("+");
+    }
+
+    private void populateListView(Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
+        Boolean isChoosen = false;
+        int localIndex = -1;
+        ArrayList<InspectionMetaData> underground_inspectionData_list ;
+        underground_inspectionData_list = findingListRefference(gridPosition, horizontalItemSelectedPosition);
+        try {
+            if ( underground_inspectionData_list.size() == 0){
+                Gson undergroundMetadataGsonList = new Gson();
+                String response = GlobalData.metadataPreferences.getString(item.getTitle()+"othersListJSON","");
+
+                final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = undergroundMetadataGsonList.fromJson(response,
+                        new TypeToken<List<InspectionMetaData>>(){}.getType());
+
+                if(undergroundListItems_ArrayList!=null) {
+                    underground_inspectionData_list = undergroundListItems_ArrayList;
+                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+"othersListJSON","").trim());
+                } else {
+//                underground_inspectionData_list = new ArrayList<>();
+                    JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
+                    undergroundMetadataJsonArrayList = j;
+
+                    underground_inspectionData_list.clear();
+                    for(int s =1;s<undergroundMetadataJsonArrayList.length();s++) {
+                        String displayName = undergroundMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
+
+                        String name = undergroundMetadataJsonArrayList.getJSONObject(s).get("name").toString();
+                        String imageUrl = undergroundMetadataJsonArrayList.getJSONObject(s).get("imageURL").toString();
+                        String imageName =  undergroundMetadataJsonArrayList.getJSONObject(s).get("imagename").toString();
+                        underground_inspectionData_list.add(new InspectionMetaData(displayName, name, imageUrl, imageName, false, item.getTitle()));
+                    }
+                }
+//                final JSONObject chkListObject = new JSONObject();
+//                final JSONObject chkListObjectPreview = new JSONObject();
+            } else {
+
+            }
+            arrayAdapter = new InspectionMetaDataAdapter(underground_inspectionData_list,mContext,listView);
+            listView.setAdapter(arrayAdapter);
+        } catch (JSONException e){
+
+        }
+    }
+
+
+    private ArrayList<InspectionMetaData> findingListRefference(int gridPosition, int horizontalItemSelectedPosition) {
+        if(gridPosition == 0){
+            return padmountsReference(horizontalItemSelectedPosition);
+        } else if(gridPosition == 1){
+            return pullBoxReference(horizontalItemSelectedPosition);
+        } else if(gridPosition == 2){
+            return spiceBoxReference(horizontalItemSelectedPosition);
+        } else if(gridPosition == 3){
+            return sectionalizerCabinetReference(horizontalItemSelectedPosition);
+        } else {
+            return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> sectionalizerCabinetReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return UnderGroundData.getInstance().sectionalizerCabinetOne;
+            case 1:
+                return UnderGroundData.getInstance().sectionalizerCabinetTwo;
+            case 2:
+                return UnderGroundData.getInstance().sectionalizerCabinetThree;
+            case 3:
+                return UnderGroundData.getInstance().sectionalizerCabinetFour;
+            case 4:
+                return UnderGroundData.getInstance().sectionalizerCabinetFive;
+            case 5:
+                return UnderGroundData.getInstance().sectionalizerCabinetSix;
+            case 6:
+                return UnderGroundData.getInstance().sectionalizerCabinetSeven;
+            case 7:
+                return UnderGroundData.getInstance().sectionalizerCabinetEight;
+            case 8:
+                return UnderGroundData.getInstance().sectionalizerCabinetNine;
+            case 9:
+                return UnderGroundData.getInstance().sectionalizerCabinetTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> spiceBoxReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return UnderGroundData.getInstance().spiceBoxOne;
+            case 1:
+                return UnderGroundData.getInstance().spiceBoxTwo;
+            case 2:
+                return UnderGroundData.getInstance().spiceBoxThree;
+            case 3:
+                return UnderGroundData.getInstance().spiceBoxFour;
+            case 4:
+                return UnderGroundData.getInstance().spiceBoxFive;
+            case 5:
+                return UnderGroundData.getInstance().spiceBoxSix;
+            case 6:
+                return UnderGroundData.getInstance().spiceBoxSeven;
+            case 7:
+                return UnderGroundData.getInstance().spiceBoxEight;
+            case 8:
+                return UnderGroundData.getInstance().spiceBoxNine;
+            case 9:
+                return UnderGroundData.getInstance().spiceBoxTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> pullBoxReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return UnderGroundData.getInstance().pullBoxOne;
+            case 1:
+                return UnderGroundData.getInstance().pullBoxTwo;
+            case 2:
+                return UnderGroundData.getInstance().pullBoxThree;
+            case 3:
+                return UnderGroundData.getInstance().pullBoxFour;
+            case 4:
+                return UnderGroundData.getInstance().pullBoxFive;
+            case 5:
+                return UnderGroundData.getInstance().pullBoxSix;
+            case 6:
+                return UnderGroundData.getInstance().pullBoxSeven;
+            case 7:
+                return UnderGroundData.getInstance().pullBoxEight;
+            case 8:
+                return UnderGroundData.getInstance().pullBoxNine;
+            case 9:
+                return UnderGroundData.getInstance().pullBoxTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> padmountsReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return UnderGroundData.getInstance().padmountsOne;
+            case 1:
+                return UnderGroundData.getInstance().padmountsTwo;
+            case 2:
+                return UnderGroundData.getInstance().padmountsThree;
+            case 3:
+                return UnderGroundData.getInstance().padmountsFour;
+            case 4:
+                return UnderGroundData.getInstance().padmountsFive;
+            case 5:
+                return UnderGroundData.getInstance().padmountsSix;
+            case 6:
+                return UnderGroundData.getInstance().padmountsSeven;
+            case 7:
+                return UnderGroundData.getInstance().padmountsEight;
+            case 8:
+                return UnderGroundData.getInstance().padmountsNine;
+            case 9:
+                return UnderGroundData.getInstance().padmountsTen;
+            default:
+                return null;
+        }
+    }
+    private boolean addRespectiveDefectCount(int position, int itemPosition) {
+        boolean isCountAdded = false;
+        Log.i("vidisha","hhhhhh"+isCountAdded);
+        switch (itemPosition) {
+            case 0:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 3) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfPadmountsDefects.add(position, GlobalData.getInstance().numberOfPadmountsDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 1:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfPullBoxDefect.add(position, GlobalData.getInstance().numberOfPullBoxDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfSpiceBoxDefect.add(position, GlobalData.getInstance().numberOfSpiceBoxDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 3:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfSectionalizerCabinetDefect.add(position, GlobalData.getInstance().numberOfSectionalizerCabinetDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
+        return isCountAdded;
+    }
+
+
+
+    private void ShowMetaDataDialog(final Context mContext, final GridItem item, final int gridPosition,final String key,String JsonKey) {
+        horizontalItemSelectedPosition = 0;
         gridTitle = item.getTitle();
         sharedPref = mContext.getSharedPreferences(mContext.getString(
                 R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        final Dialog dialog = new Dialog(SelectedItems.this,R.style.Theme_Dialog);
+        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
+        View mView = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
 
-     //   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
-        final View mView = getLayoutInflater().inflate(R.layout.list_items_dialog, null);
-
-        final TextView part_Title = mView.findViewById(R.id.part_Header);
-
-        part_Title.setText(gridTitle);
-        part_Title.setTypeface(typeFace);
-        final LinearLayout buttonPanel = mView.findViewById(R.id.button_panel);
-        final EditText comments = mView.findViewById(R.id.comments);
-        final Button addButton = mView.findViewById(R.id.add_button);
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(9, 0, 0, 0);
-
-
-        comments.setOnClickListener(new View.OnClickListener() {
+        horizontalListView = (RecyclerView) mView.findViewById(R.id.recyler_count_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        horizontalListView.setLayoutManager(linearLayoutManager);
+        manupilateHorizontalListData(mContext, gridPosition);
+        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                final BottomSheetDialog dialog2 = new BottomSheetDialog(SelectedItems.this);
-                final View mView2 = getLayoutInflater().inflate(R.layout.comment_dialog, null);
-                dialog2.setContentView(mView2);
-                dialog2.show();
-                dialog_comment = mView2.findViewById(R.id.comments_editText);
-                dialog_comment.setText(comments.getText().toString());
-                final Button done = mView2.findViewById(R.id.done);
-                done.setOnClickListener(new View.OnClickListener() {
+            public void onItemClick(final View view, final int position) {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onClick(View view) {
-                        if (flag1 == 1) {
-                            com1 = dialog_comment.getText().toString();
-                            comments.setText(com1);
+                    public void run() {
+                        boolean isCountAdd;
+                        isCountAdd = addRespectiveDefectCount(position, gridPosition);
+                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
+                            horizontalItemSelectedPosition = position;
+                            recyclerCountAdapter.notifyDataSetChanged();
+                          //  populateListView(key,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+
+
                         }
-                        if (flag2 == 1) {
-                            com2 = dialog_comment.getText().toString();
-                            comments.setText(com2);
-                        }
-                        if (flag3 == 1) {
-                            com3 = dialog_comment.getText().toString();
-                            comments.setText(com3);
-                        }
-                        if (flag4 == 1) {
-                            com4 = dialog_comment.getText().toString();
-                            comments.setText(com4);
-                        }
-                        if (flag5 == 1) {
-                            com5 = dialog_comment.getText().toString();
-                            comments.setText(com5);
-                        }
-                        if (flag6 == 1) {
-                            com6 = dialog_comment.getText().toString();
-                            comments.setText(com6);
-                        }
-                        if (flag7 == 1) {
-                            com7 = dialog_comment.getText().toString();
-                            comments.setText(com7);
-                        }
-                        if (flag8 == 1) {
-                            com8 = dialog_comment.getText().toString();
-                            comments.setText(com8);
-                        }
-                        if (flag9 == 1) {
-                            com9 = dialog_comment.getText().toString();
-                            comments.setText(com9);
-                        }
-                        if (flag10 == 1) {
-                            com10 = dialog_comment.getText().toString();
-                            comments.setText(com10);
-                        }
-                        dialog2.dismiss();
                     }
                 });
             }
-        });
-        if (com1 != null) {
-            flag1 = 1;
-            flag2 = 0;
-            flag3 = 0;
-            flag4 = 0;
-            flag5 = 0;
-            flag6 = 0;
-            flag7 = 0;
-            flag8 = 0;
-            flag9 = 0;
-            flag10 = 0;
-            comments.setText(com1);
-        } else
-            comments.setText("");
-        if (secondButton != null) {
-            Log.i("vidisha","hash=="+hashMapList.get(gridTitle).toString());
-            Button b2 = hashMap.get("button2");
-            b2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com2);
-                    flag1 = 0;
-                    flag2 = 1;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 0;
-                    secondButton.setBackgroundResource(R.drawable.active_button);
-                    secondButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(firstButton);
-                    if (thirdButton != null) buttonBackground(thirdButton);
-                    if (fourthButton != null) buttonBackground(fourthButton);
-                    if (fifthButton != null) buttonBackground(fifthButton);
-                    if (sixthButton != null) buttonBackground(sixthButton);
-                    if (seventhButton != null) buttonBackground(seventhButton);
-                    if (eighthButton != null) buttonBackground(eighthButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-
-                }
-            });
-
-            buttonBackground(b2);
-            if (secondButton.getParent() != null)
-                ((ViewGroup) secondButton.getParent()).removeView(secondButton);
-            buttonPanel.addView(b2);
-        }
-        if (thirdButton != null) {
-            Button b3 = hashMap.get("button3");
-            b3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com3);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 1;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 0;
-
-                    thirdButton.setBackgroundResource(R.drawable.active_button);
-                    thirdButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(firstButton);
-                    if (fourthButton != null) buttonBackground(fourthButton);
-                    if (fifthButton != null) buttonBackground(fifthButton);
-                    if (sixthButton != null) buttonBackground(sixthButton);
-                    if (seventhButton != null) buttonBackground(seventhButton);
-                    if (eighthButton != null) buttonBackground(eighthButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-
-                }
-            });
-
-            buttonBackground(b3);
-            if (thirdButton.getParent() != null)
-                ((ViewGroup) thirdButton.getParent()).removeView(thirdButton);
-            buttonPanel.addView(b3);
-        }
-        if (fourthButton != null) {
-            Button b4 = hashMap.get("button4");
-            b4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    fourthButton.setBackgroundResource(R.drawable.active_button);
-                    fourthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    comments.setText(com4);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 1;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 0;
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(firstButton);
-                    if (fifthButton != null) buttonBackground(fifthButton);
-                    if (sixthButton != null) buttonBackground(sixthButton);
-                    if (seventhButton != null) buttonBackground(seventhButton);
-                    if (eighthButton != null) buttonBackground(eighthButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-
-                }
-            });
-            buttonBackground(b4);
-            if (fourthButton.getParent() != null)
-                ((ViewGroup) fourthButton.getParent()).removeView(fourthButton);
-            buttonPanel.addView(b4);
-        }
-        if (fifthButton != null) {
-            Button b5 = hashMap.get("button5");
-            b5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com5);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 1;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 0;
-                    fifthButton.setBackgroundResource(R.drawable.active_button);
-                    fifthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(fourthButton);
-                    buttonBackground(firstButton);
-                    if (sixthButton != null) buttonBackground(sixthButton);
-                    if (seventhButton != null) buttonBackground(seventhButton);
-                    if (eighthButton != null) buttonBackground(eighthButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-                }
-            });
-
-            buttonBackground(b5);
-            if (fifthButton.getParent() != null)
-                ((ViewGroup) fifthButton.getParent()).removeView(fifthButton);
-            buttonPanel.addView(b5);
-        }
-        if (sixthButton != null) {
-            Button b6 = hashMap.get("button6");
-            b6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com6);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 1;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 0;
-                    sixthButton.setBackgroundResource(R.drawable.active_button);
-                    sixthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(fourthButton);
-                    buttonBackground(fifthButton);
-                    buttonBackground(firstButton);
-                    if (seventhButton != null) buttonBackground(seventhButton);
-                    if (eighthButton != null) buttonBackground(eighthButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-                }
-            });
-
-            buttonBackground(b6);
-            if (sixthButton.getParent() != null)
-                ((ViewGroup) sixthButton.getParent()).removeView(sixthButton);
-            buttonPanel.addView(b6);
-        }
-        if (seventhButton != null) {
-            Button b7 = hashMap.get("button7");
-            b7.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com7);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 1;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 0;
-                    seventhButton.setBackgroundResource(R.drawable.active_button);
-                    seventhButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(fourthButton);
-                    buttonBackground(fifthButton);
-                    buttonBackground(sixthButton);
-                    buttonBackground(firstButton);
-                    if (eighthButton != null) buttonBackground(eighthButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-
-                }
-            });
-
-            buttonBackground(b7);
-            if (seventhButton.getParent() != null)
-                ((ViewGroup) seventhButton.getParent()).removeView(seventhButton);
-            buttonPanel.addView(b7);
-        }
-        if (eighthButton != null) {
-            Button b8 = hashMap.get("button8");
-            b8.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com8);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 1;
-                    flag9 = 0;
-                    flag10 = 0;
-                    eighthButton.setBackgroundResource(R.drawable.active_button);
-                    eighthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(fourthButton);
-                    buttonBackground(fifthButton);
-                    buttonBackground(sixthButton);
-                    buttonBackground(seventhButton);
-                    buttonBackground(firstButton);
-                    if (ninethButton != null) buttonBackground(ninethButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-                }
-            });
-            buttonBackground(b8);
-            if (eighthButton.getParent() != null)
-                ((ViewGroup) eighthButton.getParent()).removeView(eighthButton);
-            buttonPanel.addView(b8);
-        }
-        if (ninethButton != null) {
-            Button b9 = hashMap.get("button9");
-            b9.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    comments.setText(com9);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 1;
-                    flag10 = 0;
-                    ninethButton.setBackgroundResource(R.drawable.active_button);
-                    ninethButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(fourthButton);
-                    buttonBackground(fifthButton);
-                    buttonBackground(sixthButton);
-                    buttonBackground(seventhButton);
-                    buttonBackground(eighthButton);
-                    buttonBackground(firstButton);
-                    if (tenthButton != null) buttonBackground(tenthButton);
-                }
-            });
-
-            buttonBackground(b9);
-            if (ninethButton.getParent() != null)
-                ((ViewGroup) ninethButton.getParent()).removeView(ninethButton);
-            buttonPanel.addView(b9);
-        }
-        if (tenthButton != null) {
-            Button b10 = hashMap.get("button10");
-            b10.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    comments.setText(com10);
-                    flag1 = 0;
-                    flag2 = 0;
-                    flag3 = 0;
-                    flag4 = 0;
-                    flag5 = 0;
-                    flag6 = 0;
-                    flag7 = 0;
-                    flag8 = 0;
-                    flag9 = 0;
-                    flag10 = 1;
-                    tenthButton.setBackgroundResource(R.drawable.active_button);
-                    tenthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    buttonBackground(secondButton);
-                    buttonBackground(thirdButton);
-                    buttonBackground(fourthButton);
-                    buttonBackground(fifthButton);
-                    buttonBackground(sixthButton);
-                    buttonBackground(seventhButton);
-                    buttonBackground(eighthButton);
-                    buttonBackground(ninethButton);
-                    buttonBackground(firstButton);
-                }
-            });
-            buttonBackground(b10);
-            if (tenthButton.getParent() != null)
-                ((ViewGroup) tenthButton.getParent()).removeView(tenthButton);
-            buttonPanel.addView(b10);
-            addButton.setEnabled(false);
-            addButton.setBackgroundResource(R.drawable.addbutton_disable);
-        }
-
-        final Spinner spinner = mView.findViewById(R.id.spinner);
-        ArrayList<String> type = new ArrayList<String>();
-        type.add("Single Phase");
-        type.add("Third Phase");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_style, type);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-
-
-        final ListView listView = mView.findViewById(R.id.list1);
-       /* final CustomList adapter = new CustomList(SelectedItems.this, web, imageId);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                //Toast.makeText(SelectedItems.this, "You Clicked at " +web[+ position], Toast.LENGTH_SHORT).show();
+            public void onLongItemClick(View view, int position) {
 
             }
-        });*/
+        }));
+        manupilateHorizontalListData(mContext, gridPosition);
+        Button closeBtn = (Button)mView.findViewById(R.id.closeButton) ;
+        closeBtn.setTypeface(typeFace);
 
-        try {
+        EditText comments = (EditText)mView.findViewById(R.id.comments) ;
+        comments.setTypeface(typeFace);
+
+        TextView dataHeading = (TextView)mView.findViewById(R.id.dataHeading);
+        dataHeading.setText(gridTitle);
+        dataHeading.setTypeface(typeFace);
+         listView = (ListView) mView.findViewById(R.id.inspectionData_list);
+     //   populateListView(key,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+      /*  try {
 
             Gson poleMetadataGsonList = new Gson();
             String response = metadataPreferences.getString(key, "");
@@ -894,372 +748,76 @@ public class SelectedItems extends AppCompatActivity {
 
         }
         arrayAdapter = new InspectionMetaDataAdapter(pole_inspectionData_list,SelectedItems.this,listView);
-        listView.setAdapter(arrayAdapter);
-
-
-        firstButton = mView.findViewById(R.id.first_button);
-        firstButton.setBackgroundResource(R.drawable.active_button);
-        firstButton.setTextColor(Color.parseColor("#FFFFFF"));
-        firstButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                comments.setText(com1);
-                flag1 = 1;
-                flag2 = 0;
-                flag3 = 0;
-                flag4 = 0;
-                flag5 = 0;
-                flag6 = 0;
-                flag7 = 0;
-                flag8 = 0;
-                flag9 = 0;
-                flag10 = 0;
-                firstButton.setBackgroundResource(R.drawable.active_button);
-                firstButton.setTextColor(Color.parseColor("#FFFFFF"));
-                if (secondButton != null) buttonBackground(secondButton);
-                if (thirdButton != null) buttonBackground(thirdButton);
-                if (fourthButton != null) buttonBackground(fourthButton);
-                if (fifthButton != null) buttonBackground(fifthButton);
-                if (sixthButton != null) buttonBackground(sixthButton);
-                if (seventhButton != null) buttonBackground(seventhButton);
-                if (eighthButton != null) buttonBackground(eighthButton);
-                if (ninethButton != null) buttonBackground(ninethButton);
-                if (tenthButton != null) buttonBackground(tenthButton);
-            }
-        });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                clickcount = clickcount + 1;
-                final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(9, 0, 0, 0);
-                if (clickcount == 1) {
-                    secondButton = new Button(getApplicationContext());
-                    secondButton.setLayoutParams(params);
-                    buttonPanel.addView(secondButton);
-                    secondButton.setText("2");
-                    buttonBackground(secondButton);
-                    secondButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com2);
-                            flag1 = 0;
-                            flag2 = 1;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 0;
-                            secondButton.setBackgroundResource(R.drawable.active_button);
-                            secondButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            if (thirdButton != null) buttonBackground(thirdButton);
-                            if (fourthButton != null) buttonBackground(fourthButton);
-                            if (fifthButton != null) buttonBackground(fifthButton);
-                            if (sixthButton != null) buttonBackground(sixthButton);
-                            if (seventhButton != null) buttonBackground(seventhButton);
-                            if (eighthButton != null) buttonBackground(eighthButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 2) {
-                    thirdButton = new Button(getApplicationContext());
-                    thirdButton.setLayoutParams(params);
-                    buttonPanel.addView(thirdButton);
-                    thirdButton.setText("3");
-                    buttonBackground(thirdButton);
-                    thirdButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com3);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 1;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 0;
-                            thirdButton.setBackgroundResource(R.drawable.active_button);
-                            thirdButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(secondButton);
-                            buttonBackground(firstButton);
-                            if (fourthButton != null) buttonBackground(fourthButton);
-                            if (fifthButton != null) buttonBackground(fifthButton);
-                            if (sixthButton != null) buttonBackground(sixthButton);
-                            if (seventhButton != null) buttonBackground(seventhButton);
-                            if (eighthButton != null) buttonBackground(eighthButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 3) {
-                    fourthButton = new Button(getApplicationContext());
-                    fourthButton.setLayoutParams(params);
-                    buttonPanel.addView(fourthButton);
-                    fourthButton.setText("4");
-                    buttonBackground(fourthButton);
-                    fourthButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com4);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 1;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 0;
-                            fourthButton.setBackgroundResource(R.drawable.active_button);
-                            fourthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            if (fifthButton != null) buttonBackground(fifthButton);
-                            if (sixthButton != null) buttonBackground(sixthButton);
-                            if (seventhButton != null) buttonBackground(seventhButton);
-                            if (eighthButton != null) buttonBackground(eighthButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 4) {
-                    fifthButton = new Button(getApplicationContext());
-                    fifthButton.setLayoutParams(params);
-                    buttonPanel.addView(fifthButton);
-                    fifthButton.setText("5");
-                    buttonBackground(fifthButton);
-                    fifthButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com5);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 1;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 0;
-                            fifthButton.setBackgroundResource(R.drawable.active_button);
-                            fifthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            buttonBackground(fourthButton);
-                            if (sixthButton != null) buttonBackground(sixthButton);
-                            if (seventhButton != null) buttonBackground(seventhButton);
-                            if (eighthButton != null) buttonBackground(eighthButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 5) {
-
-                    sixthButton = new Button(getApplicationContext());
-                    sixthButton.setLayoutParams(params);
-                    buttonPanel.addView(sixthButton);
-                    sixthButton.setText("6");
-                    buttonBackground(sixthButton);
-                    sixthButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com6);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 1;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 0;
-                            sixthButton.setBackgroundResource(R.drawable.active_button);
-                            sixthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            buttonBackground(fourthButton);
-                            buttonBackground(fifthButton);
-                            if (seventhButton != null) buttonBackground(seventhButton);
-                            if (eighthButton != null) buttonBackground(eighthButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 6) {
-
-                    seventhButton = new Button(getApplicationContext());
-                    seventhButton.setLayoutParams(params);
-                    buttonPanel.addView(seventhButton);
-                    seventhButton.setText("7");
-                    buttonBackground(seventhButton);
-                    seventhButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com7);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 1;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 0;
-                            seventhButton.setBackgroundResource(R.drawable.active_button);
-                            seventhButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            buttonBackground(fourthButton);
-                            buttonBackground(fifthButton);
-                            buttonBackground(sixthButton);
-                            if (eighthButton != null) buttonBackground(eighthButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 7) {
-                    eighthButton = new Button(getApplicationContext());
-                    eighthButton.setLayoutParams(params);
-                    buttonPanel.addView(eighthButton);
-                    eighthButton.setText("8");
-                    buttonBackground(eighthButton);
-                    eighthButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com8);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 1;
-                            flag9 = 0;
-                            flag10 = 0;
-                            eighthButton.setBackgroundResource(R.drawable.active_button);
-                            eighthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            buttonBackground(fourthButton);
-                            buttonBackground(fifthButton);
-                            buttonBackground(sixthButton);
-                            buttonBackground(seventhButton);
-                            if (ninethButton != null) buttonBackground(ninethButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-                        }
-                    });
-                }
-                if (clickcount == 8) {
-                    ninethButton = new Button(getApplicationContext());
-                    ninethButton.setLayoutParams(params);
-                    buttonPanel.addView(ninethButton);
-                    ninethButton.setText("9");
-                    buttonBackground(ninethButton);
-                    ninethButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com9);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 1;
-                            flag10 = 0;
-                            ninethButton.setBackgroundResource(R.drawable.active_button);
-                            ninethButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            buttonBackground(fourthButton);
-                            buttonBackground(fifthButton);
-                            buttonBackground(sixthButton);
-                            buttonBackground(seventhButton);
-                            buttonBackground(eighthButton);
-                            if (tenthButton != null) buttonBackground(tenthButton);
-
-                        }
-                    });
-                }
-                if (clickcount == 9) {
-                    tenthButton = new Button(getApplicationContext());
-                    tenthButton.setLayoutParams(params);
-                    buttonPanel.addView(tenthButton);
-                    tenthButton.setText("10");
-                    tenthButton.setBackgroundResource(R.drawable.fill_rectangle_buttons);
-                    tenthButton.setTextColor(Color.parseColor("#3EA99F"));
-                    tenthButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            comments.setText(com10);
-                            flag1 = 0;
-                            flag2 = 0;
-                            flag3 = 0;
-                            flag4 = 0;
-                            flag5 = 0;
-                            flag6 = 0;
-                            flag7 = 0;
-                            flag8 = 0;
-                            flag9 = 0;
-                            flag10 = 1;
-                            tenthButton.setBackgroundResource(R.drawable.active_button);
-                            tenthButton.setTextColor(Color.parseColor("#FFFFFF"));
-                            buttonBackground(firstButton);
-                            buttonBackground(secondButton);
-                            buttonBackground(thirdButton);
-                            buttonBackground(fourthButton);
-                            buttonBackground(fifthButton);
-                            buttonBackground(sixthButton);
-                            buttonBackground(seventhButton);
-                            buttonBackground(eighthButton);
-                            buttonBackground(ninethButton);
-
-                        }
-                    });
-                    addButton.setEnabled(false);
-                    addButton.setBackgroundResource(R.drawable.addbutton_disable);
-                }
-            }
-
-
-        });
+        listView.setAdapter(arrayAdapter);*/
+        metadataPreferencesEditor.commit();
+     //   readDoublePoleData("extent");
         final TextView repaire = mView.findViewById(R.id.repair);
         final TextView replace = mView.findViewById(R.id.replace);
+        repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+        repaire.setTextColor(Color.parseColor("#FFFFFF"));
+        replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+        replace.setTextColor(Color.parseColor("#3EA99F"));
+        repaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+
+
+            }
+        });
+        replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+        });
+
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(mView);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+    public void ShowOthersDialog(final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+        gridPositionNew = gridPosition;
+        gridTitle = item.getTitle();
+        isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+        mGridDataJSON = new ArrayList<>();
+
+
+        sharedPref = mContext.getSharedPreferences(mContext.getString(
+                R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        Log.i("under","in dialog"+item.getImageName());
+        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
+
+        horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        horizontalListView.setLayoutManager(linearLayoutManager);
+
+
+
+        final EditText comments = view.findViewById(R.id.comments);
+
+        final TextView repaire = view.findViewById(R.id.repair);
+        final TextView replace = view.findViewById(R.id.replace);
         repaire.setBackgroundResource(R.drawable.repaire_replace_active);
         repaire.setTextColor(Color.parseColor("#FFFFFF"));
         replace.setBackgroundResource(R.drawable.repair_replace_deactive);
@@ -1284,50 +842,488 @@ public class SelectedItems extends AppCompatActivity {
             }
         });
 
-        Button close = mView.findViewById(R.id.close_button);
-        close.setOnClickListener(new View.OnClickListener() {
+
+        comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final BottomSheetDialog dialog2 = new BottomSheetDialog(SelectedItems.this);
+                View mView2 = LayoutInflater.from(mContext).inflate(R.layout.comment_dialog, null);
+               // final View mView2 = getLayoutInflater().inflate(R.layout.comment_dialog, null);
+                dialog2.setContentView(mView2);
+                dialog2.show();
+                final EditText dialog_comment = mView2.findViewById(R.id.comments_editText);
 
-                hashMap = new HashMap<String, Button>();
+                String noteString = readNoteFromRespectiveCountList(gridPosition);
 
-                if (secondButton != null)
-                    hashMap.put("button2", secondButton);
-                if (thirdButton != null)
-                    hashMap.put("button3", thirdButton);
-                if (fourthButton != null)
-                    hashMap.put("button4", fourthButton);
-                if (fifthButton != null)
-                    hashMap.put("button5", fifthButton);
-                if (sixthButton != null)
-                    hashMap.put("button6", sixthButton);
-                if (seventhButton != null)
-                    hashMap.put("button7", seventhButton);
-                if (eighthButton != null)
-                    hashMap.put("button8", eighthButton);
-                if (ninethButton != null)
-                    hashMap.put("button9", ninethButton);
-                if (tenthButton != null)
-                    hashMap.put("button10", tenthButton);
+                if(noteString!=null) {
+                    comments.setText(noteString);
+                    dialog_comment.setText(noteString.trim());
+                }
+                final Button done = mView2.findViewById(R.id.done);
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        comments.setText(dialog_comment.getText().toString());
+                        addNoteToRespectiveCountList(gridTitle, dialog_comment.getText().toString());
+                        if(dialog_comment.getText().toString() != null && !dialog_comment.getText().toString().isEmpty())
+                            isAddNoteSelected = false;
 
-                hashMapList.put(gridTitle,hashMap);
-                dialog.dismiss();
+                        dialog2.dismiss();
+                    }
+                });
+            }
+        });
+
+        manupilateHorizontalListData(mContext, gridPosition);
+        closeBtn = (Button)view.findViewById(R.id.closeButton) ;
+        closeBtn.setTypeface(typeFace);
+        partImage = (ImageView)view.findViewById(R.id.clickPicture) ;
+        readImagesForRespectiveDefects(mContext, partImage);
+        partImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  picturePath =item.getS3ImageName();
+                picturePath ="Other"+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                partTitle = item.getTitle();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(mContext instanceof SelectedItems)
+                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
 
             }
         });
 
-        WindowManager.LayoutParams params_w = dialog.getWindow().getAttributes();
-        params_w.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        params_w.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.setContentView(mView);
+
+        TextView typeLabel = (TextView) view.findViewById(R.id.typeLabel) ;
+
+        typeLabel.setTypeface(typeFace);
+
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View clickView) {
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected| isRepairSelected){
+                    try {
+                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
+                        // if(!othersParts_commentsMetaData.get(item.getTitle()).get("comments").toString().isEmpty())
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/other_tick.png");
+                        item.setInspectionDone(true);
+
+                        /* else
+                             item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/icn_"+item.getImageName()+".png");*/
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                    Log.i("vidisha","imageName=="+item.getImageName());
+                    item.setInspectionDone(false);
+                    item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
+
+                    // item.setImage(item.getImage());
+                }
+                if(mGridAdapter!=null)
+                    mGridAdapter.notifyDataSetChanged();
+                Picasso.with(SelectedItems.this).load(item.getImage())
+                        .into(imgView);
+
+                String key = item.getTitle()+"othersListJSON";
+                // ArrayList<GridItem> ModelArrayList=new ArrayList();
+                Gson gson = new Gson();
+                String json = gson.toJson(underground_inspectionData_list);
+
+                if(GlobalData.metadataPreferencesEditor!=null) {
+                    GlobalData.metadataPreferencesEditor.remove(key).commit();
+                    //             editor.putString("othersJSON_Modified",json);
+                    GlobalData.metadataPreferencesEditor.putString(key, json);
+                    GlobalData.metadataPreferencesEditor.commit();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        TextView itemName = (TextView)view.findViewById(R.id.dataHeading) ;
+        itemName.setText(item.getTitle());
+        itemName.setTypeface(typeFace);
+        listView = (ListView) view.findViewById(R.id.inspectionData_list);
+
+
+
+        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
+
+
+
+
+
+        populateListView(mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int position) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isCountAdd;
+                        isCountAdd = addRespectiveDefectCount(position, gridPosition);
+                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
+                            horizontalItemSelectedPosition = position;
+                            recyclerCountAdapter.notifyDataSetChanged();
+                            populateListView(mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+                            readImagesForRespectiveDefects(mContext, partImage);
+                            String noteString = readNoteFromRespectiveCountList(gridPosition);
+                            if(noteString!=null) {
+                                comments.setText(noteString.trim());
+                            } else {
+                                comments.setText("");
+                            }
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
+
+
+      /*  inspectionData_list = new ArrayList<InspectionMetaData>();
+        arrayAdapter = new InspectionMetaDataAdapter(inspectionData_list,OthersActivity.this,listView);*/
+
+        try {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    verticalItemSelectedPosition = position;
+                    localInspectionMetaData = findingListRefference(gridPosition, horizontalItemSelectedPosition);
+                    final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
+                    listView.setSelection(position);
+                    view.setSelected(true);
+
+                    String disPlayName, imageUrl,name;
+                    boolean isSelected;
+                    disPlayName = listItemsN.getDisplayName();
+                    name = listItemsN.getName();
+                    imageUrl = listItemsN.getImageUrl();
+                    isSelected = listItemsN.getIsSelected();
+                    Log.i("shri_LOG","name=="+listItemsN.getName());
+
+                    if(!isSelected){
+//                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
+                        localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
+                    } else {
+                        localInspectionMetaData.set(position, new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", false, item.getTitle()));
+                    }
+                    arrayAdapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isSelected = true;
+                            for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                                if (localInspectionMetaData.get(i).getIsSelected() != null && localInspectionMetaData.get(i).getIsSelected()) {
+                                    isSelected = false;
+                                }
+                            }
+                            if (!isSelected) {
+                                Log.i("vidisha","helloo11111");
+                               // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
+                                isListSelected = false;
+                            } else {
+                                Log.i("vidisha","helloo22222");
+                                isListSelected = true;
+                              //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
+                            }
+                        }
+                    });
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+            });
+            arrayAdapter.notifyDataSetChanged();
+
+            mGridDataJSON.add(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(view);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.show();
     }
 
-            private void buttonBackground(Button fillButton) {
-                fillButton.setBackgroundResource(R.drawable.fill_rectangle_buttons);
-                fillButton.setTextColor(Color.parseColor("#3EA99F"));
+    private void manupilateHorizontalListData(Context mContext, int position) {
+        horizontalItemSelectedPosition = 0;
+        switch (position){
+            case 0:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPadmountsDefects);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPullBoxDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSpiceBoxDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 3:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSectionalizerCabinetDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+
+        }
+    }
+
+    private String readNoteFromRespectiveCountList(int position) {
+        String note= null;
+        if(position == 0){
+            localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+            return findNoteData();
+        } else if(position == 1){
+            localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+            return findNoteData();
+        } else if(position == 2){
+            localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+            return findNoteData();
+        } else if(position == 3){
+            localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+            return findNoteData();
+        }
+        return null;
+    }
+
+    private String findNoteData() {
+        String note = null;
+        for (int i=0; i< localInspectionMetaData.size(); i++) {
+            // to find out the respective note from inspectionMetaData in a loop
+            if(localInspectionMetaData.get(i).getNote() != null)
+                note = localInspectionMetaData.get(i).getNote();
+        }
+        return note;
+    }
+
+    private void addNoteToRespectiveCountList(String title, String note) {
+        // adding note to respective count (horizontal list item)
+        String noteNew = null;
+        int localIndex = -1;
+
+        if(gridPositionNew == 0){
+            localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+            noteNew = findingIndexToAddNote(noteNew, localIndex);
+        } else if(gridPositionNew == 1){
+            localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+            noteNew = findingIndexToAddNote(noteNew, localIndex);
+        } else if(gridPositionNew == 2){
+            localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+            noteNew = findingIndexToAddNote(noteNew, localIndex);
+        } else if(gridPositionNew == 3){
+            localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+            noteNew = findingIndexToAddNote(noteNew, localIndex);
+        }
+
+        if(noteNew != null){
+            localInspectionMetaData.set(localIndexToAddNote, new InspectionMetaData(note, title, "addnote"));
+            arrayAdapter.notifyDataSetChanged();
+        } else {
+            localInspectionMetaData.add(new InspectionMetaData(note, title, "addnote"));
+            arrayAdapter.notifyDataSetChanged();
+        }
+    }
+    InspectionMetaData inspectionMetaData;
+    private String findingIndexToAddNote(String titleNew, int localIndex) {
+        for(int i=0; i<localInspectionMetaData.size(); i++) {
+            if(titleNew == null) {
+                titleNew = localInspectionMetaData.get(i).getNote();
+                inspectionMetaData = localInspectionMetaData.get(i);
+                localIndexToAddNote = i;
             }
+        }
+        return titleNew;
+    }
+@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CAMERA_ONE) {
+                isTestingImageSelected = false;
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                Matrix matrix = new Matrix();
+                //  matrix.postRotate(90);
 
+                Bitmap b = Bitmap.createScaledBitmap(thumbnail, 200, 200, false);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(b , 0, 0, b .getWidth(), b .getHeight(), matrix, true);
+                partImage.setImageBitmap(rotatedBitmap);
+                storeImage(b,picturePath,partTitle);
+            }
+        }
+    }
+    private void storeImage(Bitmap image,String picturePath,String partTitle) {
+        File pictureFile = getOutputMediaFile(picturePath,partTitle);
+        if (pictureFile == null) {
+           /* Log.d(TAG,
+                    "Error creating media file, check storage permissions: ");// e.getMessage());*/
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+
+            try {
+                JSONObject i = new JSONObject();
+                i.put("imageUrl",pictureFile);
+                undergroundParts_Images.put(partTitle,i);
+
+                Log.i("vidisha","picturePath"+picturePath);
+                // othersParts_damageMetaData.get(item.getTitle())
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            undergroundScopeImage = pictureFile.toString();
+        } catch (FileNotFoundException e) {
+            Log.d("SDA", "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            Log.d("SDA", "Error accessing file: " + e.getMessage());
+        }
+    }
+    private  File getOutputMediaFile(String pictureName,String partTitle){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "InspectionsApp");
+        if (!internalStorage.exists()) {
+            internalStorage.mkdir();
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        File reportFilePath = null;
+
+        String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+pictureName;
+        reportFilePath = new File(internalStorage, imageName + ".png");
+        if(GlobalData.underground_images_array!=null) {
+            GlobalData.underground_images_array.add(reportFilePath);
+        } else {
+            GlobalData.underground_images_array = new ArrayList<>();
+            GlobalData.underground_images_array.add(reportFilePath);
+        }
+        addImagesToRespectiveDefects(reportFilePath);
+//        metadataPreferencesEditor.putString(partTitle+"partImage",reportFilePath.toString());
+//        metadataPreferencesEditor.commit();
+        return reportFilePath;
+    }
+    private void addImagesToRespectiveDefects(File reportFilePath) {
+        int localIndex = -1;
+        if(gridPositionNew == 0){
+            localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+            localIndex = findingIndexToAddImagePath();
+        } else if(gridPositionNew == 1){
+            localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+            localIndex = findingIndexToAddImagePath();
+        } else if(gridPositionNew == 2){
+            localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+            localIndex = findingIndexToAddImagePath();
+        } else if(gridPositionNew == 3){
+            localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+            localIndex = findingIndexToAddImagePath();
+        }
+
+        if(localIndex == -1) {
+            localInspectionMetaData.add(new InspectionMetaData(reportFilePath.toString(), gridTitle));
+            Log.i("image_path", "part set path" + reportFilePath.toString());
+        }else {
+            localInspectionMetaData.set(localIndex, new InspectionMetaData(reportFilePath.toString(), gridTitle));
+            Log.i("image_path", "part set path" + reportFilePath.toString());
+        }
+        arrayAdapter.notifyDataSetChanged();
+    }
+
+    private int findingIndexToAddImagePath() {
+        int localIndex = -1;
+
+        for(int i = 0; i< localInspectionMetaData.size(); i++){
+            if (localInspectionMetaData.get(i).getPicturePath() != null) {
+                localIndex = i;
+            }
+        }
+        return  localIndex;
+    }
+
+    private void readImagesForRespectiveDefects(Context mContext,ImageView partImage) {
+        String picturePath = null;
+        if(gridPositionNew == 0){
+            localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+            picturePath = findingPath();
+        } else if(gridPositionNew == 1){
+            localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+            picturePath = findingPath();
+        } else if(gridPositionNew == 2){
+            localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+            picturePath = findingPath();
+        } else if(gridPositionNew == 3){
+            localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+            picturePath = findingPath();
+        }
+
+        if(picturePath != null) {
+            partImage.setImageBitmap(Utils.getBitmap(picturePath));
+        }else {
+            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icn_camera);
+            partImage.setImageBitmap(icon);
+        }
+    }
+    private String findingPath() {
+        for(int i = 0; i< localInspectionMetaData.size(); i++){
+            if (localInspectionMetaData.get(i).getPicturePath() != null) {
+                Log.i("image_path", "part index = " + i +"\n" +localInspectionMetaData.get(i).getPicturePath());
+                return  picturePath = localInspectionMetaData.get(i).getPicturePath();
+            }
+        }
+        return null;
+    }
+    private void readDoublePoleData(String utility) {
+        boolean isCheck = false;
+        int localIndex = -1;
+        localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+        if (localInspectionMetaData != null) {
+            for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                if (localInspectionMetaData.get(i).getIsUtilityOwned() != null && localInspectionMetaData.get(i).getSubTitle()!=null &&
+                        localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase(utility)) {
+                    isCheck = localInspectionMetaData.get(i).getIsUtilityOwned();
+                    localIndex = i;
+                }
+            }
+            if (localIndex != -1) {
+                if (localInspectionMetaData.get(localIndex).getSubTitle() != null && localInspectionMetaData.get(localIndex).getSubTitle().equalsIgnoreCase("extent"))
+                    isRepairSelected = true;
+            } else
+                isRepairSelected = false;
+        }
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.nextButton:
+                JSONObject padmountsOneData = ReadUnderGroundData.getInstance().readpadmountsOneData();
+                try {
+                    padmountsOneData.put("extent","REPAIR");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONObject damageDetailspadmounts1 = new JSONObject();
+                Log.i("greeshma==","padmountsOneData"+padmountsOneData.toString());
+
+        }
+    }
 }

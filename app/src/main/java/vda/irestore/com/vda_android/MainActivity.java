@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void readDataFromFireBase(Context context) {
-        Global.initializeSharedPrefernceData(context);
+        GlobalData.initializeSharedPrefernceData(context);
         final FirebaseDatabase database = FirebaseDatabase.getInstance(Global.FIREBASE_URL);
         DatabaseReference firebaseUserDataReference = database.getReference("Scopes");
 
@@ -555,18 +555,18 @@ public class MainActivity extends AppCompatActivity {
 
                    }
 
-                   Global.scopesPreferencesEditor.putString("othersJSON", sortedOthersJsonArray.toString());
-                   Global.scopesPreferencesEditor.putString("poleTopJSON", sortedPOleTopJsonArray.toString());
-                   Global.scopesPreferencesEditor.putString("poleJSON", sortedPOleJsonArray.toString());
-                   Global.scopesPreferencesEditor.putString("wireeJSON", sortedwireeJsonArray.toString());
-                   Global.scopesPreferencesEditor.putString("splJSON", sortedsplJsonArray.toString());
-                   Global.scopesPreferencesEditor.putString("treeJSON", sortedtreeJsonArray.toString());
+                   GlobalData.scopesPreferencesEditor.putString("othersJSON", sortedOthersJsonArray.toString());
+                   GlobalData.scopesPreferencesEditor.putString("poleTopJSON", sortedPOleTopJsonArray.toString());
+                   GlobalData.scopesPreferencesEditor.putString("poleJSON", sortedPOleJsonArray.toString());
+                   GlobalData.scopesPreferencesEditor.putString("wireeJSON", sortedwireeJsonArray.toString());
+                   GlobalData.scopesPreferencesEditor.putString("splJSON", sortedsplJsonArray.toString());
+                   GlobalData.scopesPreferencesEditor.putString("treeJSON", sortedtreeJsonArray.toString());
                    Log.i("vidisha","poleJSON==="+sortedPOleJsonArray.toString());
                    Log.i("vidisha","othersJSON==="+sortedOthersJsonArray.toString());
                    Log.i("vidisha","poleTopJSON==="+sortedPOleTopJsonArray.toString());
                    Log.i("vidisha","wireeJSON==="+wireeJSON.toString());
 
-                    Global.scopesPreferencesEditor.commit();
+                   GlobalData.scopesPreferencesEditor.commit();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

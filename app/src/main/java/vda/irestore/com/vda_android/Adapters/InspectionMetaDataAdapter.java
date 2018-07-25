@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import vda.irestore.com.vda_android.Pojo.InspectionMetaData;
-import vda.irestore.com.vda_android.PoleActivity;
 import vda.irestore.com.vda_android.R;
+import vda.irestore.com.vda_android.SelectedItems;
 
 /**
  * Created by MALBEL on 07-08-2017.
@@ -52,14 +52,8 @@ public class InspectionMetaDataAdapter extends ArrayAdapter<InspectionMetaData> 
     @Override
     public void add(@Nullable InspectionMetaData object) {
         int index = -1;
-       /* if(mContext instanceof PoleTopActivity_Hardcoded)
-            index = ((PoleTopActivity_Hardcoded)mContext).verticalItemSelectedPosition;
-        else if(mContext instanceof OthersActivity)
-            index = ((OthersActivity)mContext).verticalItemSelectedPosition;
-        else if(mContext instanceof Underground_Activity)
-            index = ((Underground_Activity)mContext).verticalItemSelectedPosition;
-        elseif(mContext instanceof PoleActivity)
-            index = ((PoleActivity)mContext).verticalItemSelectedPosition;*/
+        if(mContext instanceof SelectedItems)
+            index = ((SelectedItems)mContext).verticalItemSelectedPosition;
 
         if(index == -1)
             dataSet.add(object);
@@ -82,14 +76,14 @@ public class InspectionMetaDataAdapter extends ArrayAdapter<InspectionMetaData> 
         final ViewHolder viewHolder; // view lookup cache stored in tag
         Typeface typeFace = Typeface.createFromAsset(mContext.getAssets(), "AvenirLTStd-Book.otf");
 
-      //  if (convertView == null) {
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.inspection_data_item, parent, false);
-            viewHolder.inspectionName = (TextView) convertView.findViewById(R.id.pendingInspectionHeading1);
-            viewHolder.inspectionImage = (ImageView) convertView.findViewById(R.id.pendingImage1);
+        //  if (convertView == null) {
+        viewHolder = new ViewHolder();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        convertView = inflater.inflate(R.layout.inspection_data_item, parent, false);
+        viewHolder.inspectionName = (TextView) convertView.findViewById(R.id.pendingInspectionHeading1);
+        viewHolder.inspectionImage = (ImageView) convertView.findViewById(R.id.pendingImage1);
 
-            convertView.setTag(viewHolder);
+        convertView.setTag(viewHolder);
        /* } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -99,10 +93,22 @@ public class InspectionMetaDataAdapter extends ArrayAdapter<InspectionMetaData> 
         viewHolder.inspectionName.setText(inspectionMetaData.getDisplayName());
         viewHolder.inspectionName.setTypeface(typeFace);
 //        dataSet.get(position).getImageUrl()
-
-
-        Picasso.with(mContext).load(inspectionMetaData.getImageUrl()).placeholder(R.mipmap.ic_launcher)
-                .into(viewHolder.inspectionImage);
+        if(inspectionMetaData.getIsSelected() != null && inspectionMetaData.getDisplayName() != null && !inspectionMetaData.getDisplayName().isEmpty()) {
+            viewHolder.inspectionImage.setVisibility(View.VISIBLE);
+            viewHolder.inspectionName.setVisibility(View.VISIBLE);
+            if(!inspectionMetaData.getIsSelected()) {
+                Log.d("dinesh111", "displaying unselected/ default item");
+                Picasso.with(mContext).load(inspectionMetaData.getImageUrl()).placeholder(R.mipmap.ic_launcher)
+                        .into(viewHolder.inspectionImage);
+            }else {
+                Picasso.with(mContext).load("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png")
+                        .into(viewHolder.inspectionImage);
+                Log.d("dinesh111", "displaying selected item");
+            }
+        } else {
+            viewHolder.inspectionName.setVisibility(View.GONE);
+            viewHolder.inspectionImage.setVisibility(View.GONE);
+        }
         notifyDataSetChanged();
         return convertView;
     }
