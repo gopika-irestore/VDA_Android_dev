@@ -82,8 +82,8 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
         holder.titleTextView.setTypeface(typeFace);
       //  imageView.setAlpha(mDim[position] ? 0.5f : 1.0f);
 
-
-            Picasso.with(mContext).load(item.getImage()).placeholder(R.mipmap.icn_plus).noFade()
+         Log.i("greeshma","inspection done=="+(item.getInspectionDone()));
+         Picasso.with(mContext).load(item.getImage()).placeholder(R.mipmap.icn_plus).noFade()
                     .into(holder.imageView);
 
 

@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
+import vda.irestore.com.vda_android.Global.Global;
+import vda.irestore.com.vda_android.Global.GlobalData;
+import vda.irestore.com.vda_android.Global.Utils;
 import vda.irestore.com.vda_android.MainActivity;
 import vda.irestore.com.vda_android.R;
 import vda.irestore.com.vda_android.services.GPSTracker;
@@ -23,7 +27,8 @@ public class LauncherActivity1 extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+
+       // Fabric.with(this, new Crashlytics());
 
      //   setContentView(R.layout.activity_launcher);
 
@@ -38,11 +43,11 @@ public class LauncherActivity1 extends Activity {
         Boolean userloggedIn = sharedPref.getBoolean("userLoggedIn", false);
         gps = new GPSTracker(LauncherActivity1.this);
 
-        Intent i = new Intent();
+    /*    Intent i = new Intent();
         i.setClass(LauncherActivity1.this, MainActivity.class);
-        startActivity(i);
+        startActivity(i);*/
 
-       /* if (sharedPref.getString("emailAddress", "").isEmpty()) {
+        if (sharedPref.getString("emailAddress", "").isEmpty()) {
             Intent i = new Intent();
             i.setClass(LauncherActivity1.this, SplashScreen.class);
             startActivity(i);
@@ -51,7 +56,7 @@ public class LauncherActivity1 extends Activity {
 
                 if (!sharedPref.getBoolean("chooseUtility", false)) {
                     if (userloggedIn) {
-                       *//* if (Utils.isNetworkAvailable(LauncherActivity.this)) {
+                       /* if (Utils.isNetworkAvailable(LauncherActivity.this)) {
                             HttpGetRequest async = new HttpGetRequest();
                             String s = Utils.syncAPI + "&email=" +sharedPref.getString("emailAddress","")+
                                     "&phone=" +sharedPref.getString("phoneNumber","");
@@ -60,7 +65,7 @@ public class LauncherActivity1 extends Activity {
                         } else {
                             Toast.makeText(LauncherActivity.this, getResources().getString(R.string.internet_error),
                                     Toast.LENGTH_SHORT).show();
-                        }*//*
+                        }*/
 
                         Intent i = new Intent();
                         i.setClass(LauncherActivity1.this, SplashClient.class);
@@ -101,7 +106,6 @@ public class LauncherActivity1 extends Activity {
                 }
             }
             }
-*/
     }
 
 

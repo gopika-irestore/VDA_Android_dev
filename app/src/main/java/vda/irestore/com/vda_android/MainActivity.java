@@ -286,7 +286,12 @@ public class MainActivity extends AppCompatActivity {
         return height;
     }
 
-
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        GlobalData.metadataPreferences.edit().clear().commit();
+    }
 
     public void readDataFromFireBase(Context context) {
         GlobalData.initializeSharedPrefernceData(context);

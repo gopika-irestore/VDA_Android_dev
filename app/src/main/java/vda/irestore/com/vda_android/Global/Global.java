@@ -130,6 +130,7 @@ public class Global {
     public static String getDamageReportURL = "https://dev.irestore.info/v1/reports/";
     public static String terms ="https://dev.irestore.info/v1/common/subscriptions/deviceConfiguration/"+appKey;
 
+    public static String SubmitSDAReportAPI ="https://dev.irestore.info/v1/sda/create/";
   /*  public static String FIREBASE_URL = "https://irestore-yellowcards-beta.firebaseio.com/";
 
     public static String filterURL="https://api-beta.irestore.info/v1/yellowCards/?order=ASC&page=";

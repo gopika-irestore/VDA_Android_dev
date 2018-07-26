@@ -71,6 +71,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="signup.PermissionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="signup.BaseActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".signup.SplashScreen"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
         <activity

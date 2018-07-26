@@ -27,7 +27,7 @@ public class MyFirebaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+       // Fabric.with(this, new Crashlytics());
 
         sharedPref = getSharedPreferences(getString(
                 R.string.preference_file_key), Context.MODE_PRIVATE);

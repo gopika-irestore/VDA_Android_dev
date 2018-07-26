@@ -490,9 +490,14 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                     if(configuration.has("safetyMessage"))
                     safetyMessage = configuration.getString("safetyMessage");
                     s3Bucket = configuration.getString("s3Bucket");
+                    if(configuration.has("profilePicBucket"))
                     profilePicBucket = configuration.getString("profilePicBucket");
-                    profilePicThumbnailsBucket = configuration.getString("profilePicThumbnailsBucket");
-                    firebaseDb = configuration.getString("firebaseDb");
+                    if(configuration.has("profilePicThumbnailsBucket"))
+
+                        profilePicThumbnailsBucket = configuration.getString("profilePicThumbnailsBucket");
+                    if(configuration.has("firebaseDb"))
+
+                        firebaseDb = configuration.getString("firebaseDb");
                     api = configuration.getString("api");
                     otpValidationRequired = configuration.getBoolean("otpValidation");
                     adminApprovalRequired = configuration.getBoolean("adminApproval");
@@ -529,6 +534,7 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
 
                     editor.putString("imageName", imageName);
                     editor.putString("imageURL",logo);
+                    if(configuration.has("terms"))
                     editor.putString("termsUtility",configuration.getString("terms"));
                     editor.putBoolean("viewCards", viewCards);
                     editor.putBoolean("isTechnician", isTechnician);
@@ -663,9 +669,14 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 if(configuration.has("safetyMessage"))
                 safetyMessage = configuration.getString("safetyMessage");
                 s3Bucket = configuration.getString("s3Bucket");
+                if(configuration.has("profilePicBucket"))
                 profilePicBucket = configuration.getString("profilePicBucket");
-                profilePicThumbnailsBucket = configuration.getString("profilePicThumbnailsBucket");
-                firebaseDb = configuration.getString("firebaseDb");
+                if(configuration.has("profilePicThumbnailsBucket"))
+
+                    profilePicThumbnailsBucket = configuration.getString("profilePicThumbnailsBucket");
+                if(configuration.has("firebaseDb"))
+
+                    firebaseDb = configuration.getString("firebaseDb");
                 api = configuration.getString("api");
 
                 otpValidationRequired = configuration.getBoolean("otpValidation");
@@ -705,6 +716,7 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 editor.putString("responseData", json.toString());
                 editor.putString("utilityName", tenantsArray.getJSONObject(0).getString("name"));
                 editor.putString("imageURL",logo);
+                if(configuration.has("terms"))
                 editor.putString("termsUtility",configuration.getString("terms"));
                 editor.putBoolean("viewCards", viewCards);
                 editor.putBoolean("isTechnician", isTechnician);

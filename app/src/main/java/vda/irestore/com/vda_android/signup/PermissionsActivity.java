@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,7 +44,7 @@ import java.util.List;
 import vda.irestore.com.vda_android.Global.Global;
 
 
-public class PermissionsActivity extends Activity implements
+public class PermissionsActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener
     {
         public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;

@@ -1,7 +1,9 @@
 package vda.irestore.com.vda_android;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
@@ -30,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -41,10 +45,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,13 +72,18 @@ import vda.irestore.com.vda_android.Global.GlobalData;
 import vda.irestore.com.vda_android.Global.Utils;
 import vda.irestore.com.vda_android.Pojo.GridItem;
 import vda.irestore.com.vda_android.Pojo.InspectionMetaData;
+import vda.irestore.com.vda_android.readData.PoleData;
 import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
 import vda.irestore.com.vda_android.readData.UnderGroundData;
+import vda.irestore.com.vda_android.signup.PermissionsActivity;
 
 import static java.lang.String.valueOf;
 
 
-public class SelectedItems extends AppCompatActivity implements View.OnClickListener{
+public class SelectedItems extends PermissionsActivity implements View.OnClickListener{
+    JSONObject inspectionReport;
+    private static final int CONNECTION_TIMEOUT = 6000;
+    Exception exception;
     HashMap<String,JSONObject> undergroundParts_Images  = new HashMap<>();
     JSONObject damageDetailspadmountsOne = new JSONObject();
     Button closeBtn, closeAddNoteBtn;
@@ -83,8 +101,7 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
     private ImageView m1,m2,m3,m4,m5,m6;
     private TextView Title;
     private View v1;
-    ArrayList<InspectionMetaData> underground_inspectionData_list ,inspectionData_listNew;
-    ArrayList<InspectionMetaData> pole_inspectionData_list;
+    ArrayList<InspectionMetaData> underground_inspectionData_list ,pole_inspectionData_list;
     InspectionMetaDataAdapter arrayAdapter;
     JSONArray poleJsonArray,poleMetadataJsonArrayList;
     JSONArray undergroundJsonArray,undergroundMetadataJsonArrayList;
@@ -126,12 +143,15 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         isListSelected = true;  isAddNoteSelected = true; isRepairSelected = true; isTestingImageSelected = true;
         isPoleClassSelected = true; isPoleHeightSelected = true; isDoublePoleselected = true; isVoltageTestingSelected = true; isVisualTestingSelected = true;
         isSoundTestingSelected = true; isResistographSelected = true;
+        Log.i("vidisha","Utils"+ Global.currentLocation);
+        Log.i("vidisha","Utils11"+ Utils.currentLocation);
 
         GlobalData.initializeSharedPrefernceData(this);
         sharedPref = getSharedPreferences(getString(
                 R.string.preference_file_key), Context.MODE_PRIVATE);
 
         instantiateListWithData();
+        instantiateListWithData_Pole();
 
         scopesPreferences = getSharedPreferences(getString(
                 R.string.scopes_preferences), Context.MODE_PRIVATE);
@@ -427,9 +447,26 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                 ImageView img = (ImageView) view.findViewById(R.id.grid_image);
 
                 //   ShowMetaDataDialog(SelectedItems.this, item, position,key,jsonKey);
-                if(jsonKey.equalsIgnoreCase("othersJSON"))
-                    ShowOthersDialog(SelectedItems.this, item, img, position);
+                switch (jsonKey)
+                {
+                    case "othersJSON":
+                        Log.i("vidisha","1111");
+                        ShowOthersDialog("Other", SelectedItems.this, item, img, position);
+                        break;
+                    case "poleJSON":
+                        Log.i("vidisha","2222");
+                        ShowPoleDialog("Pole", SelectedItems.this, item, img, position);
+                        break;
+                }
+              /*  if(jsonKey.equalsIgnoreCase("othersJSON")) {
+                    ShowOthersDialog("Other", SelectedItems.this, item, img, position);
+                    Log.i("vidisha","1111");
 
+                }
+                if(jsonKey.equalsIgnoreCase("poleJSON"));
+                {Log.i("vidisha","2222");
+                    ShowPoleDialog("Pole", SelectedItems.this, item, img, position);
+                }*/
             }
         });
     }
@@ -453,22 +490,30 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         GlobalData.getInstance().numberOfSectionalizerCabinetDefect.add("+");
     }
 
-    private void populateListView(Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
+    public void instantiateListWithData_Pole() {
+        GlobalData.getInstance().numberOfPoleDefects = new ArrayList<String>();
+
+
+        GlobalData.getInstance().numberOfPoleDefects.add("1");
+        GlobalData.getInstance().numberOfPoleDefects.add("+");
+    }
+
+    private void populateListView(final String scope,Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
         Boolean isChoosen = false;
         int localIndex = -1;
         ArrayList<InspectionMetaData> underground_inspectionData_list ;
-        underground_inspectionData_list = findingListRefference(gridPosition, horizontalItemSelectedPosition);
+        underground_inspectionData_list = findingListRefference(scope,gridPosition, horizontalItemSelectedPosition);
         try {
             if ( underground_inspectionData_list.size() == 0){
                 Gson undergroundMetadataGsonList = new Gson();
-                String response = GlobalData.metadataPreferences.getString(item.getTitle()+"othersListJSON","");
+                String response = GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","");
 
                 final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = undergroundMetadataGsonList.fromJson(response,
                         new TypeToken<List<InspectionMetaData>>(){}.getType());
 
                 if(undergroundListItems_ArrayList!=null) {
                     underground_inspectionData_list = undergroundListItems_ArrayList;
-                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+"othersListJSON","").trim());
+                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","").trim());
                 } else {
 //                underground_inspectionData_list = new ArrayList<>();
                     JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
@@ -496,21 +541,74 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void populateListViewPole(final String scope,Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
+        Boolean isChoosen = false;
+        int localIndex = -1;
+        ArrayList<InspectionMetaData> pole_inspectionData_list ;
+        pole_inspectionData_list = findingListRefferencePole(scope,gridPosition, horizontalItemSelectedPosition);
+        try {
+            if ( pole_inspectionData_list.size() == 0){
+                Gson poleMetadataGsonList = new Gson();
+                String response = GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","");
 
-    private ArrayList<InspectionMetaData> findingListRefference(int gridPosition, int horizontalItemSelectedPosition) {
-        if(gridPosition == 0){
-            return padmountsReference(horizontalItemSelectedPosition);
-        } else if(gridPosition == 1){
-            return pullBoxReference(horizontalItemSelectedPosition);
-        } else if(gridPosition == 2){
-            return spiceBoxReference(horizontalItemSelectedPosition);
-        } else if(gridPosition == 3){
-            return sectionalizerCabinetReference(horizontalItemSelectedPosition);
-        } else {
-            return null;
+                final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = poleMetadataGsonList.fromJson(response,
+                        new TypeToken<List<InspectionMetaData>>(){}.getType());
+
+                if(undergroundListItems_ArrayList!=null) {
+                    pole_inspectionData_list = undergroundListItems_ArrayList;
+                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","").trim());
+                } else {
+//                pole_inspectionData_list = new ArrayList<>();
+                    JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
+                    undergroundMetadataJsonArrayList = j;
+
+                    pole_inspectionData_list.clear();
+                    for(int s =1;s<undergroundMetadataJsonArrayList.length();s++) {
+                        String displayName = undergroundMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
+
+                        String name = undergroundMetadataJsonArrayList.getJSONObject(s).get("name").toString();
+                        String imageUrl = undergroundMetadataJsonArrayList.getJSONObject(s).get("imageURL").toString();
+                        String imageName =  undergroundMetadataJsonArrayList.getJSONObject(s).get("imagename").toString();
+                        pole_inspectionData_list.add(new InspectionMetaData(displayName, name, imageUrl, imageName, false, item.getTitle()));
+                    }
+                }
+//                final JSONObject chkListObject = new JSONObject();
+//                final JSONObject chkListObjectPreview = new JSONObject();
+            } else {
+
+            }
+            arrayAdapter = new InspectionMetaDataAdapter(pole_inspectionData_list,mContext,listView);
+            listView.setAdapter(arrayAdapter);
+            arrayAdapter.notifyDataSetChanged();
+        } catch (JSONException e){
+
         }
     }
 
+    private ArrayList<InspectionMetaData> findingListRefference(String scope,int gridPosition, int horizontalItemSelectedPosition) {
+
+            if (gridPosition == 0) {
+                return padmountsReference(horizontalItemSelectedPosition);
+            } else if (gridPosition == 1) {
+                return pullBoxReference(horizontalItemSelectedPosition);
+            } else if (gridPosition == 2) {
+                return spiceBoxReference(horizontalItemSelectedPosition);
+            } else if (gridPosition == 3) {
+                return sectionalizerCabinetReference(horizontalItemSelectedPosition);
+            } else {
+                return null;
+            }
+
+    }
+    private ArrayList<InspectionMetaData> findingListRefferencePole(String scope,int gridPosition, int horizontalItemSelectedPosition) {
+
+        if (gridPosition == 0) {
+            return poleReference(horizontalItemSelectedPosition);
+        }  else {
+            return null;
+        }
+
+    }
     private ArrayList<InspectionMetaData> sectionalizerCabinetReference(int horizontalItemSelectedPosition) {
         switch (horizontalItemSelectedPosition){
             case 0:
@@ -618,6 +716,33 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                 return null;
         }
     }
+
+    private ArrayList<InspectionMetaData> poleReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition) {
+            case 0:
+                return PoleData.getInstance().poleOne;
+            case 1:
+                return PoleData.getInstance().poleTwo;
+            case 2:
+                return PoleData.getInstance().poleThree;
+            case 3:
+                return PoleData.getInstance().poleFour;
+            case 4:
+                return PoleData.getInstance().poleFive;
+            case 5:
+                return PoleData.getInstance().poleSix;
+            case 6:
+                return PoleData.getInstance().poleSeven;
+            case 7:
+                return PoleData.getInstance().poleEight;
+            case 8:
+                return PoleData.getInstance().poleNine;
+            case 9:
+                return PoleData.getInstance().poleTen;
+            default:
+                return null;
+        }
+    }
     private boolean addRespectiveDefectCount(int position, int itemPosition) {
         boolean isCountAdded = false;
         Log.i("vidisha","hhhhhh"+isCountAdded);
@@ -657,143 +782,25 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         }
         return isCountAdded;
     }
-
-
-
-    private void ShowMetaDataDialog(final Context mContext, final GridItem item, final int gridPosition,final String key,String JsonKey) {
-        horizontalItemSelectedPosition = 0;
-        gridTitle = item.getTitle();
-        sharedPref = mContext.getSharedPreferences(mContext.getString(
-                R.string.preference_file_key), Context.MODE_PRIVATE);
-
-        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
-        View mView = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
-
-        horizontalListView = (RecyclerView) mView.findViewById(R.id.recyler_count_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        horizontalListView.setLayoutManager(linearLayoutManager);
-        manupilateHorizontalListData(mContext, gridPosition);
-        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
-                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(final View view, final int position) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        boolean isCountAdd;
-                        isCountAdd = addRespectiveDefectCount(position, gridPosition);
-                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
-                            horizontalItemSelectedPosition = position;
-                            recyclerCountAdapter.notifyDataSetChanged();
-                          //  populateListView(key,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
-
-
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-            }
-        }));
-        manupilateHorizontalListData(mContext, gridPosition);
-        Button closeBtn = (Button)mView.findViewById(R.id.closeButton) ;
-        closeBtn.setTypeface(typeFace);
-
-        EditText comments = (EditText)mView.findViewById(R.id.comments) ;
-        comments.setTypeface(typeFace);
-
-        TextView dataHeading = (TextView)mView.findViewById(R.id.dataHeading);
-        dataHeading.setText(gridTitle);
-        dataHeading.setTypeface(typeFace);
-         listView = (ListView) mView.findViewById(R.id.inspectionData_list);
-     //   populateListView(key,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
-      /*  try {
-
-            Gson poleMetadataGsonList = new Gson();
-            String response = metadataPreferences.getString(key, "");
-            Log.i("vidisha","Item selected :::"+item.getTitle());
-
-            final ArrayList<InspectionMetaData> poleListItems_ArrayList = poleMetadataGsonList.fromJson(response,
-                    new TypeToken<List<InspectionMetaData>>() {
-                    }.getType());
-
-            if(poleListItems_ArrayList!=null)
-            {
-                pole_inspectionData_list = poleListItems_ArrayList;
-                poleMetadataJsonArrayList = new JSONArray(metadataPreferences.getString(item.getTitle()+"poleListJSON","").trim());
-
-            }
-            else {
-
-                pole_inspectionData_list = new ArrayList<>();
-                JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
-                poleMetadataJsonArrayList = j;
-            }
-
-            Log.i("vidisha","metadataPreferences :::"+poleMetadataJsonArrayList);
-            for (int s = 0; s < poleMetadataJsonArrayList.length(); s++) {
-                String displayName = poleMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
-
-                String name = poleMetadataJsonArrayList.getJSONObject(s).get("name").toString();
-                String imageUrl = poleMetadataJsonArrayList.getJSONObject(s).get("imageURL").toString();
-                String imageName = poleMetadataJsonArrayList.getJSONObject(s).get("imagename").toString();
-                pole_inspectionData_list.add(new InspectionMetaData(displayName, name, imageUrl, imageName, true, gridTitle));
-
-            }
-        }catch (Exception e)
-        {
+    private boolean addRespectiveDefectCount_Pole(int position, int itemPosition) {
+        boolean isCountAdded = false;
+        Log.i("vidisha","hhhhhh"+isCountAdded);
+        switch (itemPosition) {
+            case 0:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 3) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfPoleDefects.add(position, GlobalData.getInstance().numberOfPoleDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
 
         }
-        arrayAdapter = new InspectionMetaDataAdapter(pole_inspectionData_list,SelectedItems.this,listView);
-        listView.setAdapter(arrayAdapter);*/
-        metadataPreferencesEditor.commit();
-     //   readDoublePoleData("extent");
-        final TextView repaire = mView.findViewById(R.id.repair);
-        final TextView replace = mView.findViewById(R.id.replace);
-        repaire.setBackgroundResource(R.drawable.repaire_replace_active);
-        repaire.setTextColor(Color.parseColor("#FFFFFF"));
-        replace.setBackgroundResource(R.drawable.repair_replace_deactive);
-        replace.setTextColor(Color.parseColor("#3EA99F"));
-        repaire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
-                repaire.setTextColor(Color.parseColor("#FFFFFF"));
-                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
-                replace.setTextColor(Color.parseColor("#3EA99F"));
-
-
-            }
-        });
-        replace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replace.setBackgroundResource(R.drawable.repaire_replace_active);
-                replace.setTextColor(Color.parseColor("#FFFFFF"));
-                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
-                repaire.setTextColor(Color.parseColor("#3EA99F"));
-            }
-        });
-
-
-
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.setContentView(mView);
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-        dialog.show();
+        return isCountAdded;
     }
-    public void ShowOthersDialog(final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+
+
+    public void ShowOthersDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
         gridPositionNew = gridPosition;
         gridTitle = item.getTitle();
         isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
@@ -853,7 +860,7 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                 dialog2.show();
                 final EditText dialog_comment = mView2.findViewById(R.id.comments_editText);
 
-                String noteString = readNoteFromRespectiveCountList(gridPosition);
+                String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
 
                 if(noteString!=null) {
                     comments.setText(noteString);
@@ -864,7 +871,7 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(View view) {
                         comments.setText(dialog_comment.getText().toString());
-                        addNoteToRespectiveCountList(gridTitle, dialog_comment.getText().toString());
+                        addNoteToRespectiveCountList(scope,gridTitle, dialog_comment.getText().toString());
                         if(dialog_comment.getText().toString() != null && !dialog_comment.getText().toString().isEmpty())
                             isAddNoteSelected = false;
 
@@ -874,16 +881,16 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        manupilateHorizontalListData(mContext, gridPosition);
+        manupilateHorizontalListData(scope,mContext, gridPosition);
         closeBtn = (Button)view.findViewById(R.id.closeButton) ;
         closeBtn.setTypeface(typeFace);
         partImage = (ImageView)view.findViewById(R.id.clickPicture) ;
-        readImagesForRespectiveDefects(mContext, partImage);
+        readImagesForRespectiveDefects(scope,mContext, partImage);
         partImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //  picturePath =item.getS3ImageName();
-                picturePath ="Other"+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if(mContext instanceof SelectedItems)
@@ -905,12 +912,8 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                 if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected| isRepairSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
-                        // if(!othersParts_commentsMetaData.get(item.getTitle()).get("comments").toString().isEmpty())
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/other_tick.png");
                         item.setInspectionDone(true);
-
-                        /* else
-                             item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/icn_"+item.getImageName()+".png");*/
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -920,24 +923,27 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
-                    // item.setImage(item.getImage());
                 }
                 if(mGridAdapter!=null)
                     mGridAdapter.notifyDataSetChanged();
                 Picasso.with(SelectedItems.this).load(item.getImage())
                         .into(imgView);
 
-                String key = item.getTitle()+"othersListJSON";
-                // ArrayList<GridItem> ModelArrayList=new ArrayList();
+                String key = item.getTitle()+scope+"ListJSON";
                 Gson gson = new Gson();
                 String json = gson.toJson(underground_inspectionData_list);
 
                 if(GlobalData.metadataPreferencesEditor!=null) {
                     GlobalData.metadataPreferencesEditor.remove(key).commit();
-                    //             editor.putString("othersJSON_Modified",json);
                     GlobalData.metadataPreferencesEditor.putString(key, json);
                     GlobalData.metadataPreferencesEditor.commit();
                 }
+
+                String key1 = "othersKey";
+                Gson gson1 = new Gson();
+                String json1 = gson1.toJson(mGridData_pole);
+                GlobalData.metadataPreferencesEditor.putString(key1, json1);
+                GlobalData.metadataPreferencesEditor.commit();
                 dialog.dismiss();
             }
         });
@@ -955,7 +961,7 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
 
 
 
-        populateListView(mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        populateListView(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
         horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
                 horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -968,9 +974,9 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                         if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
                             horizontalItemSelectedPosition = position;
                             recyclerCountAdapter.notifyDataSetChanged();
-                            populateListView(mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
-                            readImagesForRespectiveDefects(mContext, partImage);
-                            String noteString = readNoteFromRespectiveCountList(gridPosition);
+                            populateListView(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+                            readImagesForRespectiveDefects(scope,mContext, partImage);
+                            String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
                             if(noteString!=null) {
                                 comments.setText(noteString.trim());
                             } else {
@@ -998,7 +1004,7 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     verticalItemSelectedPosition = position;
-                    localInspectionMetaData = findingListRefference(gridPosition, horizontalItemSelectedPosition);
+                    localInspectionMetaData = findingListRefference(scope,gridPosition, horizontalItemSelectedPosition);
                     final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
                     listView.setSelection(position);
                     view.setSelected(true);
@@ -1057,47 +1063,333 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         dialog.show();
     }
 
-    private void manupilateHorizontalListData(Context mContext, int position) {
-        horizontalItemSelectedPosition = 0;
-        switch (position){
-            case 0:
-                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPadmountsDefects);
-                horizontalListView.setAdapter(recyclerCountAdapter);
-                recyclerCountAdapter.notifyDataSetChanged();
-                break;
-            case 1:
-                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPullBoxDefect);
-                horizontalListView.setAdapter(recyclerCountAdapter);
-                recyclerCountAdapter.notifyDataSetChanged();
-                break;
-            case 2:
-                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSpiceBoxDefect);
-                horizontalListView.setAdapter(recyclerCountAdapter);
-                recyclerCountAdapter.notifyDataSetChanged();
-                break;
-            case 3:
-                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSectionalizerCabinetDefect);
-                horizontalListView.setAdapter(recyclerCountAdapter);
-                recyclerCountAdapter.notifyDataSetChanged();
-                break;
+    public void ShowPoleDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+        gridPositionNew = gridPosition;
+        gridTitle = item.getTitle();
+        isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+        mGridDataJSON = new ArrayList<>();
+
+
+        sharedPref = mContext.getSharedPreferences(mContext.getString(
+                R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        Log.i("under","in dialog"+item.getImageName());
+        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
+
+        horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        horizontalListView.setLayoutManager(linearLayoutManager);
+
+
+
+        final EditText comments = view.findViewById(R.id.comments);
+
+        final TextView repaire = view.findViewById(R.id.repair);
+        final TextView replace = view.findViewById(R.id.replace);
+        repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+        repaire.setTextColor(Color.parseColor("#FFFFFF"));
+        replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+        replace.setTextColor(Color.parseColor("#3EA99F"));
+        repaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+
+            }
+        });
+        replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+        });
+
+
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog dialog2 = new BottomSheetDialog(SelectedItems.this);
+                View mView2 = LayoutInflater.from(mContext).inflate(R.layout.comment_dialog, null);
+                // final View mView2 = getLayoutInflater().inflate(R.layout.comment_dialog, null);
+                dialog2.setContentView(mView2);
+                dialog2.show();
+                final EditText dialog_comment = mView2.findViewById(R.id.comments_editText);
+
+                String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+
+                if(noteString!=null) {
+                    comments.setText(noteString);
+                    dialog_comment.setText(noteString.trim());
+                }
+                final Button done = mView2.findViewById(R.id.done);
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        comments.setText(dialog_comment.getText().toString());
+                        addNoteToRespectiveCountList(scope,gridTitle, dialog_comment.getText().toString());
+                        if(dialog_comment.getText().toString() != null && !dialog_comment.getText().toString().isEmpty())
+                            isAddNoteSelected = false;
+
+                        dialog2.dismiss();
+                    }
+                });
+            }
+        });
+
+        manupilateHorizontalListPoleData(scope,mContext, gridPosition);
+        closeBtn = (Button)view.findViewById(R.id.closeButton) ;
+        closeBtn.setTypeface(typeFace);
+        partImage = (ImageView)view.findViewById(R.id.clickPicture) ;
+        readImagesForRespectiveDefects(scope,mContext, partImage);
+        partImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  picturePath =item.getS3ImageName();
+                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                partTitle = item.getTitle();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(mContext instanceof SelectedItems)
+                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+
+            }
+        });
+
+
+        TextView typeLabel = (TextView) view.findViewById(R.id.typeLabel) ;
+
+        typeLabel.setTypeface(typeFace);
+
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View clickView) {
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected| isRepairSelected){
+                    try {
+                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/other_tick.png");
+                        item.setInspectionDone(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                    Log.i("vidisha","imageName=="+item.getImageName());
+                    item.setInspectionDone(false);
+                    item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
+
+                }
+                if(mGridAdapter!=null)
+                    mGridAdapter.notifyDataSetChanged();
+                Picasso.with(SelectedItems.this).load(item.getImage())
+                        .into(imgView);
+
+                String key = item.getTitle()+scope+"ListJSON";
+                Gson gson = new Gson();
+                String json = gson.toJson(pole_inspectionData_list);
+
+                if(GlobalData.metadataPreferencesEditor!=null) {
+                    GlobalData.metadataPreferencesEditor.remove(key).commit();
+                    GlobalData.metadataPreferencesEditor.putString(key, json);
+                    GlobalData.metadataPreferencesEditor.commit();
+                }
+
+                String key1 = "poleKey";
+                Gson gson1 = new Gson();
+                String json1 = gson1.toJson(mGridData_pole);
+                GlobalData.metadataPreferencesEditor.putString(key1, json1);
+                GlobalData.metadataPreferencesEditor.commit();
+                dialog.dismiss();
+            }
+        });
+
+        TextView itemName = (TextView)view.findViewById(R.id.dataHeading) ;
+        itemName.setText(item.getTitle());
+        itemName.setTypeface(typeFace);
+        listView = (ListView) view.findViewById(R.id.inspectionData_list);
+
+
+
+        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
+
+
+
+
+
+        populateListViewPole(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int position) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isCountAdd;
+                        isCountAdd = addRespectiveDefectCount_Pole(position, gridPosition);
+                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
+                            horizontalItemSelectedPosition = position;
+                            recyclerCountAdapter.notifyDataSetChanged();
+                            populateListViewPole(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+                            readImagesForRespectiveDefects(scope,mContext, partImage);
+                            String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+                            if(noteString!=null) {
+                                comments.setText(noteString.trim());
+                            } else {
+                                comments.setText("");
+                            }
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
+
+
+      /*  inspectionData_list = new ArrayList<InspectionMetaData>();
+        arrayAdapter = new InspectionMetaDataAdapter(inspectionData_list,OthersActivity.this,listView);*/
+
+        try {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    verticalItemSelectedPosition = position;
+                    localInspectionMetaData = findingListRefferencePole(scope,gridPosition, horizontalItemSelectedPosition);
+                    final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
+                    listView.setSelection(position);
+                    view.setSelected(true);
+
+                    String disPlayName, imageUrl,name;
+                    boolean isSelected;
+                    disPlayName = listItemsN.getDisplayName();
+                    name = listItemsN.getName();
+                    imageUrl = listItemsN.getImageUrl();
+                    isSelected = listItemsN.getIsSelected();
+                    Log.i("shri_LOG","name=="+listItemsN.getName());
+
+                    if(!isSelected){
+//                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
+                        localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
+                    } else {
+                        localInspectionMetaData.set(position, new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", false, item.getTitle()));
+                    }
+                    arrayAdapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isSelected = true;
+                            for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                                if (localInspectionMetaData.get(i).getIsSelected() != null && localInspectionMetaData.get(i).getIsSelected()) {
+                                    isSelected = false;
+                                }
+                            }
+                            if (!isSelected) {
+                                Log.i("vidisha","helloo11111");
+                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
+                                isListSelected = false;
+                            } else {
+                                Log.i("vidisha","helloo22222");
+                                isListSelected = true;
+                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
+                            }
+                        }
+                    });
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+            });
+            arrayAdapter.notifyDataSetChanged();
+
+            mGridDataJSON.add(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(view);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+
+    private void manupilateHorizontalListData(final String scope,Context mContext, int position) {
+
+            horizontalItemSelectedPosition = 0;
+            switch (position) {
+                case 0:
+                    recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPadmountsDefects);
+                    horizontalListView.setAdapter(recyclerCountAdapter);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                    break;
+                case 1:
+                    recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPullBoxDefect);
+                    horizontalListView.setAdapter(recyclerCountAdapter);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                    break;
+                case 2:
+                    recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSpiceBoxDefect);
+                    horizontalListView.setAdapter(recyclerCountAdapter);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                    break;
+                case 3:
+                    recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSectionalizerCabinetDefect);
+                    horizontalListView.setAdapter(recyclerCountAdapter);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                    break;
+
+            }
+
+    }
+
+    private void manupilateHorizontalListPoleData(final String scope,Context mContext, int position) {
+
+            horizontalItemSelectedPosition = 0;
+            switch (position) {
+                case 0:
+                    recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPoleDefects);
+                    horizontalListView.setAdapter(recyclerCountAdapter);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                    break;
 
         }
     }
 
-    private String readNoteFromRespectiveCountList(int position) {
-        String note= null;
-        if(position == 0){
-            localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
-            return findNoteData();
-        } else if(position == 1){
-            localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
-            return findNoteData();
-        } else if(position == 2){
-            localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
-            return findNoteData();
-        } else if(position == 3){
-            localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
-            return findNoteData();
+    private String readNoteFromRespectiveCountList(String scope,int position) {
+        if(scope.equalsIgnoreCase("other")) {
+            String note = null;
+            if (position == 0) {
+                localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 1) {
+                localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 2) {
+                localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 3) {
+                localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            }
+        }else if (scope.equalsIgnoreCase("Pole"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = poleReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            }
         }
         return null;
     }
@@ -1112,25 +1404,32 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         return note;
     }
 
-    private void addNoteToRespectiveCountList(String title, String note) {
+    private void addNoteToRespectiveCountList(String scope,String title, String note) {
         // adding note to respective count (horizontal list item)
         String noteNew = null;
         int localIndex = -1;
 
-        if(gridPositionNew == 0){
-            localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
-            noteNew = findingIndexToAddNote(noteNew, localIndex);
-        } else if(gridPositionNew == 1){
-            localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
-            noteNew = findingIndexToAddNote(noteNew, localIndex);
-        } else if(gridPositionNew == 2){
-            localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
-            noteNew = findingIndexToAddNote(noteNew, localIndex);
-        } else if(gridPositionNew == 3){
-            localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
-            noteNew = findingIndexToAddNote(noteNew, localIndex);
+        if(scope.equalsIgnoreCase("other")) {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToAddNote(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToAddNote(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToAddNote(noteNew, localIndex);
+            } else if (gridPositionNew == 3) {
+                localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToAddNote(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("Pole"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = poleReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToAddNote(noteNew, localIndex);
+            }
         }
-
         if(noteNew != null){
             localInspectionMetaData.set(localIndexToAddNote, new InspectionMetaData(note, title, "addnote"));
             arrayAdapter.notifyDataSetChanged();
@@ -1259,7 +1558,7 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         return  localIndex;
     }
 
-    private void readImagesForRespectiveDefects(Context mContext,ImageView partImage) {
+    private void readImagesForRespectiveDefects(final String scope,Context mContext,ImageView partImage) {
         String picturePath = null;
         if(gridPositionNew == 0){
             localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
@@ -1291,39 +1590,214 @@ public class SelectedItems extends AppCompatActivity implements View.OnClickList
         }
         return null;
     }
-    private void readDoublePoleData(String utility) {
-        boolean isCheck = false;
-        int localIndex = -1;
-        localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
-        if (localInspectionMetaData != null) {
-            for (int i = 0; i < localInspectionMetaData.size(); i++) {
-                if (localInspectionMetaData.get(i).getIsUtilityOwned() != null && localInspectionMetaData.get(i).getSubTitle()!=null &&
-                        localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase(utility)) {
-                    isCheck = localInspectionMetaData.get(i).getIsUtilityOwned();
-                    localIndex = i;
-                }
-            }
-            if (localIndex != -1) {
-                if (localInspectionMetaData.get(localIndex).getSubTitle() != null && localInspectionMetaData.get(localIndex).getSubTitle().equalsIgnoreCase("extent"))
-                    isRepairSelected = true;
-            } else
-                isRepairSelected = false;
-        }
-    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
         {
             case R.id.nextButton:
-                JSONObject padmountsOneData = ReadUnderGroundData.getInstance().readpadmountsOneData();
+                /*JSONObject padmountsOneData = ReadUnderGroundData.getInstance().readpadmountsOneData();
                 try {
                     padmountsOneData.put("extent","REPAIR");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 JSONObject damageDetailspadmounts1 = new JSONObject();
-                Log.i("greeshma==","padmountsOneData"+padmountsOneData.toString());
+                Log.i("greeshma==","padmountsOneData"+padmountsOneData.toString());*/
+                inspectionReport = new JSONObject();
+                JSONObject submittedByData = new JSONObject();
+                JSONObject poleDetailsData = new JSONObject();
+
+                try {
+                    submittedByData.put("email", sharedPref.getString("emailAddress", ""));
+                    submittedByData.put("phone", sharedPref.getString("phoneNumber", ""));
+                    inspectionReport.put("submittedBy", submittedByData);
+                    poleDetailsData.put("height", "35");
+                    inspectionReport.put("poleDetails", poleDetailsData);
+                    SimpleDateFormat oldformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+
+                    inspectionReport.put("displayTimestamp", oldformat.format(new Date()));
+
+                    JSONObject address = new JSONObject();
+
+                    address.put("userAddress", Global.addressString);
+                    address.put("resolvedAddress", Global.addressString);
+
+                    inspectionReport.put("address", address);
+                    inspectionReport.put("version", 1);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                    inspectionReport.put("deviceReportId", sharedPref.getString("phoneNumber", "")+ "_" + dateFormat.format(new Date()));
+                    JSONObject loc = new JSONObject();
+                    loc.put("type", "Point");
+                    JSONArray l = new JSONArray();
+
+                    l.put(0, Global.currentLocation.getLongitude());
+                    l.put(1, Global.currentLocation.getLatitude());
+                    loc.put("coordinates", l);
+                    inspectionReport.put("loc", loc);
+                    Log.i("vidisha","SDA=="+inspectionReport.toString());
+                    if (Utils.isNetworkAvailable(SelectedItems.this)) {
+                        Utils.createAndStartProgressBar(SelectedItems.this);
+                        STAsyncHttpConnection async = new STAsyncHttpConnection();
+                        async.execute(Global.SubmitSDAReportAPI);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
         }
     }
+
+    public class STAsyncHttpConnection extends AsyncTask<String, Void, String> {
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param params The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            String result = null, urlStr = params[0];
+            HttpURLConnection urlConnection = null;
+            exception = null;
+            try {
+                URL url = new URL(urlStr);
+                Log.i("STAsyncHttpConnection", "URL: " + urlStr);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+                // handle POST parameters
+                // if (p != null) {
+
+                if (android.util.Log.isLoggable("STAsyncHttpConnection", android.util.Log.INFO)) {
+                    Log.i("STAsyncHttpConnection", "POST parameters: ");
+                }
+                urlConnection.setRequestProperty("x-account-key", sharedPref.getString("accountKey", ""));
+                urlConnection.setRequestProperty("x-access-token", sharedPref.getString("token", ""));
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("x-application", Global.appKey);
+                urlConnection.setRequestProperty("x-user", sharedPref.getString("phoneNumber", ""));
+                
+
+                urlConnection.setRequestMethod("PUT");
+
+                JSONObject jsonObject = new JSONObject();
+
+                jsonObject.put("sdaData", inspectionReport);
+
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonObject.toString());
+                wr.flush();
+                wr.close();
+
+                int statusCode = urlConnection.getResponseCode();
+                Log.i("iRestore", "statusCode My Profile" + statusCode);
+                if (statusCode == HttpURLConnection.HTTP_OK) {
+                    //Get Response
+                    InputStream is = urlConnection.getInputStream();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                    }
+                    rd.close();
+                    result = response.toString();
+                } else if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    result = "{\"Error\" : true, \"Message\" : \"Unauthorized user\"}";
+                } else if (statusCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT || statusCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
+                    result = "{\"Error\" : true, \"Message\" : \"Request Timed out. Please try again later\"}";
+                } else if (statusCode == 403) {
+                    result = "{\"Error\" : true, \"Message\" : \"Email address has been taken.Please try with a different email address\"}";
+                } else {
+                    result = "{\"Error\" : true, \"Message\" : \"Server Error, please try again later\"}";
+                }
+            } catch (MalformedURLException ex) {
+                exception = ex;
+                Log.e("SocketTimeout exception", ex.toString());
+            } catch (SocketTimeoutException ex) {
+                exception = ex;
+                ex.printStackTrace();
+                Log.e("SocketTimeout exception", ex.toString());
+            } catch (EOFException ef) {
+                exception = ef;
+                ef.printStackTrace();
+                Log.e("EOFException exception", ef.toString());
+            } catch (IOException ez) {
+                exception = ez;
+                ez.printStackTrace();
+                Log.e("IO exception", ez.toString());
+            } catch (Exception ez) {
+                exception = ez;
+                Log.e("exception", ez.toString());
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (exception == null && result != null) {
+                    try {
+                        JSONObject responseObj = new JSONObject(result);
+                        Log.i("iRestore", "result*****" + result);
+
+                        if (responseObj.getBoolean("Error")) {
+                            Toast.makeText(SelectedItems.this, responseObj.getString("Message"),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SelectedItems.this);
+                            alertDialog.setTitle("Alert");
+                            alertDialog.setMessage("The report has been submitted successfully. The images will be uploading in background");
+                            // on pressing cancel button
+                            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    Intent intent = new Intent(SelectedItems.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+
+
+                                    dialog.cancel();
+
+                                    ReadUnderGroundData.getInstance().resetAllReference();
+                                    ReadUnderGroundData.getInstance().resetAllJSONObject();
+
+                                }
+                            });
+                            // Showing Alert Message
+                            alertDialog.show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+                } else {
+                    Toast.makeText(SelectedItems.this, getResources().getString(R.string.error),
+                            Toast.LENGTH_SHORT).show();
+                }
+                if (Utils.progress.isShowing()) {
+                    Utils.stopProgressBar();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
