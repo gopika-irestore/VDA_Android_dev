@@ -897,6 +897,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         populateListView(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+
         horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
                 horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -1273,6 +1274,13 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         populateListViewPole(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        Log.i("vidisha","note=="+noteString);
+        if(noteString!=null) {
+            comments.setText(noteString.trim());
+        } else {
+            comments.setText("");
+        }
         horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
                 horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
