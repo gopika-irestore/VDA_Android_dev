@@ -115,6 +115,7 @@ public class Global {
 
 
     public static String appKey = "VDA";
+
     public static String FIREBASE_URL = "https://vda-ios.firebaseio.com/";
 
     public static String filterURL="https://dev.irestore.info/v1/yellowCards/?order=ASC&page=";

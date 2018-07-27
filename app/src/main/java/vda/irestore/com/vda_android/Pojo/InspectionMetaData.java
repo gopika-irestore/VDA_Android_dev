@@ -6,6 +6,15 @@ package vda.irestore.com.vda_android.Pojo;
 
 public class InspectionMetaData {
 
+    public String getExtent() {
+        return extent;
+    }
+
+    public void setExtent(String extent) {
+        this.extent = extent;
+    }
+
+    String extent = null;
     String name = null;
     String displayName = null;
     String imageUrl = null;
@@ -65,6 +74,20 @@ public class InspectionMetaData {
     // Adding note details
     public InspectionMetaData(String note, String title, String subTitle) {
         this.note = note;
+        this.title = title;
+        this.subTitle = subTitle;
+        this.displayName = null;
+        this.imageUrl = null;
+        this.isSelected = null;
+        this.isCheckOK = null;
+        this.isUtilityOwned = null;
+        this.picturePath = null;
+        this.testPicturePath = null;
+    }
+
+    // Adding extent details
+    public InspectionMetaData(String extent) {
+        this.extent = extent;
         this.title = title;
         this.subTitle = subTitle;
         this.displayName = null;

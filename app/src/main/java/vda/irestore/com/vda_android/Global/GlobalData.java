@@ -27,6 +27,7 @@ public class GlobalData {
     public static boolean isOtherActivity = true;
     public  static List<File> pole_top_images_array  = new ArrayList<File>();
     public  static List<File> pole_images_array  = new ArrayList<File>();
+    public  static List<File> tree_images_array  = new ArrayList<File>();
     public  static List<File> underground_images_array  = new ArrayList<File>();
     public  static List<File> other_images_array  = new ArrayList<File>();
 
@@ -59,6 +60,8 @@ public class GlobalData {
             numberOfSecondaryRiserDefect = null,
             numberOfPoleGroungDefect = null,
             numberOfVegetationDefect = null;
+    public ArrayList numberOfTreeDefects = null;
+
 
     public ArrayList numberOfPadmountsDefects = null,
             numberOfPullBoxDefect = null,

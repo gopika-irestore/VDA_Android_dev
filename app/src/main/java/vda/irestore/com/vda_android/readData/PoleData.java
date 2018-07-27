@@ -91,49 +91,8 @@ public class PoleData {
     public ArrayList<InspectionMetaData> vegetationTen;
 
     private PoleData(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializePole();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializeGuyWire();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializeAnchor();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializePrimaryRise();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializeSecondaryRise();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializePoleGround();
-            }
-        }).start();
+        initializePole();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initializeVegetation();
-            }
-        }).start();
     }
 
     private void initializeVegetation() {
