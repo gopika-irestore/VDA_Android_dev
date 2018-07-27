@@ -1922,10 +1922,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             }
         }
         if(noteNew != null){
-            localInspectionMetaData.set(localIndexToExtent, new InspectionMetaData(note.trim(), title, "extent"));
+            localInspectionMetaData.set(localIndexToExtent, new InspectionMetaData(note.trim(), title, "extent"," "));
             arrayAdapter.notifyDataSetChanged();
         } else {
-            localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "extent"));
+            localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "extent"," "));
             arrayAdapter.notifyDataSetChanged();
         }
     }

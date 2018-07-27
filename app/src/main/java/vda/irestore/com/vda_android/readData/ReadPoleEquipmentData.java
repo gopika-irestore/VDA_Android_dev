@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class ReadPoleEquipmentData {
     public static ReadPoleEquipmentData readPoleEquipment = null;
-    String addNote, subtitle, kvaSize, displayName, testType, size;
+    String addNote,addExtent, subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
     public String poleTitle, guyWireTitle, anchorTitle, primaryRiserTitle, secondaryRiseTitle, poleGroundTitle, vegetationTitle;
 
@@ -122,6 +122,7 @@ public class ReadPoleEquipmentData {
 
     public JSONObject readpoleOneData() {
         addNote = null;
+        addExtent = null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -164,6 +165,13 @@ public class ReadPoleEquipmentData {
                     if (PoleData.getInstance().poleOne.get(i).getNote() != null) {
                         subtitle = PoleData.getInstance().poleOne.get(i).getSubTitle();
                         addNote = PoleData.getInstance().poleOne.get(i).getNote();
+                        if (PoleData.getInstance().poleOne.get(i).getSubTitle() != null) {
+                            damageDetailsPoleOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleData.getInstance().poleOne.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleOne.get(i).getSubTitle();
+                        addNote = PoleData.getInstance().poleOne.get(i).getExtent();
                         if (PoleData.getInstance().poleOne.get(i).getSubTitle() != null) {
                             damageDetailsPoleOne.put(subtitle, addNote);
                         }
@@ -1027,6 +1035,7 @@ public class ReadPoleEquipmentData {
                             damageDetailsguyWireOne.put(subtitle, addNote);
                         }
                     }
+
                     if (PoleData.getInstance().guyWireOne.get(i).getCheckedOK() != null) {
                         subtitle = PoleData.getInstance().guyWireOne.get(i).getSubTitle();
                         isChecked = PoleData.getInstance().guyWireOne.get(i).getCheckedOK();

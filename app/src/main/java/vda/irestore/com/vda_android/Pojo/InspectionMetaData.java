@@ -86,7 +86,7 @@ public class InspectionMetaData {
     }
 
     // Adding extent details
-    public InspectionMetaData(String extent) {
+    public InspectionMetaData(String extent,String title, String subTitle,String g) {
         this.extent = extent;
         this.title = title;
         this.subTitle = subTitle;
