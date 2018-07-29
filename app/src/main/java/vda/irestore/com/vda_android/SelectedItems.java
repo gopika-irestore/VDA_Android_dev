@@ -82,7 +82,10 @@ import vda.irestore.com.vda_android.Pojo.GridItem;
 import vda.irestore.com.vda_android.Pojo.InspectionMetaData;
 import vda.irestore.com.vda_android.readData.PoleData;
 import vda.irestore.com.vda_android.readData.ReadPoleEquipmentData;
+import vda.irestore.com.vda_android.readData.ReadSplEquipmentData;
+import vda.irestore.com.vda_android.readData.ReadTreeData;
 import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
+import vda.irestore.com.vda_android.readData.SplEquipmentData;
 import vda.irestore.com.vda_android.readData.TreeData;
 import vda.irestore.com.vda_android.readData.UnderGroundData;
 import vda.irestore.com.vda_android.signup.PermissionsActivity;
@@ -145,6 +148,8 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     public int selectedItem;
     TextView nextButton;
     TransferUtility transferUtility;
+
+    JSONObject poleScope = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,6 +173,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         instantiateListWithData();
         instantiateListWithData_Pole();
         instantiateListWithData_Tree();
+        instantiateListWithData_Spl();
 
         scopesPreferences = getSharedPreferences(getString(
                 R.string.scopes_preferences), Context.MODE_PRIVATE);
@@ -478,11 +484,488 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         Log.i("vidisha","2222");
                         ShowTreeDialog("Tree", SelectedItems.this, item, img, position);
                         break;
+                    case "wireeJSON":
+                        Log.i("vidisha","2222");
+                       // ShowSplDialog("wire", SelectedItems.this, item, img, position);
+                        break;
+                    case "poleTopJSON":
+                        Log.i("vidisha","2222");
+                      //  ShowTreeDialog("poleTop", SelectedItems.this, item, img, position);
+                        break;
+                    case "splJSON":
+                        Log.i("vidisha","2222");
+                        ShowSplDialog("spl", SelectedItems.this, item, img, position);
+                        break;
                 }
 
             }
         });
     }
+
+    /**********************************************SCOPE SPL STARTS*****************************************************/
+
+    public void instantiateListWithData_Spl() {
+        GlobalData.getInstance().numberOfRecloserDefect = new ArrayList<String>();
+        GlobalData.getInstance().numberOfRegulatorDefects = new ArrayList<String>();
+        GlobalData.getInstance().numberOfCapacitorbankDefect = new ArrayList<String>();
+        GlobalData.getInstance().numberOfLoadBreakSwitchDefect= new ArrayList<String>();
+
+        GlobalData.getInstance().numberOfRecloserDefect.add("1");
+        GlobalData.getInstance().numberOfRecloserDefect.add("+");
+
+        GlobalData.getInstance().numberOfRegulatorDefects.add("1");
+        GlobalData.getInstance().numberOfRegulatorDefects.add("+");
+
+        GlobalData.getInstance().numberOfCapacitorbankDefect.add("1");
+        GlobalData.getInstance().numberOfCapacitorbankDefect.add("+");
+
+        GlobalData.getInstance().numberOfLoadBreakSwitchDefect.add("1");
+        GlobalData.getInstance().numberOfLoadBreakSwitchDefect.add("+");
+    }
+    private ArrayList<InspectionMetaData> findingListRefferenceSpl(String scope,int gridPosition, int horizontalItemSelectedPosition) {
+
+        if (gridPosition == 0) {
+            return regulatorReference(horizontalItemSelectedPosition);
+        } else if (gridPosition == 1) {
+            return capacitorBankReference(horizontalItemSelectedPosition);
+        } else if (gridPosition == 2) {
+            return recloserReference(horizontalItemSelectedPosition);
+        } else if (gridPosition == 3) {
+            return loadBreakSwitchReference(horizontalItemSelectedPosition);
+        } else {
+            return null;
+        }
+
+    }
+    private void populateListView_Spl(final String scope,Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
+        Boolean isChoosen = false;
+        int localIndex = -1;
+        ArrayList<InspectionMetaData> underground_inspectionData_list ;
+        underground_inspectionData_list = findingListRefferenceSpl(scope,gridPosition, horizontalItemSelectedPosition);
+        try {
+            if ( underground_inspectionData_list.size() == 0){
+                Gson undergroundMetadataGsonList = new Gson();
+                String response = GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","");
+
+                final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = undergroundMetadataGsonList.fromJson(response,
+                        new TypeToken<List<InspectionMetaData>>(){}.getType());
+
+                if(undergroundListItems_ArrayList!=null) {
+                    underground_inspectionData_list = undergroundListItems_ArrayList;
+                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","").trim());
+                } else {
+//                underground_inspectionData_list = new ArrayList<>();
+                    JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
+                    undergroundMetadataJsonArrayList = j;
+
+                    underground_inspectionData_list.clear();
+                    for(int s =0;s<undergroundMetadataJsonArrayList.length();s++) {
+                        String displayName = undergroundMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
+
+                        String name = undergroundMetadataJsonArrayList.getJSONObject(s).get("name").toString();
+                        String imageUrl = undergroundMetadataJsonArrayList.getJSONObject(s).get("imageURL").toString();
+                        String imageName =  undergroundMetadataJsonArrayList.getJSONObject(s).get("imagename").toString();
+                        underground_inspectionData_list.add(new InspectionMetaData(displayName, name, imageUrl, imageName, false, item.getTitle()));
+                    }
+                }
+//                final JSONObject chkListObject = new JSONObject();
+//                final JSONObject chkListObjectPreview = new JSONObject();
+            } else {
+
+            }
+            arrayAdapter = new InspectionMetaDataAdapter(underground_inspectionData_list,mContext,listView);
+            listView.setAdapter(arrayAdapter);
+        } catch (JSONException e){
+
+        }
+    }
+
+    private boolean addRespectiveDefectCountSpl(int position, int itemPosition) {
+        boolean isCountAdded = false;
+        Log.i("vidisha","hhhhhh"+isCountAdded);
+        switch (itemPosition) {
+            case 0:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfRegulatorDefects.add(position, GlobalData.getInstance().numberOfRegulatorDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 1:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfCapacitorbankDefect.add(position, GlobalData.getInstance().numberOfCapacitorbankDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfRecloserDefect.add(position, GlobalData.getInstance().numberOfRecloserDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 3:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfLoadBreakSwitchDefect.add(position, GlobalData.getInstance().numberOfLoadBreakSwitchDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
+        return isCountAdded;
+    }
+    private void manupilateHorizontalListDataSpl(final String scope,Context mContext, int position) {
+
+        horizontalItemSelectedPosition = 0;
+        switch (position) {
+            case 0:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfRegulatorDefects);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfCapacitorbankDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfRecloserDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 3:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfLoadBreakSwitchDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+
+        }
+
+    }
+
+    public void ShowSplDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+        gridPositionNew = gridPosition;
+        gridTitle = item.getTitle();
+      //  isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+        mGridDataJSON = new ArrayList<>();
+
+
+        sharedPref = mContext.getSharedPreferences(mContext.getString(
+                R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        Log.i("under","in dialog"+item.getImageName());
+        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
+
+        horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        horizontalListView.setLayoutManager(linearLayoutManager);
+
+
+
+        final EditText comments = view.findViewById(R.id.comments);
+        final TextView repaire = view.findViewById(R.id.repair);
+        final TextView replace = view.findViewById(R.id.replace);
+        repaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = true;
+                isReplaceSelected = false;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+            }
+        });
+        replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = false;
+                isReplaceSelected = true;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPLACE");
+            }
+        });
+
+
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog dialog2 = new BottomSheetDialog(SelectedItems.this);
+                View mView2 = LayoutInflater.from(mContext).inflate(R.layout.comment_dialog, null);
+                // final View mView2 = getLayoutInflater().inflate(R.layout.comment_dialog, null);
+                dialog2.setContentView(mView2);
+                dialog2.show();
+                final EditText dialog_comment = mView2.findViewById(R.id.comments_editText);
+
+                String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+
+                if(noteString!=null) {
+                    comments.setText(noteString);
+                    dialog_comment.setText(noteString.trim());
+                }
+                final Button done = mView2.findViewById(R.id.done);
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        comments.setText(dialog_comment.getText().toString());
+                        addNoteToRespectiveCountList(scope,gridTitle, dialog_comment.getText().toString());
+                        if(dialog_comment.getText().toString() != null && !dialog_comment.getText().toString().isEmpty())
+                            isAddNoteSelected = false;
+
+                        dialog2.dismiss();
+                    }
+                });
+            }
+        });
+
+        manupilateHorizontalListDataSpl(scope,mContext, gridPosition);
+        closeBtn = (Button)view.findViewById(R.id.closeButton) ;
+        closeBtn.setTypeface(typeFace);
+        partImage = (ImageView)view.findViewById(R.id.clickPicture) ;
+        readImagesForRespectiveDefects(scope,mContext, partImage);
+        partImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  picturePath =item.getS3ImageName();
+                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                partTitle = item.getTitle();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(mContext instanceof SelectedItems)
+                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+
+            }
+        });
+
+
+        TextView typeLabel = (TextView) view.findViewById(R.id.typeLabel) ;
+
+        typeLabel.setTypeface(typeFace);
+
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View clickView) {
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected|| isRepairSelected ||isReplaceSelected){
+                    try {
+                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_equipment_done.png");
+                        item.setInspectionDone(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                    Log.i("vidisha","imageName=="+item.getImageName());
+                    item.setInspectionDone(false);
+                    item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
+
+                }
+                if(mGridAdapter!=null)
+                    mGridAdapter.notifyDataSetChanged();
+                Picasso.with(SelectedItems.this).load(item.getImage())
+                        .into(imgView);
+
+                String key = item.getTitle()+scope+"ListJSON";
+                Gson gson = new Gson();
+                String json = gson.toJson(underground_inspectionData_list);
+
+                if(GlobalData.metadataPreferencesEditor!=null) {
+                    GlobalData.metadataPreferencesEditor.remove(key).commit();
+                    GlobalData.metadataPreferencesEditor.putString(key, json);
+                    GlobalData.metadataPreferencesEditor.commit();
+                }
+
+                String key1 = "splKey";
+                Gson gson1 = new Gson();
+                String json1 = gson1.toJson(mGridData_pole);
+                GlobalData.metadataPreferencesEditor.putString(key1, json1);
+                GlobalData.metadataPreferencesEditor.commit();
+                dialog.dismiss();
+            }
+        });
+
+        TextView itemName = (TextView)view.findViewById(R.id.dataHeading) ;
+        itemName.setText(item.getTitle());
+        itemName.setTypeface(typeFace);
+        listView = (ListView) view.findViewById(R.id.inspectionData_list);
+
+
+
+        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
+
+
+
+
+
+        populateListView_Spl(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+        String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        if(extentString!=null) {
+            if(extentString.equalsIgnoreCase("REPAIR")) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+            }else
+            {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+
+        } else {
+            repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+            repaire.setTextColor(Color.parseColor("#FFFFFF"));
+            replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+            replace.setTextColor(Color.parseColor("#3EA99F"));
+            addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+        }
+        Log.i("vidisha","note=="+noteString);
+        if(noteString!=null) {
+            comments.setText(noteString.trim());
+        } else {
+            comments.setText("");
+        }
+        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int position) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isCountAdd;
+                        isCountAdd = addRespectiveDefectCountSpl(position, gridPosition);
+                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
+                            horizontalItemSelectedPosition = position;
+                            recyclerCountAdapter.notifyDataSetChanged();
+                            populateListView_Spl(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+                            readImagesForRespectiveDefects(scope,mContext, partImage);
+                            String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+                            if(noteString!=null) {
+                                comments.setText(noteString.trim());
+                            } else {
+                                comments.setText("");
+                            }
+                            String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+
+                            if(extentString!=null) {
+                                if(extentString.equalsIgnoreCase("REPAIR")) {
+                                    repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                    replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    replace.setTextColor(Color.parseColor("#3EA99F"));
+                                }else
+                                {
+                                    replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    replace.setTextColor(Color.parseColor("#FFFFFF"));
+                                    repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    repaire.setTextColor(Color.parseColor("#3EA99F"));
+                                }
+
+                            }else
+                            {
+                                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                replace.setTextColor(Color.parseColor("#3EA99F"));
+                                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+                            }
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
+
+
+      /*  inspectionData_list = new ArrayList<InspectionMetaData>();
+        arrayAdapter = new InspectionMetaDataAdapter(inspectionData_list,OthersActivity.this,listView);*/
+
+        try {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    verticalItemSelectedPosition = position;
+                    localInspectionMetaData = findingListRefference(scope,gridPosition, horizontalItemSelectedPosition);
+                    final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
+                    listView.setSelection(position);
+                    view.setSelected(true);
+
+                    String disPlayName, imageUrl,name;
+                    boolean isSelected;
+                    disPlayName = listItemsN.getDisplayName();
+                    name = listItemsN.getName();
+                    imageUrl = listItemsN.getImageUrl();
+                    isSelected = listItemsN.getIsSelected();
+                    Log.i("shri_LOG","name=="+listItemsN.getName());
+
+                    if(!isSelected){
+//                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
+                        localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
+                    } else {
+                        localInspectionMetaData.set(position, new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", false, item.getTitle()));
+                    }
+                    arrayAdapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isSelected = true;
+                            for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                                if (localInspectionMetaData.get(i).getIsSelected() != null && localInspectionMetaData.get(i).getIsSelected()) {
+                                    isSelected = false;
+                                }
+                            }
+                            if (!isSelected) {
+                                Log.i("vidisha","helloo11111");
+                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
+                                isListSelected = false;
+                            } else {
+                                Log.i("vidisha","helloo22222");
+                                isListSelected = true;
+                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
+                            }
+                        }
+                    });
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+            });
+            arrayAdapter.notifyDataSetChanged();
+
+            mGridDataJSON.add(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(view);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+/**********************************************SCOPE SPL ENDS*****************************************************/
+
     /**********************************************SCOPE OTHERS STARTS*****************************************************/
 
     public void instantiateListWithData() {
@@ -738,7 +1221,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     public void ShowOthersDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
         gridPositionNew = gridPosition;
         gridTitle = item.getTitle();
-      isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+      //isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
         mGridDataJSON = new ArrayList<>();
 
 
@@ -757,13 +1240,8 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         final EditText comments = view.findViewById(R.id.comments);
-
         final TextView repaire = view.findViewById(R.id.repair);
         final TextView replace = view.findViewById(R.id.replace);
-        repaire.setBackgroundResource(R.drawable.repaire_replace_active);
-        repaire.setTextColor(Color.parseColor("#FFFFFF"));
-        replace.setBackgroundResource(R.drawable.repair_replace_deactive);
-        replace.setTextColor(Color.parseColor("#3EA99F"));
         repaire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -844,10 +1322,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected| isRepairSelected){
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
-                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/other_tick.png");
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/other_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -897,7 +1375,35 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         populateListView(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        if(noteString!=null) {
+            comments.setText(noteString.trim());
+        } else {
+            comments.setText("");
+        }
+        String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+        if(extentString!=null) {
+            if(extentString.equalsIgnoreCase("REPAIR")) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+            }else
+            {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
 
+        } else {
+            repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+            repaire.setTextColor(Color.parseColor("#FFFFFF"));
+            replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+            replace.setTextColor(Color.parseColor("#3EA99F"));
+            addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+        }
         horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
                 horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -918,7 +1424,29 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                             } else {
                                 comments.setText("");
                             }
+                            String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+                            if(extentString!=null) {
+                                if(extentString.equalsIgnoreCase("REPAIR")) {
+                                    repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                    replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    replace.setTextColor(Color.parseColor("#3EA99F"));
+                                }else
+                                {
+                                    replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    replace.setTextColor(Color.parseColor("#FFFFFF"));
+                                    repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    repaire.setTextColor(Color.parseColor("#3EA99F"));
+                                }
 
+                            } else {
+                                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                replace.setTextColor(Color.parseColor("#3EA99F"));
+                                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+                            }
                         }
                     }
                 });
@@ -1131,10 +1659,11 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
         final TextView repaire = view.findViewById(R.id.repair);
         final TextView replace = view.findViewById(R.id.replace);
-        repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+      /*  repaire.setBackgroundResource(R.drawable.repaire_replace_active);
         repaire.setTextColor(Color.parseColor("#FFFFFF"));
         replace.setBackgroundResource(R.drawable.repair_replace_deactive);
         replace.setTextColor(Color.parseColor("#3EA99F"));
+*/
         repaire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1221,10 +1750,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected| isRepairSelected ||isReplaceSelected){
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected|| isRepairSelected ||isReplaceSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
-                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/other_tick.png");
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1274,7 +1803,30 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         populateListViewPole(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
         String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        if(extentString!=null) {
+            if(extentString.equalsIgnoreCase("REPAIR")) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+            }else
+            {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+
+        } else {
+            repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+            repaire.setTextColor(Color.parseColor("#FFFFFF"));
+            replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+            replace.setTextColor(Color.parseColor("#3EA99F"));
+            addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+        }
         Log.i("vidisha","note=="+noteString);
         if(noteString!=null) {
             comments.setText(noteString.trim());
@@ -1300,6 +1852,31 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 comments.setText(noteString.trim());
                             } else {
                                 comments.setText("");
+                            }
+
+                            String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+
+                            if(extentString!=null) {
+                                if(extentString.equalsIgnoreCase("REPAIR")) {
+                                    repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                    replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    replace.setTextColor(Color.parseColor("#3EA99F"));
+                                }else
+                                {
+                                    replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    replace.setTextColor(Color.parseColor("#FFFFFF"));
+                                    repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    repaire.setTextColor(Color.parseColor("#3EA99F"));
+                                }
+
+                            }else
+                            {
+                                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                replace.setTextColor(Color.parseColor("#3EA99F"));
+                                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
                             }
 
                         }
@@ -1506,7 +2083,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     public void ShowTreeDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
         gridPositionNew = gridPosition;
         gridTitle = item.getTitle();
-        isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+      //  isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
         mGridDataJSON = new ArrayList<>();
 
 
@@ -1528,10 +2105,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
         final TextView repaire = view.findViewById(R.id.repair);
         final TextView replace = view.findViewById(R.id.replace);
-        repaire.setBackgroundResource(R.drawable.repaire_replace_active);
-        repaire.setTextColor(Color.parseColor("#FFFFFF"));
-        replace.setBackgroundResource(R.drawable.repair_replace_deactive);
-        replace.setTextColor(Color.parseColor("#3EA99F"));
         repaire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1539,6 +2112,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 repaire.setTextColor(Color.parseColor("#FFFFFF"));
                 replace.setBackgroundResource(R.drawable.repair_replace_deactive);
                 replace.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = true;
+                isReplaceSelected = false;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
 
             }
         });
@@ -1549,9 +2125,11 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 replace.setTextColor(Color.parseColor("#FFFFFF"));
                 repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
                 repaire.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = false;
+                isReplaceSelected = true;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPLACE");
             }
         });
-
 
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1613,17 +2191,15 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected| isRepairSelected){
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected|| isRepairSelected ||isReplaceSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
-                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/other_tick.png");
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/tree_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
-
-                    Log.i("vidisha","imageName=="+item.getImageName());
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
@@ -1666,6 +2242,37 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         populateListViewTree(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+
+        String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+        String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        if(extentString!=null) {
+            if(extentString.equalsIgnoreCase("REPAIR")) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+            }else
+            {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+
+        } else {
+            repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+            repaire.setTextColor(Color.parseColor("#FFFFFF"));
+            replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+            replace.setTextColor(Color.parseColor("#3EA99F"));
+            addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+        }
+        Log.i("vidisha","note=="+noteString);
+        if(noteString!=null) {
+            comments.setText(noteString.trim());
+        } else {
+            comments.setText("");
+        }
         horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
                 horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -1686,7 +2293,30 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                             } else {
                                 comments.setText("");
                             }
+                            String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
 
+                            if(extentString!=null) {
+                                if(extentString.equalsIgnoreCase("REPAIR")) {
+                                    repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                    replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    replace.setTextColor(Color.parseColor("#3EA99F"));
+                                }else
+                                {
+                                    replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    replace.setTextColor(Color.parseColor("#FFFFFF"));
+                                    repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    repaire.setTextColor(Color.parseColor("#3EA99F"));
+                                }
+
+                            }else
+                            {
+                                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                replace.setTextColor(Color.parseColor("#3EA99F"));
+                                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+                            }
                         }
                     }
                 });
@@ -1803,6 +2433,25 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
                 return findNoteData();
             }
+        }else if (scope.equalsIgnoreCase("spl"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            }
+        }else if (scope.equalsIgnoreCase("wire"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            }
+        }
+        else if (scope.equalsIgnoreCase("poleTop"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            }
         }
         return null;
     }
@@ -1829,6 +2478,25 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 return findExtentData();
             }
         }else if (scope.equalsIgnoreCase("Tree"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            }
+        }
+        else if (scope.equalsIgnoreCase("spl"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            }
+        }else if (scope.equalsIgnoreCase("wire"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            }
+        }else if (scope.equalsIgnoreCase("poleTop"))
         {
             if (position == 0) {
                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
@@ -1923,6 +2591,24 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 noteNew = findingIndexToExtent(noteNew, localIndex);
             }
         }else if(scope.equalsIgnoreCase("Tree"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("spl"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("wire"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("poleTop"))
         {
             if (gridPositionNew == 0) {
                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
@@ -2028,6 +2714,24 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             GlobalData.tree_images_array = new ArrayList<>();
             GlobalData.tree_images_array.add(reportFilePath);
         }
+        if(GlobalData.wire_images_array!=null) {
+            GlobalData.wire_images_array.add(reportFilePath);
+        } else {
+            GlobalData.wire_images_array = new ArrayList<>();
+            GlobalData.wire_images_array.add(reportFilePath);
+        }
+        if(GlobalData.spl_images_array!=null) {
+            GlobalData.spl_images_array.add(reportFilePath);
+        } else {
+            GlobalData.spl_images_array = new ArrayList<>();
+            GlobalData.spl_images_array.add(reportFilePath);
+        }
+        if(GlobalData.pole_top_images_array!=null) {
+            GlobalData.pole_top_images_array.add(reportFilePath);
+        } else {
+            GlobalData.pole_top_images_array = new ArrayList<>();
+            GlobalData.pole_top_images_array.add(reportFilePath);
+        }
         addImagesToRespectiveDefects(reportFilePath);
 
         return reportFilePath;
@@ -2060,7 +2764,28 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                  localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
                  localIndex = findingIndexToAddImagePath();
              }
+         }else if(reportFilePath.toString().contains("spl")) {
+
+             if (gridPositionNew == 0) {
+                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             }
+         }else if(reportFilePath.toString().contains("Wire")) {
+
+             if (gridPositionNew == 0) {
+                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             }
+         }else if(reportFilePath.toString().contains("poleTop")) {
+
+             if (gridPositionNew == 0) {
+                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             }
          }
+
+
+
 
         if(localIndex == -1) {
             localInspectionMetaData.add(new InspectionMetaData(reportFilePath.toString(), gridTitle));
@@ -2111,6 +2836,25 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
                 picturePath = findingPath();
             }
+        }else if(scope.equalsIgnoreCase("spl"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            }
+        }else if(scope.equalsIgnoreCase("wire"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            }
+        }
+        else if(scope.equalsIgnoreCase("poleTop"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            }
         }
         if(picturePath != null) {
             partImage.setImageBitmap(Utils.getBitmap(picturePath));
@@ -2128,133 +2872,1938 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }
         return null;
     }
+    private void LoadPoleScopeSelectedData() {
+        int count = 0;
+        String poleTitle = ReadPoleEquipmentData.getInstance().poleTitle;
+        JSONObject poleOneData = ReadPoleEquipmentData.getInstance().readpoleOneData();
+        JSONObject poleTwoData = ReadPoleEquipmentData.getInstance().readpoleTwoData();
+        JSONObject poleThreeData = ReadPoleEquipmentData.getInstance().readpoleThreeData();
+        JSONObject poleFourData = ReadPoleEquipmentData.getInstance().readpoleFourData();
+        JSONObject poleFiveoData = ReadPoleEquipmentData.getInstance().readpoleFiveData();
+        JSONObject poleSixData = ReadPoleEquipmentData.getInstance().readpoleSixData();
+        JSONObject poleSevenData = ReadPoleEquipmentData.getInstance().readpoleSevenData();
+        JSONObject poleEightData = ReadPoleEquipmentData.getInstance().readpoleEightData();
+        JSONObject poleNineData = ReadPoleEquipmentData.getInstance().readpoleNineData();
+        JSONObject poleTenData = ReadPoleEquipmentData.getInstance().readpoleTenData();
+
+
+        JSONObject damageDetailspole1 = new JSONObject();
+        JSONObject damageDetailspole2 = new JSONObject();
+        JSONObject damageDetailspole3 = new JSONObject();
+        JSONObject damageDetailspole4 = new JSONObject();
+        JSONObject damageDetailspole5 = new JSONObject();
+        JSONObject damageDetailspole6 = new JSONObject();
+        JSONObject damageDetailspole7 = new JSONObject();
+        JSONObject damageDetailspole8 = new JSONObject();
+        JSONObject damageDetailspole9 = new JSONObject();
+        JSONObject damageDetailspole10 = new JSONObject();
+        JSONObject pole = new JSONObject();
+        JSONObject pole_1 = new JSONObject();
+        JSONObject poleDamagePart = new JSONObject();
+        JSONObject polePartName = new JSONObject();
+
+        try{
+            String poleTitle_name = "Pole";
+            poleTitle = "POLE";
+          /*  if (poleTitle != null)
+                poleTitle = poleTitle.replaceAll("\\s", "_").toUpperCase();*/
+            if (poleOneData != null) {
+                for (int i = 0; i < PoleData.getInstance().poleOne.size(); i++) {
+                    damageDetailspole1.put("damageDetails", poleOneData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleOnePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailspole1.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_1", damageDetailspole1);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 1);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }
+            if (poleTwoData != null) {
+                for (int i = 0; i < PoleData.getInstance().poleTwo.size(); i++) {
+                    damageDetailspole2.put("damageDetails", poleTwoData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleTwoPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailspole2.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_2", damageDetailspole2);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 2);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            } if (poleThreeData != null) {
+                for (int i = 0; i < PoleData.getInstance().poleThree.size(); i++) {
+                    damageDetailspole3.put("damageDetails", poleThreeData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleThreePicturePath;
+
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailspole3.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_3", damageDetailspole3);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 3);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }
+            if (poleFourData != null) {
+                for (int i = 0; i < PoleData.getInstance().poleFour.size(); i++) {
+                    damageDetailspole4.put("damageDetails", poleFourData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleFourPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailspole4.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_4", damageDetailspole4);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 4);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }
+            if (poleFiveoData != null) {
+
+                for (int i = 0; i < PoleData.getInstance().poleFive.size(); i++) {
+                    damageDetailspole5.put("damageDetails", poleFiveoData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleFivePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailspole5.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_5", damageDetailspole5);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 5);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }
+            if (poleSixData != null) {
+
+                for (int i = 0; i < PoleData.getInstance().poleSix.size(); i++) {
+                    damageDetailspole6.put("damageDetails", poleSixData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleSixPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailspole6.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_6", damageDetailspole6);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 6);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }
+            if (poleSevenData != null) {
+
+                for (int i = 0; i < PoleData.getInstance().poleSeven.size(); i++) {
+
+                    damageDetailspole7.put("damageDetails", poleSevenData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleSevenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailspole7.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_7", damageDetailspole7);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 7);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }  if (poleEightData != null) {
+
+                for (int i = 0; i < PoleData.getInstance().poleEight.size(); i++) {
+
+                    damageDetailspole8.put("damageDetails", poleEightData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleSevenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailspole8.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_8", damageDetailspole8);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 8);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }  if (poleNineData != null) {
+
+                for (int i = 0; i < PoleData.getInstance().poleNine.size(); i++) {
+
+                    damageDetailspole9.put("damageDetails", poleNineData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleNinePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailspole9.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_9", damageDetailspole9);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 9);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }  if (poleTenData != null) {
+
+                for (int i = 0; i < PoleData.getInstance().poleTen.size(); i++) {
+
+                    damageDetailspole10.put("damageDetails", poleTenData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleTenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailspole10.put("images", images);
+                    }
+                    polePartName.put("partName", poleTitle);
+                    polePartName.put("damageData", pole_1);
+                    pole_1.put("POLE_10", damageDetailspole10);
+                    pole.put("POLE", polePartName);
+                    polePartName.put("partDisplayName", poleTitle_name);
+                    polePartName.put("numberOfParts", 10);
+                    poleDamagePart.put("damagedParts", pole);
+                    count++;
+                }
+            }
+            if(count > 0) {
+                poleDamagePart.put("scopename", poleTitle_name);
+                poleDamagePart.put("scopeDisplayName", poleTitle_name);
+                poleScope.put("Pole", poleDamagePart);
+            }
+            }catch (JSONException e)
+        {
+
+        }
+    }
+    private void LoadTreeScopeSelectedData() {
+        int count = 0;
+        JSONObject treeOneData = ReadTreeData.getInstance().readtreeOneData();
+        JSONObject treeTwoData = ReadTreeData.getInstance().readtreeTwoData();
+        JSONObject treeThreeData = ReadTreeData.getInstance().readtreeThreeData();
+        JSONObject treeFourData = ReadTreeData.getInstance().readtreeFourData();
+        JSONObject treeFiveoData = ReadTreeData.getInstance().readtreeFiveData();
+        JSONObject treeSixData = ReadTreeData.getInstance().readtreeSixData();
+        JSONObject treeSevenData = ReadTreeData.getInstance().readtreeSevenData();
+        JSONObject treeEightData = ReadTreeData.getInstance().readtreeEightData();
+        JSONObject treeNineData = ReadTreeData.getInstance().readtreeNineData();
+        JSONObject treeTenData = ReadTreeData.getInstance().readtreeTenData();
+
+
+        JSONObject damageDetailstree1 = new JSONObject();
+        JSONObject damageDetailstree2 = new JSONObject();
+        JSONObject damageDetailstree3 = new JSONObject();
+        JSONObject damageDetailstree4 = new JSONObject();
+        JSONObject damageDetailstree5 = new JSONObject();
+        JSONObject damageDetailstree6 = new JSONObject();
+        JSONObject damageDetailstree7 = new JSONObject();
+        JSONObject damageDetailstree8 = new JSONObject();
+        JSONObject damageDetailstree9 = new JSONObject();
+        JSONObject damageDetailstree10 = new JSONObject();
+        JSONObject tree = new JSONObject();
+        JSONObject tree_1 = new JSONObject();
+        JSONObject treeDamagePart = new JSONObject();
+        JSONObject treePartName = new JSONObject();
+
+        try{
+            String treeTitle_name = "Tree";
+            String treeTitle = "TREE";
+          /*  if (poleTitle != null)
+                poleTitle = poleTitle.replaceAll("\\s", "_").toUpperCase();*/
+            if (treeOneData != null) {
+                for (int i = 0; i < TreeData.getInstance().treeOne.size(); i++) {
+                    damageDetailstree1.put("damageDetails", treeOneData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeOnePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailstree1.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_1", damageDetailstree1);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 1);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }
+            if (treeTwoData != null) {
+                for (int i = 0; i < TreeData.getInstance().treeTwo.size(); i++) {
+                    damageDetailstree2.put("damageDetails", treeTwoData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleTwoPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailstree2.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_2", damageDetailstree2);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 2);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            } if (treeThreeData != null) {
+                for (int i = 0; i < TreeData.getInstance().treeThree.size(); i++) {
+                    damageDetailstree3.put("damageDetails", treeThreeData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadPoleEquipmentData.getInstance().poleThreePicturePath;
+
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailstree3.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("POLE_3", damageDetailstree3);
+                    tree.put("POLE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 3);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }
+            if (treeFourData != null) {
+                for (int i = 0; i < TreeData.getInstance().treeFour.size(); i++) {
+                    damageDetailstree4.put("damageDetails", treeFourData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeFourPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailstree4.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_4", damageDetailstree4);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 4);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }
+            if (treeFiveoData != null) {
+
+                for (int i = 0; i < TreeData.getInstance().treeFive.size(); i++) {
+                    damageDetailstree5.put("damageDetails", treeFiveoData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeFivePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailstree5.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_5", damageDetailstree5);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 5);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }
+            if (treeSixData != null) {
+
+                for (int i = 0; i < TreeData.getInstance().treeSix.size(); i++) {
+                    damageDetailstree6.put("damageDetails", treeSixData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeSixPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailstree6.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_6", damageDetailstree6);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 6);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }
+            if (treeSevenData != null) {
+
+                for (int i = 0; i < TreeData.getInstance().treeSeven.size(); i++) {
+
+                    damageDetailstree7.put("damageDetails", treeSevenData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeSevenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailstree7.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_7", damageDetailstree7);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 7);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }  if (treeEightData != null) {
+
+                for (int i = 0; i < TreeData.getInstance().treeEight.size(); i++) {
+
+                    damageDetailstree8.put("damageDetails", treeEightData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeSevenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailstree8.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_8", damageDetailstree8);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 8);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }  if (treeNineData != null) {
+
+                for (int i = 0; i < TreeData.getInstance().treeNine.size(); i++) {
+
+                    damageDetailstree9.put("damageDetails", treeNineData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeNinePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailstree9.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_9", damageDetailstree9);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 9);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }  if (treeTenData != null) {
+
+                for (int i = 0; i < TreeData.getInstance().treeTen.size(); i++) {
+
+                    damageDetailstree10.put("damageDetails", treeTenData);
+                    JSONObject imagesObject = new JSONObject();
+                    JSONArray images = new JSONArray();
+                    String pictureName = null;
+                    pictureName = ReadTreeData.getInstance().treeTenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailstree10.put("images", images);
+                    }
+                    treePartName.put("partName", treeTitle);
+                    treePartName.put("damageData", tree_1);
+                    tree_1.put("TREE_10", damageDetailstree10);
+                    tree.put("TREE", treePartName);
+                    treePartName.put("partDisplayName", treeTitle_name);
+                    treePartName.put("numberOfParts", 10);
+                    treeDamagePart.put("damagedParts", tree);
+                    count++;
+                }
+            }
+            if(count > 0) {
+                treeDamagePart.put("scopename", treeTitle_name);
+                treeDamagePart.put("scopeDisplayName", treeTitle_name);
+                poleScope.put("Tree", treeDamagePart);
+            }
+        }catch (JSONException e)
+        {
+
+        }
+    }
+
+    private void LoadSPLScopeSelectedData() {
+        int count = 0;
+        JSONObject regulator = new JSONObject();
+        JSONObject regulator_1 = new JSONObject();
+        JSONObject regulatorDamagePart = new JSONObject();
+        JSONObject regulatorPartName = new JSONObject();
+        JSONObject damageDetailsregulator1 = new JSONObject();
+        JSONObject damageDetailsregulator2 = new JSONObject();
+        JSONObject damageDetailsregulator3 = new JSONObject();
+        JSONObject damageDetailsregulator4 = new JSONObject();
+        JSONObject damageDetailsregulator5 = new JSONObject();
+        JSONObject damageDetailsregulator6 = new JSONObject();
+        JSONObject damageDetailsregulator7 = new JSONObject();
+        JSONObject damageDetailsregulator8 = new JSONObject();
+        JSONObject damageDetailsregulator9 = new JSONObject();
+        JSONObject damageDetailsregulator10 = new JSONObject();
+
+        JSONObject capacitorBank_1 = new JSONObject();
+        JSONObject capacitorBankDamagePart = new JSONObject();
+        JSONObject capacitorBankPartName = new JSONObject();
+        JSONObject damageDetailscapacitorBank1 = new JSONObject();
+        JSONObject damageDetailscapacitorBank2 = new JSONObject();
+        JSONObject damageDetailscapacitorBank3 = new JSONObject();
+        JSONObject damageDetailscapacitorBank4 = new JSONObject();
+        JSONObject damageDetailscapacitorBank5 = new JSONObject();
+        JSONObject damageDetailscapacitorBank6 = new JSONObject();
+        JSONObject damageDetailscapacitorBank7 = new JSONObject();
+        JSONObject damageDetailscapacitorBank8 = new JSONObject();
+        JSONObject damageDetailscapacitorBank9 = new JSONObject();
+        JSONObject damageDetailscapacitorBank10 = new JSONObject();
+
+        JSONObject recloser_1 = new JSONObject();
+        JSONObject recloserDamagePart = new JSONObject();
+        JSONObject recloserPartName = new JSONObject();
+        JSONObject damageDetailsrecloser1 = new JSONObject();
+        JSONObject damageDetailsrecloser2 = new JSONObject();
+        JSONObject damageDetailsrecloser3 = new JSONObject();
+        JSONObject damageDetailsrecloser4 = new JSONObject();
+        JSONObject damageDetailsrecloser5 = new JSONObject();
+        JSONObject damageDetailsrecloser6 = new JSONObject();
+        JSONObject damageDetailsrecloser7 = new JSONObject();
+        JSONObject damageDetailsrecloser8 = new JSONObject();
+        JSONObject damageDetailsrecloser9 = new JSONObject();
+        JSONObject damageDetailsrecloser10 = new JSONObject();
+
+        JSONObject loadBreak_1 = new JSONObject();
+        JSONObject loadBreakDamagePart = new JSONObject();
+        JSONObject loadBreakPartName = new JSONObject();
+        JSONObject damageDetailsloadBreak1 = new JSONObject();
+        JSONObject damageDetailsloadBreak2 = new JSONObject();
+        JSONObject damageDetailsloadBreak3 = new JSONObject();
+        JSONObject damageDetailsloadBreak4 = new JSONObject();
+        JSONObject damageDetailsloadBreak5 = new JSONObject();
+        JSONObject damageDetailsloadBreak6 = new JSONObject();
+        JSONObject damageDetailsloadBreak7 = new JSONObject();
+        JSONObject damageDetailsloadBreak8 = new JSONObject();
+        JSONObject damageDetailsloadBreak9 = new JSONObject();
+        JSONObject damageDetailsloadBreak10 = new JSONObject();
+
+        JSONObject regulatorOneData = ReadSplEquipmentData.getInstance().readregulatorOneData();
+        JSONObject regulatorTwoData = ReadSplEquipmentData.getInstance().readregulatorTwoData();
+        JSONObject regulatorThreeData = ReadSplEquipmentData.getInstance().readregulatorThreeData();
+        JSONObject regulatorFourData = ReadSplEquipmentData.getInstance().readregulatorFourData();
+        JSONObject regulatorFiveData = ReadSplEquipmentData.getInstance().readregulatorFiveData();
+        JSONObject regulatorSixData = ReadSplEquipmentData.getInstance().readregulatorSixData();
+        JSONObject regulatorEightData = ReadSplEquipmentData.getInstance().readregulatorSevenData();
+        JSONObject regulatorSevenData = ReadSplEquipmentData.getInstance().readregulatorEightData();
+        JSONObject regulatorNineData = ReadSplEquipmentData.getInstance().readregulatorNineData();
+        JSONObject regulatorTenData = ReadSplEquipmentData.getInstance().readregulatorTenData();
+
+        JSONObject capacitorBankOneData = ReadSplEquipmentData.getInstance().readcapacitorBankOneData();
+        JSONObject capacitorBankTwoData = ReadSplEquipmentData.getInstance().readcapacitorBankTwoData();
+        JSONObject capacitorBankThreeData = ReadSplEquipmentData.getInstance().readcapacitorBankThreeData();
+        JSONObject capacitorBankFourData = ReadSplEquipmentData.getInstance().readcapacitorBankFourData();
+        JSONObject capacitorBankFiveData = ReadSplEquipmentData.getInstance().readcapacitorBankFiveData();
+        JSONObject capacitorBankSixData = ReadSplEquipmentData.getInstance().readcapacitorBankSixData();
+        JSONObject capacitorBankEightData = ReadSplEquipmentData.getInstance().readcapacitorBankSevenData();
+        JSONObject capacitorBankSevenData = ReadSplEquipmentData.getInstance().readcapacitorBankEightData();
+        JSONObject capacitorBankNineData = ReadSplEquipmentData.getInstance().readcapacitorBankNineData();
+        JSONObject capacitorBankTenData = ReadSplEquipmentData.getInstance().readcapacitorBankTenData();
+
+        JSONObject recloserOneData = ReadSplEquipmentData.getInstance().readrecloserOneData();
+        JSONObject recloserTwoData = ReadSplEquipmentData.getInstance().readrecloserTwoData();
+        JSONObject recloserThreeData = ReadSplEquipmentData.getInstance().readrecloserThreeData();
+        JSONObject recloserFourData = ReadSplEquipmentData.getInstance().readrecloserFourData();
+        JSONObject recloserFiveData = ReadSplEquipmentData.getInstance().readrecloserFiveData();
+        JSONObject recloserSixData = ReadSplEquipmentData.getInstance().readrecloserSixData();
+        JSONObject recloserEightData = ReadSplEquipmentData.getInstance().readrecloserSevenData();
+        JSONObject recloserSevenData = ReadSplEquipmentData.getInstance().readrecloserEightData();
+        JSONObject recloserNineData = ReadSplEquipmentData.getInstance().readrecloserNineData();
+        JSONObject recloserTenData = ReadSplEquipmentData.getInstance().readrecloserTenData();
+
+        JSONObject loadBreakOneData = ReadSplEquipmentData.getInstance().readloadBreakSwitchOneData();
+        JSONObject loadBreakTwoData = ReadSplEquipmentData.getInstance().readloadBreakSwitchTwoData();
+        JSONObject loadBreakThreeData = ReadSplEquipmentData.getInstance().readloadBreakSwitchThreeData();
+        JSONObject loadBreakFourData = ReadSplEquipmentData.getInstance().readloadBreakSwitchFourData();
+        JSONObject loadBreakFiveData = ReadSplEquipmentData.getInstance().readloadBreakSwitchFiveData();
+        JSONObject loadBreakSixData = ReadSplEquipmentData.getInstance().readloadBreakSwitchSixData();
+        JSONObject loadBreakEightData = ReadSplEquipmentData.getInstance().readloadBreakSwitchSevenData();
+        JSONObject loadBreakSevenData = ReadSplEquipmentData.getInstance().readloadBreakSwitchEightData();
+        JSONObject loadBreakNineData = ReadSplEquipmentData.getInstance().readloadBreakSwitchNineData();
+        JSONObject loadBreakTenData = ReadSplEquipmentData.getInstance().readloadBreakSwitchTenData();
+        {
+            try{
+
+
+                count = 0;
+                String regulatorTitle_name = "Regulator";
+                String regulatorTitle = "REGULATOR";
+                /*if (regulatorTitle != null)
+                    regulatorTitle = regulatorTitle.replaceAll("\\s", "_").toUpperCase();*/
+                if (regulatorOneData != null) {
+                    
+                    damageDetailsregulator1.put("damageDetails", regulatorOneData);
+
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorOnePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        images.put(imagesObject);
+                        damageDetailsregulator1.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_1", damageDetailsregulator1);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 1);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorTwoData != null) {
+
+                    damageDetailsregulator2.put("damageDetails", regulatorTwoData);
+
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorTwoPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator2.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_2", damageDetailsregulator2);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 2);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    count++;
+                }
+                if (regulatorThreeData != null) {
+                    damageDetailsregulator3.put("damageDetails", regulatorThreeData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorThreePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator3.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_3", damageDetailsregulator3);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 3);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorFourData != null) {
+
+                    damageDetailsregulator4.put("damageDetails", regulatorFourData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorFourPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator4.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_4", damageDetailsregulator4);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 4);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorFiveData != null) {
+
+                    damageDetailsregulator5.put("damageDetails", regulatorFiveData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorFivePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator5.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_5", damageDetailsregulator5);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 5);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorSixData != null) {
+
+                    damageDetailsregulator6.put("damageDetails", regulatorSixData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorSixPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator6.put("images", images);
+                    }
+
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_6", damageDetailsregulator6);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 6);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorSevenData != null) {
+
+                    damageDetailsregulator7.put("damageDetails", regulatorSevenData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorSevenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator7.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_7", damageDetailsregulator7);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 7);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorEightData != null) {
+
+                    damageDetailsregulator8.put("damageDetails", regulatorEightData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorEightPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator8.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_8", damageDetailsregulator8);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 8);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorNineData != null) {
+
+                    damageDetailsregulator9.put("damageDetails", regulatorNineData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorNinePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator9.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_9", damageDetailsregulator9);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 9);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if (regulatorTenData != null) {
+
+                    damageDetailsregulator10.put("damageDetails", regulatorTenData);
+
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    String pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().regulatorTenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsregulator10.put("images", images);
+                    }
+                    regulatorPartName.put("partName", regulatorTitle);
+                    regulatorPartName.put("damageData", regulator_1);
+                    regulator_1.put("REGULATOR_10", damageDetailsregulator10);
+                    regulator.put("REGULATOR", regulatorPartName);
+                    regulatorPartName.put("partDisplayName", regulatorTitle_name);
+                    regulatorPartName.put("numberOfParts", 10);
+                    regulatorDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", regulatorDamagePart);
+                    count++;
+                }
+                if(count > 0){
+                    regulatorDamagePart.put("scopename", "Other");
+                    regulatorDamagePart.put("scopeDisplayName", "Other");
+                    poleScope.put("Other", regulatorDamagePart);
+
+                }} catch (JSONException e) {
+                e.printStackTrace();
+            }try{
+            count = 0;
+            String pictureName;
+            String capacitorBankTitle_name = "Capacitor Bank";
+            String capacitorBankTitle = "CAPACITOR_BANK";
+           /* if (capacitorBankTitle != null)
+                capacitorBankTitle = capacitorBankTitle.replaceAll("\\s", "_").toUpperCase();*/
+            if (capacitorBankOneData != null) {
+
+                damageDetailscapacitorBank1.put("damageDetails", capacitorBankOneData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankOnePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank1.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_1", damageDetailscapacitorBank1);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 1);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankTwoData != null) {
+
+                damageDetailscapacitorBank2.put("damageDetails", capacitorBankTwoData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankTwoPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank2.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_2", damageDetailscapacitorBank2);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 2);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+
+                count++;
+            }
+            if (capacitorBankThreeData != null) {
+
+                damageDetailscapacitorBank3.put("damageDetails", capacitorBankThreeData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankThreePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank3.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_3", damageDetailscapacitorBank3);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 3);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankFourData != null) {
+
+                damageDetailscapacitorBank4.put("damageDetails", capacitorBankFourData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankFourPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank4.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_4", damageDetailscapacitorBank4);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 4);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                //   poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankFiveData != null) {
+
+                damageDetailscapacitorBank5.put("damageDetails", capacitorBankFiveData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankFivePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank5.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_5", damageDetailscapacitorBank5);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 5);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankSixData != null) {
+
+                damageDetailscapacitorBank6.put("damageDetails", capacitorBankSixData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankSixPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank6.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_6", damageDetailscapacitorBank6);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 6);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankSevenData != null) {
+
+                damageDetailscapacitorBank7.put("damageDetails", capacitorBankSevenData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankSevenPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank7.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_7", damageDetailscapacitorBank7);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 7);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankEightData != null) {
+
+                damageDetailscapacitorBank8.put("damageDetails", capacitorBankEightData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankEightPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank8.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_8", damageDetailscapacitorBank8);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 8);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankNineData != null) {
+
+                damageDetailscapacitorBank9.put("damageDetails", capacitorBankNineData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankNinePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank9.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_9", damageDetailscapacitorBank9);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 9);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if (capacitorBankTenData != null) {
+
+                damageDetailscapacitorBank10.put("damageDetails", capacitorBankTenData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().capacitorBankTenPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailscapacitorBank10.put("images", images);
+                }
+                capacitorBankPartName.put("partName", capacitorBankTitle);
+                capacitorBankPartName.put("damageData", capacitorBank_1);
+                capacitorBank_1.put("CAPACITOR_BANK_10", damageDetailscapacitorBank10);
+                regulator.put("CAPACITOR_BANK", capacitorBankPartName);
+                capacitorBankPartName.put("partDisplayName", capacitorBankTitle_name);
+                capacitorBankPartName.put("numberOfParts", 10);
+                capacitorBankDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", capacitorBankDamagePart);
+                count++;
+            }
+            if(count > 0){
+                capacitorBankDamagePart.put("scopename", "Other");
+                capacitorBankDamagePart.put("scopeDisplayName", "Other");
+                poleScope.put("Other", capacitorBankDamagePart);
+
+            }} catch (JSONException e) {
+            e.printStackTrace();
+        }try{
+            count = 0;
+            String recloserTitle_name = "Recloser";
+            String recloserTitle = "RECLOSER";
+            String pictureName;
+           /* if (recloserTitle != null)
+                recloserTitle = recloserTitle.replaceAll("\\s", "_").toUpperCase();*/
+            if (recloserOneData != null) {
+
+                damageDetailsrecloser1.put("damageDetails", recloserOneData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserOnePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser1.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_1", damageDetailsrecloser1);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 1);
+                recloserDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserTwoData != null) {
+
+                damageDetailsrecloser2.put("damageDetails", recloserTwoData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserTwoPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser2.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_2", damageDetailsrecloser2);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 2);
+                recloserDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserThreeData != null) {
+
+                damageDetailsrecloser3.put("damageDetails", recloserThreeData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserThreePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser3.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_3", damageDetailsrecloser3);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 3);
+                recloserDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserFourData != null) {
+
+                damageDetailsrecloser4.put("damageDetails", recloserFourData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserFourPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser4.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_4", damageDetailsrecloser4);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 4);
+                recloserDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserFiveData != null) {
+
+                damageDetailsrecloser5.put("damageDetails", recloserFiveData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserFivePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser5.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_5", damageDetailsrecloser5);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 5);
+                recloserDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserSixData != null) {
+
+                damageDetailsrecloser6.put("damageDetails", recloserSixData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserSixPicturePath;
+
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser6.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_6", damageDetailsrecloser6);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 6);
+                recloserDamagePart.put("damagedParts", regulator);
+                //   poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserSevenData != null) {
+
+                damageDetailsrecloser7.put("damageDetails", recloserSevenData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserSevenPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser7.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_7", damageDetailsrecloser7);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 7);
+                recloserDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserEightData != null) {
+
+                damageDetailsrecloser8.put("damageDetails", recloserEightData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserEightPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser8.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_8", damageDetailsrecloser8);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 8);
+                recloserDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserNineData != null) {
+
+                damageDetailsrecloser9.put("damageDetails", recloserNineData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserNinePicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser9.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_9", damageDetailsrecloser9);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 9);
+                recloserDamagePart.put("damagedParts", regulator);
+                //  poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if (recloserTenData != null) {
+
+                damageDetailsrecloser10.put("damageDetails", recloserTenData);
+                JSONArray images = new JSONArray();
+                JSONObject imagesObject = new JSONObject();
+
+                pictureName = null;
+                pictureName = ReadSplEquipmentData.getInstance().recloserTenPicturePath;
+                if (pictureName != null && !pictureName.isEmpty()) {
+
+                    pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                    String thumbnail = truncateAndAddThumbnailString(pictureName);
+                    imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    images.put(imagesObject);
+                    damageDetailsrecloser10.put("images", images);
+                }
+                recloserPartName.put("partName", recloserTitle);
+                recloserPartName.put("damageData", recloser_1);
+                recloser_1.put("RECLOSER_10", damageDetailsrecloser10);
+                regulator.put("RECLOSER", recloserPartName);
+                recloserPartName.put("partDisplayName", recloserTitle_name);
+                recloserPartName.put("numberOfParts", 10);
+                recloserDamagePart.put("damagedParts", regulator);
+                // poleTopEquipment.put("Other", recloserDamagePart);
+                count++;
+            }
+            if(count > 0){
+                recloserDamagePart.put("scopename", "Other");
+                recloserDamagePart.put("scopeDisplayName", "Other");
+                poleScope.put("Other", recloserDamagePart);
+
+            }  } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+            try{
+                count = 0;
+                String loadBreakTitle_name = "Loadbreak Switch;";
+                String loadBreakTitle = "LOADBREAK_SWITCH";
+                String pictureName;
+   /*             if (loadBreakTitle != null)
+                    loadBreakTitle = loadBreakTitle.replaceAll("\\s", "_").toUpperCase();*/
+                if (loadBreakOneData != null) {
+
+                    damageDetailsloadBreak1.put("damageDetails", loadBreakOneData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakOnePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak1.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_1", damageDetailsloadBreak1);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 1);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakTwoData != null) {
+
+                    damageDetailsloadBreak2.put("damageDetails", loadBreakTwoData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakTwoPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak2.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_2", damageDetailsloadBreak2);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 2);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakThreeData != null) {
+
+                    damageDetailsloadBreak3.put("damageDetails", loadBreakThreeData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakThreePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak3.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_3", damageDetailsloadBreak3);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 3);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //   poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakFourData != null) {
+
+                    damageDetailsloadBreak4.put("damageDetails", loadBreakFourData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakFourPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak4.put("images", images);
+                    }
+
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_4", damageDetailsloadBreak4);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 4);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakFiveData != null) {
+
+                    damageDetailsloadBreak5.put("damageDetails", loadBreakFiveData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakFivePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak5.put("images", images);
+                    }
+
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_5", damageDetailsloadBreak5);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 5);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakSixData != null) {
+
+                    damageDetailsloadBreak6.put("damageDetails", loadBreakSixData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakSixPicturePath;
+
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak6.put("images", images);
+                    }
+
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_6", damageDetailsloadBreak6);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 6);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakSevenData != null) {
+
+                    damageDetailsloadBreak7.put("damageDetails", loadBreakSevenData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakSevenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak7.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_7", damageDetailsloadBreak7);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 7);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakEightData != null) {
+
+                    damageDetailsloadBreak8.put("damageDetails", loadBreakEightData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakEightPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak8.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_8", damageDetailsloadBreak8);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 8);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakNineData != null) {
+
+                    damageDetailsloadBreak9.put("damageDetails", loadBreakNineData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakNinePicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak9.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_9", damageDetailsloadBreak9);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 9);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    //  poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if (loadBreakTenData != null) {
+
+                    damageDetailsloadBreak10.put("damageDetails", loadBreakTenData);
+                    JSONArray images = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+
+                    pictureName = null;
+                    pictureName = ReadSplEquipmentData.getInstance().loadBreakTenPicturePath;
+                    if (pictureName != null && !pictureName.isEmpty()) {
+
+                        pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
+
+                        String thumbnail = truncateAndAddThumbnailString(pictureName);
+                        imagesObject.put("thumbnail", "https://"+sharedPref.getString("s3Bucket","")+"-thumbnails"+S3_URL+sharedPref.getString("accountKey","")+"/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://"+sharedPref.getString("s3Bucket","")+S3_URL+sharedPref.getString("accountKey","")+"/"+ pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                        images.put(imagesObject);
+                        damageDetailsloadBreak10.put("images", images);
+                    }
+                    loadBreakPartName.put("partName", loadBreakTitle);
+                    loadBreakPartName.put("damageData", loadBreak_1);
+                    loadBreak_1.put("LOADBREAK_SWITCH_10", damageDetailsloadBreak10);
+                    regulator.put("LOADBREAK_SWITCH", loadBreakPartName);
+                    loadBreakPartName.put("partDisplayName", loadBreakTitle_name);
+                    loadBreakPartName.put("numberOfParts", 10);
+                    loadBreakDamagePart.put("damagedParts", regulator);
+                    // poleTopEquipment.put("Other", loadBreakDamagePart);
+                    count++;
+                }
+                if(count > 0){
+                    loadBreakDamagePart.put("scopename", "Other");
+                    loadBreakDamagePart.put("scopeDisplayName", "Other");
+                    poleScope.put("Other", loadBreakDamagePart);
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // junk();
+
+
+        }
+    }
+
+
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId())
         {
             case R.id.nextButton:
-                int count = 0;
-                String poleTitle = ReadPoleEquipmentData.getInstance().poleTitle;
-                JSONObject poleOneData = ReadPoleEquipmentData.getInstance().readpoleOneData();
-                JSONObject poleTwoData = ReadPoleEquipmentData.getInstance().readpoleTwoData();
-                JSONObject damageDetailspole1 = new JSONObject();
-                JSONObject damageDetailspole2 = new JSONObject();
-                JSONObject damageDetailspole3 = new JSONObject();
-                JSONObject damageDetailspole4 = new JSONObject();
-                JSONObject damageDetailspole5 = new JSONObject();
-                JSONObject damageDetailspole6 = new JSONObject();
-                JSONObject damageDetailspole7 = new JSONObject();
-                JSONObject damageDetailspole8 = new JSONObject();
-                JSONObject damageDetailspole9 = new JSONObject();
-                JSONObject damageDetailspole10 = new JSONObject();
-                JSONObject pole = new JSONObject();
-                JSONObject pole_1 = new JSONObject();
-                JSONObject poleDamagePart = new JSONObject();
-                JSONObject polePartName = new JSONObject();
-                JSONObject poleScope = new JSONObject();
-                JSONObject damageScope = new JSONObject();
-                String visualTestName = null, soundTestName = null, resistographTestName = null;
+                LoadPoleScopeSelectedData();
+                LoadTreeScopeSelectedData();
+
                 try {
-                    String poleTitle_name = poleTitle;
-                    if (poleTitle != null)
-                        poleTitle = poleTitle.replaceAll("\\s", "_").toUpperCase();
-                    if (poleOneData != null) {
-
-                      //  poleOneData.put("extent","REPAIR");
-                        //PoleData.getInstance().poleOne.contains("Pole Rejected");
-                        Log.i("PoleOneData", "poleOneData==" + poleOneData);
-                        // Log.i("PoleOneData","poleOneData==111"+PoleData.getInstance().poleOne.get(0));
-                        for (int i = 0; i < PoleData.getInstance().poleOne.size(); i++) {
-                            String dis = PoleData.getInstance().poleOne.get(i).getName();
-
-                            Log.i("PoleOneData", "poleOneData==size" + PoleData.getInstance().poleOne.size());
-
-                                damageDetailspole1.put("damageDetails", poleOneData);
-
-                            JSONObject imagesObject = new JSONObject();
-                            JSONArray images = new JSONArray();
-                            JSONObject testImagesObject = new JSONObject();
-
-                            String pictureName = null;
-                            pictureName = ReadPoleEquipmentData.getInstance().poleOnePicturePath;
-
-                            if (pictureName != null && !pictureName.isEmpty()) {
-
-
-                                pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
-                                String thumbnail = truncateAndAddThumbnailString(pictureName);
-                                imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
-                                imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
-
-                                images.put(imagesObject);
-                                damageDetailspole1.put("images", images);
-                            }
-
-                            polePartName.put("partName", "POLE");
-                            polePartName.put("damageData", pole_1);
-                            pole_1.put("POLE_1", damageDetailspole1);
-                            pole.put("POLE", polePartName);
-                            polePartName.put("partDisplayName", "Pole");
-                            polePartName.put("numberOfParts", 1);
-                            poleDamagePart.put("damagedParts", pole);
-                          /*  poleDamagePart.put("scopename", "Pole");
-                            poleDamagePart.put("scopeDisplayName", "Pole");
-                            poleScope.put("Pole", poleDamagePart);
-                         */
-                            count++;
-                        }
-                    }
-                    if (poleTwoData != null) {
-
-
-                        //PoleData.getInstance().poleOne.contains("Pole Rejected");
-                        Log.i("poleTwoData", "poleTwoData==" + poleTwoData);
-                        // Log.i("PoleOneData","poleOneData==111"+PoleData.getInstance().poleOne.get(0));
-                        for (int i = 0; i < PoleData.getInstance().poleTwo.size(); i++) {
-
-                            damageDetailspole2.put("damageDetails", poleTwoData);
-
-                            JSONObject imagesObject = new JSONObject();
-                            JSONArray images = new JSONArray();
-
-
-                            String pictureName = null;
-                            pictureName = ReadPoleEquipmentData.getInstance().poleTwoPicturePath;
-
-                            if (pictureName != null && !pictureName.isEmpty()) {
-
-
-                                pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
-                                String thumbnail = truncateAndAddThumbnailString(pictureName);
-                                imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + thumbnail);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
-                                imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + pictureName); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
-
-                                images.put(imagesObject);
-                                damageDetailspole2.put("images", images);
-                            }
-
-                            polePartName.put("partName", "POLE");
-                            polePartName.put("damageData", pole_1);
-                            pole_1.put("POLE_2", damageDetailspole2);
-                            pole.put("POLE", polePartName);
-                            polePartName.put("partDisplayName", "Pole");
-                            polePartName.put("numberOfParts", 2);
-                            poleDamagePart.put("damagedParts", pole);
-                          /*  poleDamagePart.put("scopename", "Pole");
-                            poleDamagePart.put("scopeDisplayName", "Pole");
-                            poleScope.put("Pole", poleDamagePart);*/
-                            //   damageScope.put("damageScopes",poleScope);
-                            Log.i("vidisha","poleDamagePart=="+damageScope);
-                            //  poleTopEquipment.put("Pole", poleDamagePart);
-                            count++;
-                        }
-                    }
-                    if(count > 0){
-                        poleDamagePart.put("scopename", "Pole");
-                        poleDamagePart.put("scopeDisplayName", "Pole");
-                        poleScope.put("Pole", poleDamagePart);
-
+                    {
                         inspectionReport = new JSONObject();
                         JSONObject submittedByData = new JSONObject();
                         JSONObject poleDetailsData = new JSONObject();
@@ -2302,6 +4851,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
                 }
     }
+
 
     private void callAPI()
     {
@@ -2427,6 +4977,116 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 Log.e("error", "error");
             }
         });
+    }
+
+
+
+    private ArrayList<InspectionMetaData> loadBreakSwitchReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().loadBreakSwitchOne;
+            case 1:
+                return SplEquipmentData.getInstance().loadBreakSwitchTwo;
+            case 2:
+                return SplEquipmentData.getInstance().loadBreakSwitchThree;
+            case 3:
+                return SplEquipmentData.getInstance().loadBreakSwitchFour;
+            case 4:
+                return SplEquipmentData.getInstance().loadBreakSwitchFive;
+            case 5:
+                return SplEquipmentData.getInstance().loadBreakSwitchSix;
+            case 6:
+                return SplEquipmentData.getInstance().loadBreakSwitchSeven;
+            case 7:
+                return SplEquipmentData.getInstance().loadBreakSwitchEight;
+            case 8:
+                return SplEquipmentData.getInstance().loadBreakSwitchNine;
+            case 9:
+                return SplEquipmentData.getInstance().loadBreakSwitchTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> recloserReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().recloserOne;
+            case 1:
+                return SplEquipmentData.getInstance().recloserTwo;
+            case 2:
+                return SplEquipmentData.getInstance().recloserThree;
+            case 3:
+                return SplEquipmentData.getInstance().recloserFour;
+            case 4:
+                return SplEquipmentData.getInstance().recloserFive;
+            case 5:
+                return SplEquipmentData.getInstance().recloserSix;
+            case 6:
+                return SplEquipmentData.getInstance().recloserSeven;
+            case 7:
+                return SplEquipmentData.getInstance().recloserEight;
+            case 8:
+                return SplEquipmentData.getInstance().recloserNine;
+            case 9:
+                return SplEquipmentData.getInstance().recloserTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> capacitorBankReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().capacitorBankOne;
+            case 1:
+                return SplEquipmentData.getInstance().capacitorBankTwo;
+            case 2:
+                return SplEquipmentData.getInstance().capacitorBankThree;
+            case 3:
+                return SplEquipmentData.getInstance().capacitorBankFour;
+            case 4:
+                return SplEquipmentData.getInstance().capacitorBankFive;
+            case 5:
+                return SplEquipmentData.getInstance().capacitorBankSix;
+            case 6:
+                return SplEquipmentData.getInstance().capacitorBankSeven;
+            case 7:
+                return SplEquipmentData.getInstance().capacitorBankEight;
+            case 8:
+                return SplEquipmentData.getInstance().capacitorBankNine;
+            case 9:
+                return SplEquipmentData.getInstance().capacitorBankTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> regulatorReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().regulatorOne;
+            case 1:
+                return SplEquipmentData.getInstance().regulatorTwo;
+            case 2:
+                return SplEquipmentData.getInstance().regulatorThree;
+            case 3:
+                return SplEquipmentData.getInstance().regulatorFour;
+            case 4:
+                return SplEquipmentData.getInstance().regulatorFive;
+            case 5:
+                return SplEquipmentData.getInstance().regulatorSix;
+            case 6:
+                return SplEquipmentData.getInstance().regulatorSeven;
+            case 7:
+                return SplEquipmentData.getInstance().regulatorEight;
+            case 8:
+                return SplEquipmentData.getInstance().regulatorNine;
+            case 9:
+                return SplEquipmentData.getInstance().regulatorTen;
+            default:
+                return null;
+        }
     }
     public class STAsyncHttpConnection extends AsyncTask<String, Void, String> {
         /**

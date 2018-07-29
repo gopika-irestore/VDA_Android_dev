@@ -171,9 +171,9 @@ public class ReadPoleEquipmentData {
                     }
                     if (PoleData.getInstance().poleOne.get(i).getExtent() != null) {
                         subtitle = PoleData.getInstance().poleOne.get(i).getSubTitle();
-                        addNote = PoleData.getInstance().poleOne.get(i).getExtent();
+                        addExtent = PoleData.getInstance().poleOne.get(i).getExtent();
                         if (PoleData.getInstance().poleOne.get(i).getSubTitle() != null) {
-                            damageDetailsPoleOne.put(subtitle, addNote);
+                            damageDetailsPoleOne.put(subtitle, addExtent);
                         }
                     }
                     if (PoleData.getInstance().poleOne.get(i).getTestingType() != null) {
@@ -283,6 +283,13 @@ public class ReadPoleEquipmentData {
                             damageDetailsPoleTwo.put(subtitle, addNote);
                         }
                     }
+                    if (PoleData.getInstance().poleTwo.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleTwo.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleTwo.get(i).getExtent();
+                        if (PoleData.getInstance().poleTwo.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleData.getInstance().poleTwo.get(i).getCheckedOK() != null) {
                         subtitle = PoleData.getInstance().poleTwo.get(i).getSubTitle();
                         isChecked = PoleData.getInstance().poleTwo.get(i).getCheckedOK();
@@ -369,6 +376,13 @@ public class ReadPoleEquipmentData {
                             damageDetailsPoleThree.put(subtitle, addNote);
                         }
                     }
+                    if (PoleData.getInstance().poleThree.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleThree.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleThree.get(i).getExtent();
+                        if (PoleData.getInstance().poleThree.get(i).getSubTitle() != null) {
+                            damageDetailsPoleThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleData.getInstance().poleThree.get(i).getCheckedOK() != null) {
                         subtitle = PoleData.getInstance().poleThree.get(i).getSubTitle();
                         isChecked = PoleData.getInstance().poleThree.get(i).getCheckedOK();
@@ -452,6 +466,13 @@ public class ReadPoleEquipmentData {
                         addNote = PoleData.getInstance().poleFour.get(i).getNote();
                         if (PoleData.getInstance().poleFour.get(i).getSubTitle() != null) {
                             damageDetailsPoleFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleData.getInstance().poleFour.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleFour.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleFour.get(i).getExtent();
+                        if (PoleData.getInstance().poleFour.get(i).getSubTitle() != null) {
+                            damageDetailsPoleFour.put(subtitle, addExtent);
                         }
                     }
                     if (PoleData.getInstance().poleFour.get(i).getCheckedOK() != null) {
@@ -540,6 +561,13 @@ public class ReadPoleEquipmentData {
                             damageDetailsPoleFive.put(subtitle, addNote);
                         }
                     }
+                    if (PoleData.getInstance().poleFive.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleFive.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleFive.get(i).getExtent();
+                        if (PoleData.getInstance().poleFive.get(i).getSubTitle() != null) {
+                            damageDetailsPoleFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleData.getInstance().poleFive.get(i).getCheckedOK() != null) {
                         subtitle = PoleData.getInstance().poleFive.get(i).getSubTitle();
                         isChecked = PoleData.getInstance().poleFive.get(i).getCheckedOK();
@@ -624,6 +652,13 @@ public class ReadPoleEquipmentData {
                             damageDetailsPoleSix.put(subtitle, addNote);
                         }
                     }
+                    if (PoleData.getInstance().poleSix.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleSix.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleSix.get(i).getExtent();
+                        if (PoleData.getInstance().poleSix.get(i).getSubTitle() != null) {
+                            damageDetailsPoleSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleData.getInstance().poleSix.get(i).getCheckedOK() != null) {
                         subtitle = PoleData.getInstance().poleSix.get(i).getSubTitle();
                         isChecked = PoleData.getInstance().poleSix.get(i).getCheckedOK();
@@ -706,6 +741,12 @@ public class ReadPoleEquipmentData {
                         addNote = PoleData.getInstance().poleSeven.get(i).getNote();
                         if (PoleData.getInstance().poleSeven.get(i).getSubTitle() != null) {
                             damageDetailsPoleSeven.put(subtitle, addNote);
+                        }
+                    }if (PoleData.getInstance().poleSeven.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleSeven.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleSeven.get(i).getExtent();
+                        if (PoleData.getInstance().poleSeven.get(i).getSubTitle() != null) {
+                            damageDetailsPoleSeven.put(subtitle, addExtent);
                         }
                     }
                     if (PoleData.getInstance().poleSeven.get(i).getCheckedOK() != null) {
@@ -792,6 +833,13 @@ public class ReadPoleEquipmentData {
                             damageDetailsPoleEight.put(subtitle, addNote);
                         }
                     }
+                    if (PoleData.getInstance().poleEight.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleEight.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleEight.get(i).getExtent();
+                        if (PoleData.getInstance().poleEight.get(i).getSubTitle() != null) {
+                            damageDetailsPoleEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleData.getInstance().poleEight.get(i).getCheckedOK() != null) {
                         subtitle = PoleData.getInstance().poleEight.get(i).getSubTitle();
                         isChecked = PoleData.getInstance().poleEight.get(i).getCheckedOK();
@@ -874,6 +922,13 @@ public class ReadPoleEquipmentData {
                         addNote = PoleData.getInstance().poleNine.get(i).getNote();
                         if (PoleData.getInstance().poleNine.get(i).getSubTitle() != null) {
                             damageDetailsPoleNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleData.getInstance().poleNine.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleNine.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleNine.get(i).getExtent();
+                        if (PoleData.getInstance().poleNine.get(i).getSubTitle() != null) {
+                            damageDetailsPoleNine.put(subtitle, addExtent);
                         }
                     }
                     if (PoleData.getInstance().poleNine.get(i).getCheckedOK() != null) {
@@ -959,6 +1014,13 @@ public class ReadPoleEquipmentData {
                         addNote = PoleData.getInstance().poleTen.get(i).getNote();
                         if (PoleData.getInstance().poleTen.get(i).getSubTitle() != null) {
                             damageDetailsPoleTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleData.getInstance().poleTen.get(i).getExtent() != null) {
+                        subtitle = PoleData.getInstance().poleTen.get(i).getSubTitle();
+                        addExtent = PoleData.getInstance().poleTen.get(i).getExtent();
+                        if (PoleData.getInstance().poleTen.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTen.put(subtitle, addExtent);
                         }
                     }
                     if (PoleData.getInstance().poleTen.get(i).getCheckedOK() != null) {

@@ -566,11 +566,11 @@ public class MainActivity extends AppCompatActivity {
                    GlobalData.scopesPreferencesEditor.putString("wireeJSON", sortedwireeJsonArray.toString());
                    GlobalData.scopesPreferencesEditor.putString("splJSON", sortedsplJsonArray.toString());
                    GlobalData.scopesPreferencesEditor.putString("treeJSON", sortedtreeJsonArray.toString());
-                   Log.i("vidisha","poleJSON==="+sortedPOleJsonArray.toString());
+                 /*  Log.i("vidisha","poleJSON==="+sortedPOleJsonArray.toString());
                    Log.i("vidisha","othersJSON==="+sortedOthersJsonArray.toString());
                    Log.i("vidisha","poleTopJSON==="+sortedPOleTopJsonArray.toString());
                    Log.i("vidisha","wireeJSON==="+wireeJSON.toString());
-
+*/
                    GlobalData.scopesPreferencesEditor.commit();
 
                 } catch (JSONException e) {

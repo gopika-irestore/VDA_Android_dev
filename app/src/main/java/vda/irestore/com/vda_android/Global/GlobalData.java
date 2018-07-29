@@ -27,9 +27,10 @@ public class GlobalData {
     public static boolean isOtherActivity = true;
     public  static List<File> pole_top_images_array  = new ArrayList<File>();
     public  static List<File> pole_images_array  = new ArrayList<File>();
+    public  static List<File> wire_images_array  = new ArrayList<File>();
     public  static List<File> tree_images_array  = new ArrayList<File>();
     public  static List<File> underground_images_array  = new ArrayList<File>();
-    public  static List<File> other_images_array  = new ArrayList<File>();
+    public  static List<File> spl_images_array  = new ArrayList<File>();
 
     public static SharedPreferences scopesPreferences,metadataPreferences;
     public static SharedPreferences.Editor scopesPreferencesEditor,metadataPreferencesEditor;

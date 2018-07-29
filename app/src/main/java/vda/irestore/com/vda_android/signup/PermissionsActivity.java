@@ -44,7 +44,7 @@ import java.util.List;
 import vda.irestore.com.vda_android.Global.Global;
 
 
-public class PermissionsActivity extends AppCompatActivity implements
+public class PermissionsActivity extends Activity implements
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener
     {
         public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
