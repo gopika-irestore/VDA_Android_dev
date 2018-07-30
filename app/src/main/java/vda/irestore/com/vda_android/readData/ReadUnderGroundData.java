@@ -22,7 +22,7 @@ public class ReadUnderGroundData {
             sectionalizerCabinetOneTestPicturePath = null, sectionalizerCabinetTwoTestPicturePath = null, sectionalizerCabinetThreeTestPicturePath = null, sectionalizerCabinetFourTestPicturePath = null, sectionalizerCabinetFiveTestPicturePath = null, sectionalizerCabinetSixTestPicturePath = null, sectionalizerCabinetSevenTestPicturePath = null, sectionalizerCabinetEightTestPicturePath = null, sectionalizerCabinetNineTestPicturePath = null, sectionalizerCabinetTenTestPicturePath = null;
     ;
 
-    String addNote, subtitle, kvaSize, displayName, testType, size;
+    String addNote, addExtent,subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
     public String poleTitle, padmountsTitle, pullBoxTitle, spiceBoxTitle, sectionalizerCabinetTitle;
 
@@ -81,6 +81,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsOneData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -129,6 +130,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsOne.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsOne.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsOne.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsOne.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsOne.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsOne.put(subtitle, addExtent);
+                        }
+                    }
 
                     if (UnderGroundData.getInstance().padmountsOne.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsOne.get(i).getSubTitle();
@@ -148,9 +156,7 @@ public class ReadUnderGroundData {
                         Log.i("Shri_LOG", "Name = " + UnderGroundData.getInstance().padmountsOne.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + UnderGroundData.getInstance().padmountsOne.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                           // displayName = "is" + displayName;
+
                             damageDetailspadmountsOne.put(displayName, isSelected);
                         }
                         else
@@ -171,6 +177,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -219,6 +226,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsTwo.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsTwo.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsTwo.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsTwo.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsTwo.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsTwo.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsTwo.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsTwo.get(i).getCheckedOK();
@@ -251,6 +265,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -301,6 +316,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsThree.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsThree.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsThree.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsThree.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsThree.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsThree.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsThree.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsThree.get(i).getCheckedOK();
@@ -333,6 +355,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsFourData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -385,6 +408,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsFour.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsFour.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsFour.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsFour.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsFour.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsFour.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsFour.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsFour.get(i).getCheckedOK();
@@ -417,6 +447,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -470,6 +501,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsFive.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsFive.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsFive.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsFive.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsFive.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsFive.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsFive.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsFive.get(i).getCheckedOK();
@@ -502,6 +540,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsSixData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -554,6 +593,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsSix.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsSix.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsSix.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsSix.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsSix.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsSix.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsSix.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsSix.get(i).getCheckedOK();
@@ -586,6 +632,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsSevenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -640,6 +687,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsSeven.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsSeven.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsSeven.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsSeven.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsSeven.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsSeven.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsSeven.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsSeven.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsSeven.get(i).getCheckedOK();
@@ -672,6 +726,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsEightData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -726,6 +781,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsEight.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsEight.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsEight.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsEight.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsEight.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsEight.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsEight.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsEight.get(i).getCheckedOK();
@@ -758,6 +820,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsNineData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -811,6 +874,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsNine.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsNine.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsNine.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsNine.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsNine.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsNine.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsNine.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsNine.get(i).getCheckedOK();
@@ -843,6 +913,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpadmountsTenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -895,6 +966,13 @@ public class ReadUnderGroundData {
                             damageDetailspadmountsTen.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().padmountsTen.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().padmountsTen.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().padmountsTen.get(i).getExtent();
+                        if (UnderGroundData.getInstance().padmountsTen.get(i).getSubTitle() != null) {
+                            damageDetailspadmountsTen.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().padmountsTen.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().padmountsTen.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().padmountsTen.get(i).getCheckedOK();
@@ -927,6 +1005,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxOneData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -980,6 +1059,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxOne.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxOne.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxOne.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxOne.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxOne.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxOne.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxOne.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxOne.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxOne.get(i).getCheckedOK();
@@ -1012,6 +1098,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1066,6 +1153,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxTwo.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxTwo.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxTwo.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxTwo.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxTwo.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxTwo.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxTwo.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxTwo.get(i).getCheckedOK();
@@ -1098,6 +1192,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1153,6 +1248,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxThree.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxThree.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxThree.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxThree.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxThree.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxThree.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxThree.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxThree.get(i).getCheckedOK();
@@ -1185,6 +1287,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxFourData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1240,6 +1343,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxFour.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxFour.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxFour.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxFour.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxFour.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxFour.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxFour.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxFour.get(i).getCheckedOK();
@@ -1272,6 +1382,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1326,6 +1437,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxFive.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxFive.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxFive.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxFive.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxFive.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxFive.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxFive.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxFive.get(i).getCheckedOK();
@@ -1358,6 +1476,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxSixData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1411,6 +1530,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxSix.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxSix.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxSix.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxSix.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxSix.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxSix.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxSix.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxSix.get(i).getCheckedOK();
@@ -1443,6 +1569,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxSevenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1494,6 +1621,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxSeven.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxSeven.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxSeven.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxSeven.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxSeven.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxSeven.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxSeven.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxSeven.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxSeven.get(i).getCheckedOK();
@@ -1526,6 +1660,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxEightData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1577,6 +1712,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxEight.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxEight.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxEight.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxEight.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxEight.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxEight.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxEight.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxEight.get(i).getCheckedOK();
@@ -1609,6 +1751,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxNineData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1660,6 +1803,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxNine.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxNine.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxNine.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxNine.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxNine.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxNine.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxNine.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxNine.get(i).getCheckedOK();
@@ -1692,6 +1842,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readpullBoxTenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1743,6 +1894,13 @@ public class ReadUnderGroundData {
                             damageDetailspullBoxTen.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().pullBoxTen.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().pullBoxTen.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().pullBoxTen.get(i).getExtent();
+                        if (UnderGroundData.getInstance().pullBoxTen.get(i).getSubTitle() != null) {
+                            damageDetailspullBoxTen.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().pullBoxTen.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().pullBoxTen.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().pullBoxTen.get(i).getCheckedOK();
@@ -1775,6 +1933,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxOneData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1828,6 +1987,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxOne.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxOne.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxOne.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxOne.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxOne.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxOne.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxOne.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxOne.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxOne.get(i).getCheckedOK();
@@ -1861,6 +2027,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1913,6 +2080,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxTwo.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxTwo.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxTwo.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxTwo.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxTwo.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxTwo.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxTwo.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxTwo.get(i).getCheckedOK();
@@ -1945,6 +2119,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1997,6 +2172,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxThree.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxThree.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxThree.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxThree.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxThree.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxThree.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxThree.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxThree.get(i).getCheckedOK();
@@ -2029,6 +2211,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxFourData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2079,6 +2262,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxFour.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxFour.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxFour.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxFour.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxFour.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxFour.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxFour.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxFour.get(i).getCheckedOK();
@@ -2111,6 +2301,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2162,6 +2353,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxFive.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxFive.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxFive.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxFive.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxFive.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxFive.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxFive.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxFive.get(i).getCheckedOK();
@@ -2194,6 +2392,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxSixData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2245,6 +2444,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxSix.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxSix.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxSix.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxSix.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxSix.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxSix.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxSix.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxSix.get(i).getCheckedOK();
@@ -2277,6 +2483,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxSevenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2313,7 +2520,6 @@ public class ReadUnderGroundData {
                         }
                     }
 
-
                     if (UnderGroundData.getInstance().spiceBoxSeven.get(i).getKvaSize() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxSeven.get(i).getSubTitle();
                         kvaSize = UnderGroundData.getInstance().spiceBoxSeven.get(i).getKvaSize();
@@ -2326,6 +2532,13 @@ public class ReadUnderGroundData {
                         addNote = UnderGroundData.getInstance().spiceBoxSeven.get(i).getNote();
                         if (UnderGroundData.getInstance().spiceBoxSeven.get(i).getSubTitle() != null) {
                             damageDetailsspiceBoxSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (UnderGroundData.getInstance().spiceBoxSeven.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxSeven.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxSeven.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxSeven.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxSeven.put(subtitle, addExtent);
                         }
                     }
                     if (UnderGroundData.getInstance().spiceBoxSeven.get(i).getCheckedOK() != null) {
@@ -2360,6 +2573,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxEightData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2409,6 +2623,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxEight.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxEight.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxEight.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxEight.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxEight.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxEight.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxEight.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxEight.get(i).getCheckedOK();
@@ -2441,6 +2662,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxNineData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2492,6 +2714,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxNine.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxNine.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxNine.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxNine.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxNine.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxNine.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxNine.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxNine.get(i).getCheckedOK();
@@ -2524,6 +2753,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readspiceBoxTenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2575,6 +2805,13 @@ public class ReadUnderGroundData {
                             damageDetailsspiceBoxTen.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().spiceBoxTen.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().spiceBoxTen.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().spiceBoxTen.get(i).getExtent();
+                        if (UnderGroundData.getInstance().spiceBoxTen.get(i).getSubTitle() != null) {
+                            damageDetailsspiceBoxTen.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().spiceBoxTen.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().spiceBoxTen.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().spiceBoxTen.get(i).getCheckedOK();
@@ -2607,6 +2844,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetOneData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2660,6 +2898,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetOne.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetOne.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetOne.get(i).getCheckedOK();
@@ -2692,6 +2937,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2744,6 +2990,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetTwo.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetTwo.get(i).getCheckedOK();
@@ -2776,6 +3029,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetThreeData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2827,6 +3081,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetThree.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetThree.get(i).getCheckedOK();
@@ -2859,6 +3120,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetFourData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2911,6 +3173,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetFour.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetFour.get(i).getCheckedOK();
@@ -2943,6 +3212,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetFiveData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2996,6 +3266,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetFive.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetFive.get(i).getCheckedOK();
@@ -3028,6 +3305,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetSixData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3078,6 +3356,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetSix.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetSix.get(i).getCheckedOK();
@@ -3110,6 +3395,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetSevenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3161,6 +3447,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetSeven.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetSeven.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetSeven.get(i).getCheckedOK();
@@ -3193,6 +3486,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetEightData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3246,6 +3540,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetEight.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetEight.get(i).getCheckedOK();
@@ -3278,6 +3579,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetNineData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3332,6 +3634,13 @@ public class ReadUnderGroundData {
                             damageDetailssectionalizerCabinetNine.put(subtitle, addNote);
                         }
                     }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getCheckedOK() != null) {
                         subtitle = UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getSubTitle();
                         isChecked = UnderGroundData.getInstance().sectionalizerCabinetNine.get(i).getCheckedOK();
@@ -3364,6 +3673,7 @@ public class ReadUnderGroundData {
 
     public JSONObject readsectionalizerCabinetTenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3415,6 +3725,13 @@ public class ReadUnderGroundData {
                         addNote = UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getNote();
                         if (UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getSubTitle() != null) {
                             damageDetailssectionalizerCabinetTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getExtent() != null) {
+                        subtitle = UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getSubTitle();
+                        addExtent = UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getExtent();
+                        if (UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getSubTitle() != null) {
+                            damageDetailssectionalizerCabinetTen.put(subtitle, addExtent);
                         }
                     }
                     if (UnderGroundData.getInstance().sectionalizerCabinetTen.get(i).getCheckedOK() != null) {

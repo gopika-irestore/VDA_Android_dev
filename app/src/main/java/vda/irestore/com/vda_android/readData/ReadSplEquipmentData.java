@@ -17,7 +17,7 @@ public class ReadSplEquipmentData {
             recloserOnePicturePath = null, recloserTwoPicturePath = null, recloserThreePicturePath = null, recloserFourPicturePath = null, recloserFivePicturePath = null, recloserSixPicturePath = null, recloserSevenPicturePath = null, recloserEightPicturePath = null, recloserNinePicturePath = null, recloserTenPicturePath = null,
             loadBreakOnePicturePath = null, loadBreakTwoPicturePath = null, loadBreakThreePicturePath = null, loadBreakFourPicturePath = null, loadBreakFivePicturePath = null, loadBreakSixPicturePath = null, loadBreakSevenPicturePath = null, loadBreakEightPicturePath = null, loadBreakNinePicturePath = null, loadBreakTenPicturePath = null;
 
-    String addNote, subtitle, kvaSize, displayName, testType, size;
+    String addNote, addExtent,subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
     public String regulatorTitle, capacitorBankTitle, recloserTitle, loadBreakSwitchTitle;
 
@@ -76,6 +76,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorOneData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -103,6 +104,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorOne.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorOne.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorOne.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorOne.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorOne.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorOne.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorOne.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorOne.get(i).getCheckedOK() != null) {
@@ -139,6 +147,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorTwoData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -166,6 +175,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorTwo.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorTwo.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorTwo.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorTwo.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorTwo.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorTwo.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorTwo.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorTwo.get(i).getCheckedOK() != null) {
@@ -202,6 +218,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorThreeData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -229,6 +246,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorThree.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorThree.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorThree.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorThree.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorThree.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorThree.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorThree.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorThree.get(i).getCheckedOK() != null) {
@@ -265,6 +289,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorFourData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -292,6 +317,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorFour.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorFour.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorFour.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorFour.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorFour.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorFour.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorFour.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorFour.get(i).getCheckedOK() != null) {
@@ -326,6 +358,7 @@ public class ReadSplEquipmentData {
 
     public JSONObject readregulatorFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -353,6 +386,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorFive.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorFive.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorFive.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorFive.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorFive.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorFive.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorFive.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorFive.get(i).getCheckedOK() != null) {
@@ -389,6 +429,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorSixData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -416,6 +457,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorSix.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorSix.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorSix.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorSix.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorSix.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorSix.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorSix.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorSix.get(i).getCheckedOK() != null) {
@@ -452,6 +500,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorSevenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -479,6 +528,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorSeven.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorSeven.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorSeven.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorSeven.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorSeven.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorSeven.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorSeven.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorSeven.get(i).getCheckedOK() != null) {
@@ -515,6 +571,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorEightData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -542,6 +599,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorEight.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorEight.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorEight.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorEight.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorEight.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorEight.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorEight.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorEight.get(i).getCheckedOK() != null) {
@@ -578,6 +642,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorNineData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -605,6 +670,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorNine.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorNine.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorNine.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorNine.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorNine.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorNine.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorNine.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorNine.get(i).getCheckedOK() != null) {
@@ -641,6 +713,7 @@ public class ReadSplEquipmentData {
     public JSONObject readregulatorTenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -668,6 +741,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().regulatorTen.get(i).getNote();
                         if (SplEquipmentData.getInstance().regulatorTen.get(i).getSubTitle() != null) {
                             damageDetailsRegulatorTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().regulatorTen.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().regulatorTen.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().regulatorTen.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().regulatorTen.get(i).getSubTitle() != null) {
+                            damageDetailsRegulatorTen.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().regulatorTen.get(i).getCheckedOK() != null) {
@@ -704,6 +784,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankOneData() {
         // Transformer defect One
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -733,6 +814,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankOne.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankOne.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankOne.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankOne.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankOne.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankOne.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankOne.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankOne.get(i).getCheckedOK() != null) {
@@ -769,6 +857,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankTwoData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -796,6 +885,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankTwo.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankTwo.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankTwo.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankTwo.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankTwo.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankTwo.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankTwo.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankTwo.get(i).getCheckedOK() != null) {
@@ -832,6 +928,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankThreeData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -859,6 +956,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankThree.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankThree.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankThree.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankThree.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankThree.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankThree.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankThree.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankThree.get(i).getCheckedOK() != null) {
@@ -895,6 +999,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankFourData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -922,6 +1027,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankFour.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankFour.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankFour.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankFour.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankFour.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankFour.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankFour.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankFour.get(i).getCheckedOK() != null) {
@@ -959,6 +1071,7 @@ public class ReadSplEquipmentData {
         // Transformer defect One
         addNote = null;
         subtitle = null;
+        addExtent =null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
@@ -986,6 +1099,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankFive.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankFive.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankFive.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankFive.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankFive.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankFive.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankFive.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankFive.get(i).getCheckedOK() != null) {
@@ -1022,6 +1142,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankSixData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1049,6 +1170,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankSix.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankSix.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankSix.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankSix.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankSix.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankSix.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankSix.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankSix.get(i).getCheckedOK() != null) {
@@ -1085,6 +1213,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankSevenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1112,6 +1241,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankSeven.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankSeven.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankSeven.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankSeven.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankSeven.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankSeven.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankSeven.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankSeven.get(i).getCheckedOK() != null) {
@@ -1148,6 +1284,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankEightData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1175,6 +1312,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankEight.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankEight.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankEight.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankEight.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankEight.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankEight.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankEight.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankEight.get(i).getCheckedOK() != null) {
@@ -1211,6 +1355,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankNineData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1238,6 +1383,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankNine.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankNine.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankNine.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankNine.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankNine.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankNine.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankNine.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankNine.get(i).getCheckedOK() != null) {
@@ -1274,6 +1426,7 @@ public class ReadSplEquipmentData {
     public JSONObject readcapacitorBankTenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1301,6 +1454,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().capacitorBankTen.get(i).getNote();
                         if (SplEquipmentData.getInstance().capacitorBankTen.get(i).getSubTitle() != null) {
                             damageDetailscapacitorBankTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().capacitorBankTen.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().capacitorBankTen.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().capacitorBankTen.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().capacitorBankTen.get(i).getSubTitle() != null) {
+                            damageDetailscapacitorBankTen.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().capacitorBankTen.get(i).getCheckedOK() != null) {
@@ -1337,6 +1497,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserOneData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1364,6 +1525,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserOne.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserOne.get(i).getSubTitle() != null) {
                             damageDetailsrecloserOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserOne.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserOne.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserOne.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserOne.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserOne.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserOne.get(i).getCheckedOK() != null) {
@@ -1400,6 +1568,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserTwoData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1427,6 +1596,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserTwo.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserTwo.get(i).getSubTitle() != null) {
                             damageDetailsrecloserTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserTwo.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserTwo.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserTwo.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserTwo.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserTwo.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserTwo.get(i).getCheckedOK() != null) {
@@ -1463,6 +1639,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserThreeData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1490,6 +1667,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserThree.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserThree.get(i).getSubTitle() != null) {
                             damageDetailsrecloserThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserThree.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserThree.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserThree.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserThree.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserThree.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserThree.get(i).getCheckedOK() != null) {
@@ -1526,6 +1710,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserFourData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1553,6 +1738,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserFour.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserFour.get(i).getSubTitle() != null) {
                             damageDetailsrecloserFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserFour.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserFour.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserFour.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserFour.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserFour.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserFour.get(i).getCheckedOK() != null) {
@@ -1589,6 +1781,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserFiveData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1616,6 +1809,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserFive.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserFive.get(i).getSubTitle() != null) {
                             damageDetailsrecloserFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserFive.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserFive.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserFive.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserFive.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserFive.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserFive.get(i).getCheckedOK() != null) {
@@ -1652,6 +1852,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserSixData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1679,6 +1880,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserSix.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserSix.get(i).getSubTitle() != null) {
                             damageDetailsrecloserSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserSix.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserSix.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserSix.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserSix.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserSix.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserSix.get(i).getCheckedOK() != null) {
@@ -1715,6 +1923,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserSevenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1742,6 +1951,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserSeven.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserSeven.get(i).getSubTitle() != null) {
                             damageDetailsrecloserSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserSeven.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserSeven.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserSeven.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserSeven.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserSeven.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserSeven.get(i).getCheckedOK() != null) {
@@ -1778,6 +1994,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserEightData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1805,6 +2022,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserEight.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserEight.get(i).getSubTitle() != null) {
                             damageDetailsrecloserEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserEight.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserEight.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserEight.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserEight.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserEight.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserEight.get(i).getCheckedOK() != null) {
@@ -1841,6 +2065,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserNineData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1868,6 +2093,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserNine.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserNine.get(i).getSubTitle() != null) {
                             damageDetailsrecloserNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserNine.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserNine.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserNine.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserNine.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserNine.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserNine.get(i).getCheckedOK() != null) {
@@ -1904,6 +2136,7 @@ public class ReadSplEquipmentData {
     public JSONObject readrecloserTenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1931,6 +2164,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().recloserTen.get(i).getNote();
                         if (SplEquipmentData.getInstance().recloserTen.get(i).getSubTitle() != null) {
                             damageDetailsrecloserTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().recloserTen.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().recloserTen.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().recloserTen.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().recloserTen.get(i).getSubTitle() != null) {
+                            damageDetailsrecloserTen.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().recloserTen.get(i).getCheckedOK() != null) {
@@ -1967,6 +2207,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchOneData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1995,6 +2236,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakOne.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchOne.get(i).getCheckedOK() != null) {
@@ -2031,6 +2279,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchTwoData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2058,6 +2307,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakTwo.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchTwo.get(i).getCheckedOK() != null) {
@@ -2093,6 +2349,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchThreeData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2120,6 +2377,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakThree.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchThree.get(i).getCheckedOK() != null) {
@@ -2156,6 +2420,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchFourData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2183,6 +2448,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakFour.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchFour.get(i).getCheckedOK() != null) {
@@ -2219,6 +2491,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchFiveData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2246,6 +2519,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakFive.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchFive.get(i).getCheckedOK() != null) {
@@ -2281,6 +2561,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchSixData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2308,6 +2589,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakSix.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchSix.get(i).getCheckedOK() != null) {
@@ -2343,6 +2631,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchSevenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2370,6 +2659,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakSeven.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchSeven.get(i).getCheckedOK() != null) {
@@ -2405,6 +2701,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchEightData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2432,6 +2729,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakEight.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchEight.get(i).getCheckedOK() != null) {
@@ -2467,6 +2771,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchNineData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2494,6 +2799,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakNine.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchNine.get(i).getCheckedOK() != null) {
@@ -2529,6 +2841,7 @@ public class ReadSplEquipmentData {
     public JSONObject readloadBreakSwitchTenData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2556,6 +2869,13 @@ public class ReadSplEquipmentData {
                         addNote = SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getNote();
                         if (SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getSubTitle() != null) {
                             damageDetailsloadBreakTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getExtent() != null) {
+                        subtitle = SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getSubTitle();
+                        addExtent = SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getExtent();
+                        if (SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getSubTitle() != null) {
+                            damageDetailsloadBreakTen.put(subtitle, addExtent);
                         }
                     }
                     if (SplEquipmentData.getInstance().loadBreakSwitchTen.get(i).getCheckedOK() != null) {
