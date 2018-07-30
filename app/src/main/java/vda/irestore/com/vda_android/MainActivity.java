@@ -66,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getStatusBarHeight();
 
+
+        ReadUnderGroundData.getInstance().resetAllReference();
+        ReadUnderGroundData.getInstance().resetAllJSONObject();
+        ReadPoleEquipmentData.getInstance().resetAllReference();
+        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+        ReadPoleEquipmentData.getInstance().resetAllReference();
+        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+        ReadWireData.getInstance().resetAllReference();
+        ReadWireData.getInstance().resetAllJSONObject();
+        ReadSplEquipmentData.getInstance().resetAllReference();
+        ReadSplEquipmentData.getInstance().resetAllJSONObject();
+        ReadTreeData.getInstance().resetAllReference();
+        ReadTreeData.getInstance().resetAllJSONObject();
         wire = (ImageView)findViewById(R.id.wire);
         poleTop = (ImageView)findViewById(R.id.poleTop);
         splEquipment = (ImageView)findViewById(R.id.splEquipment);

@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Geocoder;
 import android.location.Location;
@@ -1014,11 +1015,14 @@ public class Submission_screen extends Activity {
         LayoutInflater inflator = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.custom_titlebar, null);
+        v.setBackgroundColor(Color.WHITE);
         ActionBar actionBar = getActionBar();
         TextView title = (TextView) v.findViewById(R.id.title);
+        title.setTextColor(Color.parseColor("#333333"));
         title.setText("Damage Assesment");
         title.setTypeface(typeFace);
         Button nextBtn = (Button) v.findViewById(R.id.nextBtn);
+        nextBtn.setTextColor(Color.parseColor("#00A699"));
         nextBtn.setText("Submit");
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1196,7 +1200,7 @@ public class Submission_screen extends Activity {
                                         startActivity(intent);
                                         setFileToUploadPole();
 
-                                        dialog.cancel();
+
 
                                         ReadUnderGroundData.getInstance().resetAllReference();
                                         ReadUnderGroundData.getInstance().resetAllJSONObject();
@@ -1208,9 +1212,9 @@ public class Submission_screen extends Activity {
                                         ReadWireData.getInstance().resetAllJSONObject();
                                         ReadSplEquipmentData.getInstance().resetAllReference();
                                         ReadSplEquipmentData.getInstance().resetAllJSONObject();
-
                                         ReadTreeData.getInstance().resetAllReference();
                                         ReadTreeData.getInstance().resetAllJSONObject();
+                                        dialog.cancel();
                                     }
                                 });
                                 // Showing Alert Message
