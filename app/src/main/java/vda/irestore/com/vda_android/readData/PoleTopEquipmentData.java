@@ -143,12 +143,7 @@ public class PoleTopEquipmentData {
                 fusedCutReferenceInitialization();
             }
         }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                poleAttachementReferenceInitialization();
-            }
-        }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -168,19 +163,7 @@ public class PoleTopEquipmentData {
                 insulatorInitialization();
             }
         }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                primaryInitialization();
-            }
-        }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                secondaryInitialization();
-            }
-        }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -202,7 +185,7 @@ public class PoleTopEquipmentData {
         serviceWireTen = new ArrayList();
     }
 
-    private void secondaryInitialization() {
+/*    private void secondaryInitialization() {
         secondaryOne = new ArrayList();
         secondaryTwo = new ArrayList();
         secondaryThree = new ArrayList();
@@ -213,9 +196,9 @@ public class PoleTopEquipmentData {
         secondaryEight = new ArrayList();
         secondaryNine = new ArrayList();
         secondaryTen = new ArrayList();
-    }
+    }*/
 
-    private void primaryInitialization() {
+/*    private void primaryInitialization() {
         primaryOne = new ArrayList<>();
         primaryTwo = new ArrayList<>();
         primaryThree = new ArrayList<>();
@@ -226,7 +209,7 @@ public class PoleTopEquipmentData {
         primaryEight = new ArrayList<>();
         primaryNine = new ArrayList<>();
         primaryTen = new ArrayList<>();
-    }
+    }*/
 
     private void insulatorInitialization() {
         insulatorOne = new ArrayList<>();
@@ -267,7 +250,7 @@ public class PoleTopEquipmentData {
         streetlightTen = new ArrayList<>();
     }
 
-    private void poleAttachementReferenceInitialization() {
+/*    private void poleAttachementReferenceInitialization() {
         poleAttacmentOne = new ArrayList<>();
         poleAttacmentTwo = new ArrayList<>();
         poleAttacmentThree = new ArrayList<>();
@@ -278,7 +261,7 @@ public class PoleTopEquipmentData {
         poleAttacmentEight = new ArrayList<>();
         poleAttacmentNine = new ArrayList<>();
         poleAttacmentTen = new ArrayList<>();
-    }
+    }*/
 
     private void fusedCutReferenceInitialization() {
         fusedCutOne = new ArrayList<>();

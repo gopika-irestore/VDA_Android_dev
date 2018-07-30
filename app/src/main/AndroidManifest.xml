@@ -89,6 +89,9 @@
         <activity android:name=".SelectedItems"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".Submission_screen"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity android:name=".PoleActivity" />
         <activity
             android:name=".signup.MyProfile"

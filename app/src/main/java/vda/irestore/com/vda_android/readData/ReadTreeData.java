@@ -774,5 +774,51 @@ public class ReadTreeData {
         return damageDetailstreeTen;
     }
 
+    public void resetAllReference() {
+        try {
+            reserPictureName();
+            TreeData.getInstance().treeOne.clear();
+            TreeData.getInstance().treeTwo.clear();
+            TreeData.getInstance().treeThree.clear();
+            TreeData.getInstance().treeFour.clear();
+            TreeData.getInstance().treeFive.clear();
+            TreeData.getInstance().treeSix.clear();
+            TreeData.getInstance().treeSeven.clear();
+            TreeData.getInstance().treeEight.clear();
+            TreeData.getInstance().treeNine.clear();
+            TreeData.getInstance().treeTen.clear();
 
+
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+    private void reserPictureName() {
+        treeOnePicturePath = null;
+        treeTwoPicturePath = null;
+        treeThreePicturePath = null;
+        treeFourPicturePath = null;
+        treeFivePicturePath = null;
+        treeSixPicturePath = null;
+        treeSevenPicturePath = null;
+        treeEightPicturePath = null;
+        treeNinePicturePath = null;
+        treeTenPicturePath = null;
+
+    }
+
+    public void resetAllJSONObject() {
+        damageDetailstreeOne = null;
+        damageDetailstreeTwo = null;
+        damageDetailstreeThree = null;
+        damageDetailstreeFour = null;
+        damageDetailstreeFive = null;
+        damageDetailstreeSix = null;
+        damageDetailstreeSeven = null;
+        damageDetailstreeEight = null;
+        damageDetailstreeNine = null;
+        damageDetailstreeTen = null;
+
+    }
 }

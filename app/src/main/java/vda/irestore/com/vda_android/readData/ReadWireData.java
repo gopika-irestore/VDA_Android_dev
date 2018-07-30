@@ -16,7 +16,7 @@ public class ReadWireData {
             service_wireOneTestPicturePath = null, service_wireTwoTestPicturePath = null, service_wireThreeTestPicturePath = null, service_wireFourTestPicturePath = null, service_wireFiveTestPicturePath = null, service_wireSixTestPicturePath = null, service_wireSevenTestPicturePath = null, service_wireEightTestPicturePath = null, service_wireNineTestPicturePath = null, service_wireTenTestPicturePath = null;
     ;
 
-    String addNote, subtitle, kvaSize, displayName, testType, size;
+    String addNote, addExtent,subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
     public String poleTitle, primary_wireTitle, secondary_wireTitle, service_wireTitle;
 
@@ -75,6 +75,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireOneData() {
         addNote = null;
+        addExtent = null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -124,6 +125,14 @@ public class ReadWireData {
                         }
                     }
 
+                    if (WireData.getInstance().primary_wireOne.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireOne.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireOne.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireOne.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireOne.put(subtitle, addExtent);
+                        }
+                    }
+
                     if (WireData.getInstance().primary_wireOne.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireOne.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireOne.get(i).getCheckedOK();
@@ -165,6 +174,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireTwoData() {
         addNote = null;
+        addExtent = null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -213,6 +223,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireTwo.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireTwo.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireTwo.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireTwo.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireTwo.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireTwo.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireTwo.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireTwo.get(i).getCheckedOK();
@@ -245,6 +262,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -295,6 +313,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireThree.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireThree.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireThree.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireThree.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireThree.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireThree.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireThree.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireThree.get(i).getCheckedOK();
@@ -327,6 +352,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireFourData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -379,6 +405,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireFour.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireFour.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireFour.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireFour.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireFour.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireFour.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireFour.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireFour.get(i).getCheckedOK();
@@ -411,6 +444,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -464,6 +498,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireFive.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireFive.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireFive.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireFive.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireFive.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireFive.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireFive.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireFive.get(i).getCheckedOK();
@@ -496,6 +537,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireSixData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -548,6 +590,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireSix.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireSix.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireSix.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireSix.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireSix.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireSix.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireSix.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireSix.get(i).getCheckedOK();
@@ -580,6 +629,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireSevenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -634,6 +684,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireSeven.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireSeven.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireSeven.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireSeven.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireSeven.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireSeven.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireSeven.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireSeven.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireSeven.get(i).getCheckedOK();
@@ -666,6 +723,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireEightData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -720,6 +778,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireEight.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireEight.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireEight.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireEight.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireEight.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireEight.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireEight.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireEight.get(i).getCheckedOK();
@@ -752,6 +817,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireNineData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -805,6 +871,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireNine.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireNine.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireNine.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireNine.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireNine.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireNine.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireNine.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireNine.get(i).getCheckedOK();
@@ -837,6 +910,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireTenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -889,6 +963,13 @@ public class ReadWireData {
                             damageDetailsprimary_wireTen.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().primary_wireTen.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().primary_wireTen.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().primary_wireTen.get(i).getExtent();
+                        if (WireData.getInstance().primary_wireTen.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireTen.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().primary_wireTen.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().primary_wireTen.get(i).getSubTitle();
                         isChecked = WireData.getInstance().primary_wireTen.get(i).getCheckedOK();
@@ -921,6 +1002,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireOneData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -974,6 +1056,20 @@ public class ReadWireData {
                             damageDetailssecondary_wireOne.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireOne.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireOne.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireOne.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireOne.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireOne.put(subtitle, addExtent);
+                        }
+                    }
+                    if (WireData.getInstance().secondary_wireOne.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireOne.get(i).getSubTitle();
+                        addNote = WireData.getInstance().secondary_wireOne.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireOne.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireOne.put(subtitle, addNote);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireOne.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireOne.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireOne.get(i).getCheckedOK();
@@ -1006,6 +1102,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1060,6 +1157,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireTwo.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireTwo.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireTwo.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireTwo.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireTwo.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireTwo.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireTwo.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireTwo.get(i).getCheckedOK();
@@ -1092,6 +1196,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1147,6 +1252,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireThree.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireThree.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireThree.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireThree.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireThree.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireThree.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireThree.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireThree.get(i).getCheckedOK();
@@ -1179,6 +1291,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireFourData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1234,6 +1347,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireFour.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireFour.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireFour.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireFour.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireFour.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireFour.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireFour.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireFour.get(i).getCheckedOK();
@@ -1266,6 +1386,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1320,6 +1441,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireFive.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireFive.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireFive.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireFive.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireFive.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireFive.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireFive.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireFive.get(i).getCheckedOK();
@@ -1352,6 +1480,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireSixData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1405,6 +1534,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireSix.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireSix.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireSix.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireSix.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireSix.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireSix.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireSix.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireSix.get(i).getCheckedOK();
@@ -1437,6 +1573,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireSevenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1488,6 +1625,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireSeven.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireSeven.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireSeven.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireSeven.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireSeven.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireSeven.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireSeven.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireSeven.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireSeven.get(i).getCheckedOK();
@@ -1520,6 +1664,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireEightData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1571,6 +1716,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireEight.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireEight.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireEight.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireEight.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireEight.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireEight.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireEight.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireEight.get(i).getCheckedOK();
@@ -1603,6 +1755,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireNineData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1654,6 +1807,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireNine.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireNine.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireNine.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireNine.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireNine.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireNine.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireNine.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireNine.get(i).getCheckedOK();
@@ -1686,6 +1846,7 @@ public class ReadWireData {
 
     public JSONObject readsecondary_wireTenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1737,6 +1898,13 @@ public class ReadWireData {
                             damageDetailssecondary_wireTen.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().secondary_wireTen.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().secondary_wireTen.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().secondary_wireTen.get(i).getExtent();
+                        if (WireData.getInstance().secondary_wireTen.get(i).getSubTitle() != null) {
+                            damageDetailssecondary_wireTen.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().secondary_wireTen.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().secondary_wireTen.get(i).getSubTitle();
                         isChecked = WireData.getInstance().secondary_wireTen.get(i).getCheckedOK();
@@ -1769,6 +1937,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireOneData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1822,6 +1991,13 @@ public class ReadWireData {
                             damageDetailsservice_wireOne.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireOne.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireOne.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireOne.get(i).getExtent();
+                        if (WireData.getInstance().service_wireOne.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireOne.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireOne.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireOne.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireOne.get(i).getCheckedOK();
@@ -1855,6 +2031,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1907,6 +2084,13 @@ public class ReadWireData {
                             damageDetailsservice_wireTwo.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireTwo.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireTwo.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireTwo.get(i).getExtent();
+                        if (WireData.getInstance().service_wireTwo.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireTwo.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireTwo.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireTwo.get(i).getCheckedOK();
@@ -1939,6 +2123,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1991,6 +2176,13 @@ public class ReadWireData {
                             damageDetailsservice_wireThree.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireThree.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireThree.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireThree.get(i).getExtent();
+                        if (WireData.getInstance().service_wireThree.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireThree.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireThree.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireThree.get(i).getCheckedOK();
@@ -2023,6 +2215,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireFourData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2073,6 +2266,13 @@ public class ReadWireData {
                             damageDetailsservice_wireFour.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireFour.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireFour.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireFour.get(i).getExtent();
+                        if (WireData.getInstance().service_wireFour.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireFour.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireFour.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireFour.get(i).getCheckedOK();
@@ -2105,6 +2305,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireFiveData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2156,6 +2357,13 @@ public class ReadWireData {
                             damageDetailsservice_wireFive.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireFive.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireFive.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireFive.get(i).getExtent();
+                        if (WireData.getInstance().service_wireFive.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireFive.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireFive.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireFive.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireFive.get(i).getCheckedOK();
@@ -2188,6 +2396,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireSixData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2239,6 +2448,13 @@ public class ReadWireData {
                             damageDetailsservice_wireSix.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireSix.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireSix.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireSix.get(i).getExtent();
+                        if (WireData.getInstance().service_wireSix.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireSix.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireSix.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireSix.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireSix.get(i).getCheckedOK();
@@ -2271,6 +2487,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireSevenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2322,6 +2539,13 @@ public class ReadWireData {
                             damageDetailsservice_wireSeven.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireSeven.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireSeven.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireSeven.get(i).getExtent();
+                        if (WireData.getInstance().service_wireSeven.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireSeven.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireSeven.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireSeven.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireSeven.get(i).getCheckedOK();
@@ -2354,6 +2578,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireEightData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2403,6 +2628,13 @@ public class ReadWireData {
                             damageDetailsservice_wireEight.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireEight.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireEight.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireEight.get(i).getExtent();
+                        if (WireData.getInstance().service_wireEight.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireEight.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireEight.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireEight.get(i).getCheckedOK();
@@ -2435,6 +2667,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireNineData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2486,6 +2719,13 @@ public class ReadWireData {
                             damageDetailsservice_wireNine.put(subtitle, addNote);
                         }
                     }
+                    if (WireData.getInstance().service_wireNine.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireNine.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireNine.get(i).getExtent();
+                        if (WireData.getInstance().service_wireNine.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (WireData.getInstance().service_wireNine.get(i).getCheckedOK() != null) {
                         subtitle = WireData.getInstance().service_wireNine.get(i).getSubTitle();
                         isChecked = WireData.getInstance().service_wireNine.get(i).getCheckedOK();
@@ -2518,6 +2758,7 @@ public class ReadWireData {
 
     public JSONObject readservice_wireTenData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2567,6 +2808,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().service_wireTen.get(i).getNote();
                         if (WireData.getInstance().service_wireTen.get(i).getSubTitle() != null) {
                             damageDetailsservice_wireTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().service_wireTen.get(i).getExtent() != null) {
+                        subtitle = WireData.getInstance().service_wireTen.get(i).getSubTitle();
+                        addExtent = WireData.getInstance().service_wireTen.get(i).getExtent();
+                        if (WireData.getInstance().service_wireTen.get(i).getSubTitle() != null) {
+                            damageDetailsservice_wireTen.put(subtitle, addExtent);
                         }
                     }
                     if (WireData.getInstance().service_wireTen.get(i).getCheckedOK() != null) {

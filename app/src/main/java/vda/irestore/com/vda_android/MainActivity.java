@@ -44,6 +44,11 @@ import java.util.List;
 
 import vda.irestore.com.vda_android.Global.Global;
 import vda.irestore.com.vda_android.Global.GlobalData;
+import vda.irestore.com.vda_android.readData.ReadPoleEquipmentData;
+import vda.irestore.com.vda_android.readData.ReadSplEquipmentData;
+import vda.irestore.com.vda_android.readData.ReadTreeData;
+import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
+import vda.irestore.com.vda_android.readData.ReadWireData;
 
 public class MainActivity extends AppCompatActivity {
     ImageView wire,poleTop,splEquipment,pole,tree,other;
@@ -289,8 +294,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRestart()
     {
+        Log.i("vidisha","clear data");
         super.onRestart();
-        GlobalData.metadataPreferences.edit().clear().commit();
+        GlobalData.metadataPreferences.edit().clear().apply();
+        GlobalData.metadataPreferencesEditor.clear().apply();
+        ReadUnderGroundData.getInstance().resetAllReference();
+        ReadUnderGroundData.getInstance().resetAllJSONObject();
+        ReadPoleEquipmentData.getInstance().resetAllReference();
+        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+        ReadPoleEquipmentData.getInstance().resetAllReference();
+        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+        ReadWireData.getInstance().resetAllReference();
+        ReadWireData.getInstance().resetAllJSONObject();
+        ReadSplEquipmentData.getInstance().resetAllReference();
+        ReadSplEquipmentData.getInstance().resetAllJSONObject();
+
+        ReadTreeData.getInstance().resetAllReference();
+        ReadTreeData.getInstance().resetAllJSONObject();
     }
 
     public void readDataFromFireBase(Context context) {

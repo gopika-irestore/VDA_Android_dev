@@ -74,6 +74,11 @@ public class GlobalData {
             numberOfRecloserDefect = null,
             numberOfLoadBreakSwitchDefect = null;
 
+    public ArrayList numberOfPrimaryWireDefects = null,
+            numberOfSecondaryWireDefects = null,
+            numberOfServiceWireDefects = null;
+
+
     public static synchronized GlobalData getInstance (){
             if(globalData == null)
                 globalData = new GlobalData();

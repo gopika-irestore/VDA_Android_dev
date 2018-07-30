@@ -81,13 +81,16 @@ import vda.irestore.com.vda_android.Global.Utils;
 import vda.irestore.com.vda_android.Pojo.GridItem;
 import vda.irestore.com.vda_android.Pojo.InspectionMetaData;
 import vda.irestore.com.vda_android.readData.PoleData;
+import vda.irestore.com.vda_android.readData.PoleTopEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadPoleEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadSplEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadTreeData;
 import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
+import vda.irestore.com.vda_android.readData.ReadWireData;
 import vda.irestore.com.vda_android.readData.SplEquipmentData;
 import vda.irestore.com.vda_android.readData.TreeData;
 import vda.irestore.com.vda_android.readData.UnderGroundData;
+import vda.irestore.com.vda_android.readData.WireData;
 import vda.irestore.com.vda_android.signup.PermissionsActivity;
 import vda.irestore.com.vda_android.signup.STAsyncHttpConnection;
 
@@ -174,7 +177,8 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         instantiateListWithData_Pole();
         instantiateListWithData_Tree();
         instantiateListWithData_Spl();
-
+        instantiateListWithData_Wire();
+        instantiateListWithData_PoleTop();
         scopesPreferences = getSharedPreferences(getString(
                 R.string.scopes_preferences), Context.MODE_PRIVATE);
         scopesPreferencesEditor = scopesPreferences.edit();
@@ -396,7 +400,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         m4.setBackgroundResource(0);
                         m5.setBackgroundResource(0);
                         m1.setBackgroundResource(0);
-                        Title.setText("Other");
+                        Title.setText("Non Pole Equipment");
                         Title.setTextColor(Color.parseColor("#0000A0"));
                         loadSelectedScopesData("othersKey","othersJSON");
                     }
@@ -418,6 +422,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         try {
 
             String response = GlobalData.metadataPreferences.getString(key, "");
+            Log.i("vidisha","existes data"+response);
             ArrayList<GridItem> poleGridItems_ArrayList = poleGson.fromJson(response,
                     new TypeToken<List<GridItem>>() {
                     }.getType());
@@ -486,11 +491,12 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         break;
                     case "wireeJSON":
                         Log.i("vidisha","2222");
+                        ShowWireDialog("wire", SelectedItems.this, item, img, position);
                        // ShowSplDialog("wire", SelectedItems.this, item, img, position);
                         break;
                     case "poleTopJSON":
                         Log.i("vidisha","2222");
-                      //  ShowTreeDialog("poleTop", SelectedItems.this, item, img, position);
+                        ShowPoleTopDialog("poleTop", SelectedItems.this, item, img, position);
                         break;
                     case "splJSON":
                         Log.i("vidisha","2222");
@@ -648,6 +654,113 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
     }
 
+    private ArrayList<InspectionMetaData> loadBreakSwitchReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().loadBreakSwitchOne;
+            case 1:
+                return SplEquipmentData.getInstance().loadBreakSwitchTwo;
+            case 2:
+                return SplEquipmentData.getInstance().loadBreakSwitchThree;
+            case 3:
+                return SplEquipmentData.getInstance().loadBreakSwitchFour;
+            case 4:
+                return SplEquipmentData.getInstance().loadBreakSwitchFive;
+            case 5:
+                return SplEquipmentData.getInstance().loadBreakSwitchSix;
+            case 6:
+                return SplEquipmentData.getInstance().loadBreakSwitchSeven;
+            case 7:
+                return SplEquipmentData.getInstance().loadBreakSwitchEight;
+            case 8:
+                return SplEquipmentData.getInstance().loadBreakSwitchNine;
+            case 9:
+                return SplEquipmentData.getInstance().loadBreakSwitchTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> recloserReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().recloserOne;
+            case 1:
+                return SplEquipmentData.getInstance().recloserTwo;
+            case 2:
+                return SplEquipmentData.getInstance().recloserThree;
+            case 3:
+                return SplEquipmentData.getInstance().recloserFour;
+            case 4:
+                return SplEquipmentData.getInstance().recloserFive;
+            case 5:
+                return SplEquipmentData.getInstance().recloserSix;
+            case 6:
+                return SplEquipmentData.getInstance().recloserSeven;
+            case 7:
+                return SplEquipmentData.getInstance().recloserEight;
+            case 8:
+                return SplEquipmentData.getInstance().recloserNine;
+            case 9:
+                return SplEquipmentData.getInstance().recloserTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> capacitorBankReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().capacitorBankOne;
+            case 1:
+                return SplEquipmentData.getInstance().capacitorBankTwo;
+            case 2:
+                return SplEquipmentData.getInstance().capacitorBankThree;
+            case 3:
+                return SplEquipmentData.getInstance().capacitorBankFour;
+            case 4:
+                return SplEquipmentData.getInstance().capacitorBankFive;
+            case 5:
+                return SplEquipmentData.getInstance().capacitorBankSix;
+            case 6:
+                return SplEquipmentData.getInstance().capacitorBankSeven;
+            case 7:
+                return SplEquipmentData.getInstance().capacitorBankEight;
+            case 8:
+                return SplEquipmentData.getInstance().capacitorBankNine;
+            case 9:
+                return SplEquipmentData.getInstance().capacitorBankTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> regulatorReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return SplEquipmentData.getInstance().regulatorOne;
+            case 1:
+                return SplEquipmentData.getInstance().regulatorTwo;
+            case 2:
+                return SplEquipmentData.getInstance().regulatorThree;
+            case 3:
+                return SplEquipmentData.getInstance().regulatorFour;
+            case 4:
+                return SplEquipmentData.getInstance().regulatorFive;
+            case 5:
+                return SplEquipmentData.getInstance().regulatorSix;
+            case 6:
+                return SplEquipmentData.getInstance().regulatorSeven;
+            case 7:
+                return SplEquipmentData.getInstance().regulatorEight;
+            case 8:
+                return SplEquipmentData.getInstance().regulatorNine;
+            case 9:
+                return SplEquipmentData.getInstance().regulatorTen;
+            default:
+                return null;
+        }
+    }
     public void ShowSplDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
         gridPositionNew = gridPosition;
         gridTitle = item.getTitle();
@@ -906,7 +1019,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     verticalItemSelectedPosition = position;
-                    localInspectionMetaData = findingListRefference(scope,gridPosition, horizontalItemSelectedPosition);
+                    localInspectionMetaData = findingListRefferenceSpl(scope,gridPosition, horizontalItemSelectedPosition);
                     final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
                     listView.setSelection(position);
                     view.setSelected(true);
@@ -1249,6 +1362,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 repaire.setTextColor(Color.parseColor("#FFFFFF"));
                 replace.setBackgroundResource(R.drawable.repair_replace_deactive);
                 replace.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = true;
+                isReplaceSelected = false;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
 
             }
         });
@@ -1259,6 +1375,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 replace.setTextColor(Color.parseColor("#FFFFFF"));
                 repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
                 repaire.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = false;
+                isReplaceSelected = true;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPLACE");
             }
         });
 
@@ -1424,7 +1543,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                             } else {
                                 comments.setText("");
                             }
+
                             String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+
                             if(extentString!=null) {
                                 if(extentString.equalsIgnoreCase("REPAIR")) {
                                     repaire.setBackgroundResource(R.drawable.repaire_replace_active);
@@ -1439,14 +1560,15 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                     repaire.setTextColor(Color.parseColor("#3EA99F"));
                                 }
 
-                            } else {
+                            }else
+                            {
                                 repaire.setBackgroundResource(R.drawable.repaire_replace_active);
                                 repaire.setTextColor(Color.parseColor("#FFFFFF"));
                                 replace.setBackgroundResource(R.drawable.repair_replace_deactive);
                                 replace.setTextColor(Color.parseColor("#3EA99F"));
                                 addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
-
                             }
+
                         }
                     }
                 });
@@ -1527,6 +1649,1323 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         dialog.show();
     }
 /**********************************************SCOPE OTHERS ENDS*****************************************************/
+
+
+    /**********************************************SCOPE POLE TOP STARTS*****************************************************/
+
+    public void instantiateListWithData_PoleTop() {
+            GlobalData.getInstance().numberOfTransformerDefects = new ArrayList<String>();
+            GlobalData.getInstance().numberOfCrossArmDefect = new ArrayList<String>();
+            GlobalData.getInstance().numberOfFusedCutOutDefect = new ArrayList<String>();
+            GlobalData.getInstance().numberOfStreetLightDefect = new ArrayList<String>();
+            GlobalData.getInstance().numberOfPoleTopPinDefect = new ArrayList<String>();
+            GlobalData.getInstance().numberOfInsulatorDefect = new ArrayList<String>();
+            GlobalData.getInstance().numberOfServiceWireDefect = new ArrayList<String>();
+
+            GlobalData.getInstance().numberOfTransformerDefects.add("1");
+            GlobalData.getInstance().numberOfTransformerDefects.add("+");
+
+            GlobalData.getInstance().numberOfCrossArmDefect.add("1");
+            GlobalData.getInstance().numberOfCrossArmDefect.add("+");
+
+            GlobalData.getInstance().numberOfFusedCutOutDefect.add("1");
+            GlobalData.getInstance().numberOfFusedCutOutDefect.add("+");
+
+
+
+            GlobalData.getInstance().numberOfStreetLightDefect.add("1");
+            GlobalData.getInstance().numberOfStreetLightDefect.add("+");
+
+            GlobalData.getInstance().numberOfPoleTopPinDefect.add("1");
+            GlobalData.getInstance().numberOfPoleTopPinDefect.add("+");
+
+            GlobalData.getInstance().numberOfInsulatorDefect.add("1");
+            GlobalData.getInstance().numberOfInsulatorDefect.add("+");
+
+            GlobalData.getInstance().numberOfServiceWireDefect.add("1");
+            GlobalData.getInstance().numberOfServiceWireDefect.add("+");
+
+    }
+    private ArrayList<InspectionMetaData> findingListRefferencePoleTop(String scope,int gridPosition, int horizontalItemSelectedPosition) {
+
+            if (gridPosition == 0) {
+                return transtormReference(horizontalItemSelectedPosition);
+            } else if (gridPosition == 1) {
+                return crossArmReference(horizontalItemSelectedPosition);
+            } else if (gridPosition == 2) {
+                return fusedCutOutReference(horizontalItemSelectedPosition);
+            }else if (gridPosition == 3) {
+                return streetLightReference(horizontalItemSelectedPosition);
+            }else if (gridPosition == 4) {
+                return poleTopPinReference(horizontalItemSelectedPosition);
+            }else if (gridPosition == 5) {
+                return insulatorReference(horizontalItemSelectedPosition);
+            }else if (gridPosition == 6) {
+                return guyWireWireReference(horizontalItemSelectedPosition);
+            }
+            else {
+                return null;
+            }
+
+        }
+    private void populateListViewPoleTop(final String scope,Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
+        Boolean isChoosen = false;
+        int localIndex = -1;
+        ArrayList<InspectionMetaData> underground_inspectionData_list ;
+        underground_inspectionData_list = findingListRefferencePoleTop(scope,gridPosition, horizontalItemSelectedPosition);
+        try {
+            if ( underground_inspectionData_list.size() == 0){
+                Gson undergroundMetadataGsonList = new Gson();
+                String response = GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","");
+
+                final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = undergroundMetadataGsonList.fromJson(response,
+                        new TypeToken<List<InspectionMetaData>>(){}.getType());
+
+                if(undergroundListItems_ArrayList!=null) {
+                    underground_inspectionData_list = undergroundListItems_ArrayList;
+                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","").trim());
+                } else {
+//                underground_inspectionData_list = new ArrayList<>();
+                    JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
+                    undergroundMetadataJsonArrayList = j;
+
+                    underground_inspectionData_list.clear();
+                    for(int s =0;s<undergroundMetadataJsonArrayList.length();s++) {
+                        String displayName = undergroundMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
+
+                        String name = undergroundMetadataJsonArrayList.getJSONObject(s).get("name").toString();
+                        String imageUrl = undergroundMetadataJsonArrayList.getJSONObject(s).get("imageURL").toString();
+                        String imageName =  undergroundMetadataJsonArrayList.getJSONObject(s).get("imagename").toString();
+                        underground_inspectionData_list.add(new InspectionMetaData(displayName, name, imageUrl, imageName, false, item.getTitle()));
+                    }
+                }
+//                final JSONObject chkListObject = new JSONObject();
+//                final JSONObject chkListObjectPreview = new JSONObject();
+            } else {
+
+            }
+            arrayAdapter = new InspectionMetaDataAdapter(underground_inspectionData_list,mContext,listView);
+            listView.setAdapter(arrayAdapter);
+        } catch (JSONException e){
+
+        }
+    }
+    private ArrayList<InspectionMetaData> guyWireWireReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().serviceWireOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().serviceWireTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().serviceWireThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().serviceWireFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().serviceWireFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().serviceWireSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().serviceWireSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().serviceWireEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().serviceWireNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().serviceWireTen;
+
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> insulatorReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().insulatorOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().insulatorTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().insulatorThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().insulatorFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().insulatorFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().insulatorSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().insulatorSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().insulatorEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().insulatorNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().insulatorTen;
+
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> poleTopPinReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().poleTopPinOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().poleTopPinTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().poleTopPinThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().poleTopPinFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().poleTopPinFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().poleTopPinSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().poleTopPinSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().poleTopPinEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().poleTopPinNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().poleTopPinTen;
+
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> streetLightReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().streetlightOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().streetlightTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().streetlightThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().streetlightFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().streetlightFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().streetlightSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().streetlightSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().streetlightEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().streetlightNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().streetlightTen;
+
+            default:
+                return null;
+        }
+    }
+
+
+    private ArrayList<InspectionMetaData> fusedCutOutReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().fusedCutOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().fusedCutTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().fusedCutThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().fusedCutFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().fusedCutFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().fusedCutSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().fusedCutSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().fusedCutEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().fusedCutNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().fusedCutTen;
+
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> crossArmReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().crossArmOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().crossArmTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().crossArmThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().crossArmFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().crossArmFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().crossArmSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().crossArmSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().crossArmEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().crossArmNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().crossArmTen;
+
+            default:
+                return null;
+        }
+
+    }
+
+    private ArrayList<InspectionMetaData> transtormReference(int position) {
+        switch (position) {
+            case 0:
+                return PoleTopEquipmentData.getInstance().transformerOne;
+
+            case 1:
+                return PoleTopEquipmentData.getInstance().transformerTwo;
+
+            case 2:
+                return PoleTopEquipmentData.getInstance().transformerThree;
+
+            case 3:
+                return PoleTopEquipmentData.getInstance().transformerFour;
+
+            case 4:
+                return PoleTopEquipmentData.getInstance().transformerFive;
+
+            case 5:
+                return PoleTopEquipmentData.getInstance().transformerSix;
+
+            case 6:
+                return PoleTopEquipmentData.getInstance().transformerSeven;
+
+            case 7:
+                return PoleTopEquipmentData.getInstance().transformerEight;
+
+            case 8:
+                return PoleTopEquipmentData.getInstance().transformerNine;
+
+            case 9:
+                return PoleTopEquipmentData.getInstance().transformerTen;
+
+            default:
+                return null;
+        }
+    }
+    private boolean addRespectiveDefectCountPoleTop(int position, int itemPosition) {
+        boolean isCountAdded = false;
+        switch (itemPosition) {
+            case 0:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfTransformerDefects.add(position, GlobalData.getInstance().numberOfTransformerDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 1:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfCrossArmDefect.add(position, GlobalData.getInstance().numberOfCrossArmDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfFusedCutOutDefect.add(position, GlobalData.getInstance().numberOfFusedCutOutDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+
+            case 3:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfStreetLightDefect.add(position, GlobalData.getInstance().numberOfStreetLightDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 4:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfPoleTopPinDefect.add(position, GlobalData.getInstance().numberOfPoleTopPinDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 5:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfInsulatorDefect.add(position, GlobalData.getInstance().numberOfInsulatorDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+
+            case 6:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfServiceWireDefect.add(position, GlobalData.getInstance().numberOfServiceWireDefect.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+
+
+        }
+        return isCountAdded;
+    }
+    private void manupilateHorizontalListDataPoleTop(String scope,Context context, int position) {
+        horizontalItemSelectedPosition = 0;
+        switch (position) {
+            case 0:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfTransformerDefects);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfCrossArmDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfFusedCutOutDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 3:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfStreetLightDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 4:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfPoleTopPinDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 5:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfInsulatorDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 6:
+                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfServiceWireDefect);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+        }
+    }
+
+    public void ShowPoleTopDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+        gridPositionNew = gridPosition;
+        gridTitle = item.getTitle();
+        //isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+        mGridDataJSON = new ArrayList<>();
+
+
+        sharedPref = mContext.getSharedPreferences(mContext.getString(
+                R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        Log.i("under","in dialog"+item.getImageName());
+        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
+
+        horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        horizontalListView.setLayoutManager(linearLayoutManager);
+
+
+
+        final EditText comments = view.findViewById(R.id.comments);
+        final TextView repaire = view.findViewById(R.id.repair);
+        final TextView replace = view.findViewById(R.id.replace);
+        repaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = true;
+                isReplaceSelected = false;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+            }
+        });
+        replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = false;
+                isReplaceSelected = true;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPLACE");
+            }
+        });
+
+
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog dialog2 = new BottomSheetDialog(SelectedItems.this);
+                View mView2 = LayoutInflater.from(mContext).inflate(R.layout.comment_dialog, null);
+                // final View mView2 = getLayoutInflater().inflate(R.layout.comment_dialog, null);
+                dialog2.setContentView(mView2);
+                dialog2.show();
+                final EditText dialog_comment = mView2.findViewById(R.id.comments_editText);
+
+                String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+
+                if(noteString!=null) {
+                    comments.setText(noteString);
+                    dialog_comment.setText(noteString.trim());
+                }
+                final Button done = mView2.findViewById(R.id.done);
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        comments.setText(dialog_comment.getText().toString());
+                        addNoteToRespectiveCountList(scope,gridTitle, dialog_comment.getText().toString());
+                        if(dialog_comment.getText().toString() != null && !dialog_comment.getText().toString().isEmpty())
+                            isAddNoteSelected = false;
+
+                        dialog2.dismiss();
+                    }
+                });
+            }
+        });
+
+        manupilateHorizontalListDataPoleTop(scope,mContext, gridPosition);
+        closeBtn = (Button)view.findViewById(R.id.closeButton) ;
+        closeBtn.setTypeface(typeFace);
+        partImage = (ImageView)view.findViewById(R.id.clickPicture) ;
+        readImagesForRespectiveDefects(scope,mContext, partImage);
+        partImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  picturePath =item.getS3ImageName();
+                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                partTitle = item.getTitle();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(mContext instanceof SelectedItems)
+                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+
+            }
+        });
+
+
+        TextView typeLabel = (TextView) view.findViewById(R.id.typeLabel) ;
+
+        typeLabel.setTypeface(typeFace);
+
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View clickView) {
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
+                    try {
+                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_top_done.png");
+                        item.setInspectionDone(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                    Log.i("vidisha","imageName=="+item.getImageName());
+                    item.setInspectionDone(false);
+                    item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
+
+                }
+                if(mGridAdapter!=null)
+                    mGridAdapter.notifyDataSetChanged();
+                Picasso.with(SelectedItems.this).load(item.getImage())
+                        .into(imgView);
+
+                String key = item.getTitle()+scope+"ListJSON";
+                Gson gson = new Gson();
+                String json = gson.toJson(underground_inspectionData_list);
+
+                if(GlobalData.metadataPreferencesEditor!=null) {
+                    GlobalData.metadataPreferencesEditor.remove(key).commit();
+                    GlobalData.metadataPreferencesEditor.putString(key, json);
+                    GlobalData.metadataPreferencesEditor.commit();
+                }
+
+                String key1 = "poleTopKey";
+                Gson gson1 = new Gson();
+                String json1 = gson1.toJson(mGridData_pole);
+                GlobalData.metadataPreferencesEditor.putString(key1, json1);
+                GlobalData.metadataPreferencesEditor.commit();
+                dialog.dismiss();
+            }
+        });
+
+        TextView itemName = (TextView)view.findViewById(R.id.dataHeading) ;
+        itemName.setText(item.getTitle());
+        itemName.setTypeface(typeFace);
+        listView = (ListView) view.findViewById(R.id.inspectionData_list);
+
+
+
+        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
+
+
+
+
+
+        populateListViewPoleTop(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        if(noteString!=null) {
+            comments.setText(noteString.trim());
+        } else {
+            comments.setText("");
+        }
+        String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+        if(extentString!=null) {
+            if(extentString.equalsIgnoreCase("REPAIR")) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+            }else
+            {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+
+        } else {
+            repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+            repaire.setTextColor(Color.parseColor("#FFFFFF"));
+            replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+            replace.setTextColor(Color.parseColor("#3EA99F"));
+            addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+        }
+        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int position) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isCountAdd;
+                        isCountAdd = addRespectiveDefectCountPoleTop(position, gridPosition);
+                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
+                            horizontalItemSelectedPosition = position;
+                            recyclerCountAdapter.notifyDataSetChanged();
+                            populateListViewPoleTop(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+                            readImagesForRespectiveDefects(scope,mContext, partImage);
+                            String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+                            if(noteString!=null) {
+                                comments.setText(noteString.trim());
+                            } else {
+                                comments.setText("");
+                            }
+
+                            String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+
+                            if(extentString!=null) {
+                                if(extentString.equalsIgnoreCase("REPAIR")) {
+                                    repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                    replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    replace.setTextColor(Color.parseColor("#3EA99F"));
+                                }else
+                                {
+                                    replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    replace.setTextColor(Color.parseColor("#FFFFFF"));
+                                    repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    repaire.setTextColor(Color.parseColor("#3EA99F"));
+                                }
+
+                            }else
+                            {
+                                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                replace.setTextColor(Color.parseColor("#3EA99F"));
+                                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+                            }
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
+
+
+      /*  inspectionData_list = new ArrayList<InspectionMetaData>();
+        arrayAdapter = new InspectionMetaDataAdapter(inspectionData_list,OthersActivity.this,listView);*/
+
+        try {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    verticalItemSelectedPosition = position;
+                    localInspectionMetaData = findingListRefferencePoleTop(scope,gridPosition, horizontalItemSelectedPosition);
+                    final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
+                    listView.setSelection(position);
+                    view.setSelected(true);
+
+                    String disPlayName, imageUrl,name;
+                    boolean isSelected;
+                    disPlayName = listItemsN.getDisplayName();
+                    name = listItemsN.getName();
+                    imageUrl = listItemsN.getImageUrl();
+                    isSelected = listItemsN.getIsSelected();
+                    Log.i("shri_LOG","name=="+listItemsN.getName());
+
+                    if(!isSelected){
+//                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
+                        localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
+                    } else {
+                        localInspectionMetaData.set(position, new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", false, item.getTitle()));
+                    }
+                    arrayAdapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isSelected = true;
+                            for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                                if (localInspectionMetaData.get(i).getIsSelected() != null && localInspectionMetaData.get(i).getIsSelected()) {
+                                    isSelected = false;
+                                }
+                            }
+                            if (!isSelected) {
+                                Log.i("vidisha","helloo11111");
+                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
+                                isListSelected = false;
+                            } else {
+                                Log.i("vidisha","helloo22222");
+                                isListSelected = true;
+                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
+                            }
+                        }
+                    });
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+            });
+            arrayAdapter.notifyDataSetChanged();
+
+            mGridDataJSON.add(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(view);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+/**********************************************SCOPE POLE TOP  ENDS*****************************************************/
+
+
+    /**********************************************SCOPE WIRE STARTS*****************************************************/
+
+    public void instantiateListWithData_Wire() {
+        GlobalData.getInstance().numberOfPrimaryWireDefects = new ArrayList<String>();
+        GlobalData.getInstance().numberOfSecondaryWireDefects = new ArrayList<String>();
+        GlobalData.getInstance().numberOfServiceWireDefects = new ArrayList<String>();
+
+
+        GlobalData.getInstance().numberOfPrimaryWireDefects.add("1");
+        GlobalData.getInstance().numberOfPrimaryWireDefects.add("+");
+
+        GlobalData.getInstance().numberOfSecondaryWireDefects.add("1");
+        GlobalData.getInstance().numberOfSecondaryWireDefects.add("+");
+
+        GlobalData.getInstance().numberOfServiceWireDefects.add("1");
+        GlobalData.getInstance().numberOfServiceWireDefects.add("+");
+
+    }
+    private ArrayList<InspectionMetaData> findingListRefferenceWire(String scope,int gridPosition, int horizontalItemSelectedPosition) {
+
+        if (gridPosition == 0) {
+            return primaryWireReference(horizontalItemSelectedPosition);
+        } else if (gridPosition == 1) {
+            return secondaryWireReference(horizontalItemSelectedPosition);
+        } else if (gridPosition == 2) {
+            return serviceWireReference(horizontalItemSelectedPosition);
+        } else {
+            return null;
+        }
+
+    }
+    private void populateListViewWire(final String scope,Context mContext,GridItem item, int gridPosition, int horizontalItemSelectedPosition/*, ImageView chk, RelativeLayout pendingInspectionLayout*/) {
+        Boolean isChoosen = false;
+        int localIndex = -1;
+        ArrayList<InspectionMetaData> underground_inspectionData_list ;
+        underground_inspectionData_list = findingListRefferenceWire(scope,gridPosition, horizontalItemSelectedPosition);
+        try {
+            if ( underground_inspectionData_list.size() == 0){
+                Gson undergroundMetadataGsonList = new Gson();
+                String response = GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","");
+
+                final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = undergroundMetadataGsonList.fromJson(response,
+                        new TypeToken<List<InspectionMetaData>>(){}.getType());
+
+                if(undergroundListItems_ArrayList!=null) {
+                    underground_inspectionData_list = undergroundListItems_ArrayList;
+                    undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","").trim());
+                } else {
+//                underground_inspectionData_list = new ArrayList<>();
+                    JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
+                    undergroundMetadataJsonArrayList = j;
+
+                    underground_inspectionData_list.clear();
+                    for(int s =0;s<undergroundMetadataJsonArrayList.length();s++) {
+                        String displayName = undergroundMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
+
+                        String name = undergroundMetadataJsonArrayList.getJSONObject(s).get("name").toString();
+                        String imageUrl = undergroundMetadataJsonArrayList.getJSONObject(s).get("imageURL").toString();
+                        String imageName =  undergroundMetadataJsonArrayList.getJSONObject(s).get("imagename").toString();
+                        underground_inspectionData_list.add(new InspectionMetaData(displayName, name, imageUrl, imageName, false, item.getTitle()));
+                    }
+                }
+//                final JSONObject chkListObject = new JSONObject();
+//                final JSONObject chkListObjectPreview = new JSONObject();
+            } else {
+
+            }
+            arrayAdapter = new InspectionMetaDataAdapter(underground_inspectionData_list,mContext,listView);
+            listView.setAdapter(arrayAdapter);
+        } catch (JSONException e){
+
+        }
+    }
+    private ArrayList<InspectionMetaData> primaryWireReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return WireData.getInstance().primary_wireOne;
+            case 1:
+                return WireData.getInstance().primary_wireTwo;
+            case 2:
+                return WireData.getInstance().primary_wireThree;
+            case 3:
+                return WireData.getInstance().primary_wireFour;
+            case 4:
+                return WireData.getInstance().primary_wireFive;
+            case 5:
+                return WireData.getInstance().primary_wireSix;
+            case 6:
+                return WireData.getInstance().primary_wireSeven;
+            case 7:
+                return WireData.getInstance().primary_wireEight;
+            case 8:
+                return WireData.getInstance().primary_wireNine;
+            case 9:
+                return WireData.getInstance().primary_wireTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData>secondaryWireReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return WireData.getInstance().secondary_wireOne;
+            case 1:
+                return WireData.getInstance().secondary_wireTwo;
+            case 2:
+                return WireData.getInstance().secondary_wireThree;
+            case 3:
+                return WireData.getInstance().secondary_wireFour;
+            case 4:
+                return WireData.getInstance().secondary_wireFive;
+            case 5:
+                return WireData.getInstance().secondary_wireSix;
+            case 6:
+                return WireData.getInstance().secondary_wireSeven;
+            case 7:
+                return WireData.getInstance().secondary_wireEight;
+            case 8:
+                return WireData.getInstance().secondary_wireNine;
+            case 9:
+                return WireData.getInstance().secondary_wireTen;
+            default:
+                return null;
+        }
+    }
+
+    private ArrayList<InspectionMetaData> serviceWireReference(int horizontalItemSelectedPosition) {
+        switch (horizontalItemSelectedPosition){
+            case 0:
+                return WireData.getInstance().service_wireOne;
+            case 1:
+                return WireData.getInstance().service_wireTwo;
+            case 2:
+                return WireData.getInstance().service_wireThree;
+            case 3:
+                return WireData.getInstance().service_wireFour;
+            case 4:
+                return WireData.getInstance().service_wireFive;
+            case 5:
+                return WireData.getInstance().service_wireSix;
+            case 6:
+                return WireData.getInstance().service_wireSeven;
+            case 7:
+                return WireData.getInstance().service_wireEight;
+            case 8:
+                return WireData.getInstance().service_wireNine;
+            case 9:
+                return WireData.getInstance().service_wireTen;
+            default:
+                return null;
+        }
+    }
+
+    private boolean addRespectiveDefectCountWire(int position, int itemPosition) {
+        boolean isCountAdded = false;
+        Log.i("vidisha","hhhhhh"+isCountAdded);
+        switch (itemPosition) {
+            case 0:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfPrimaryWireDefects.add(position, GlobalData.getInstance().numberOfPrimaryWireDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 1:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfSecondaryWireDefects.add(position, GlobalData.getInstance().numberOfSecondaryWireDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
+                    isCountAdded = true;
+                    GlobalData.getInstance().numberOfServiceWireDefects.add(position, GlobalData.getInstance().numberOfServiceWireDefects.size());
+                    recyclerCountAdapter.notifyItemInserted(position);
+                    recyclerCountAdapter.notifyDataSetChanged();
+                }
+                break;
+
+        }
+        return isCountAdded;
+    }
+    private void manupilateHorizontalListDataWire(final String scope,Context mContext, int position) {
+
+        horizontalItemSelectedPosition = 0;
+        switch (position) {
+            case 0:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfPrimaryWireDefects);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfSecondaryWireDefects);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                recyclerCountAdapter = new CountAdapter(mContext, GlobalData.getInstance().numberOfServiceWireDefects);
+                horizontalListView.setAdapter(recyclerCountAdapter);
+                recyclerCountAdapter.notifyDataSetChanged();
+                break;
+
+        }
+
+    }
+
+    public void ShowWireDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+        gridPositionNew = gridPosition;
+        gridTitle = item.getTitle();
+        //isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
+        mGridDataJSON = new ArrayList<>();
+
+
+        sharedPref = mContext.getSharedPreferences(mContext.getString(
+                R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        Log.i("under","in dialog"+item.getImageName());
+        final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
+
+        horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        horizontalListView.setLayoutManager(linearLayoutManager);
+
+
+
+        final EditText comments = view.findViewById(R.id.comments);
+        final TextView repaire = view.findViewById(R.id.repair);
+        final TextView replace = view.findViewById(R.id.replace);
+        repaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = true;
+                isReplaceSelected = false;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+            }
+        });
+        replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+                isRepairSelected = false;
+                isReplaceSelected = true;
+                addExtentToRespectiveCountList(scope,gridTitle, "REPLACE");
+            }
+        });
+
+
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog dialog2 = new BottomSheetDialog(SelectedItems.this);
+                View mView2 = LayoutInflater.from(mContext).inflate(R.layout.comment_dialog, null);
+                // final View mView2 = getLayoutInflater().inflate(R.layout.comment_dialog, null);
+                dialog2.setContentView(mView2);
+                dialog2.show();
+                final EditText dialog_comment = mView2.findViewById(R.id.comments_editText);
+
+                String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+
+                if(noteString!=null) {
+                    comments.setText(noteString);
+                    dialog_comment.setText(noteString.trim());
+                }
+                final Button done = mView2.findViewById(R.id.done);
+                done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        comments.setText(dialog_comment.getText().toString());
+                        addNoteToRespectiveCountList(scope,gridTitle, dialog_comment.getText().toString());
+                        if(dialog_comment.getText().toString() != null && !dialog_comment.getText().toString().isEmpty())
+                            isAddNoteSelected = false;
+
+                        dialog2.dismiss();
+                    }
+                });
+            }
+        });
+
+        manupilateHorizontalListDataWire(scope,mContext, gridPosition);
+        closeBtn = (Button)view.findViewById(R.id.closeButton) ;
+        closeBtn.setTypeface(typeFace);
+        partImage = (ImageView)view.findViewById(R.id.clickPicture) ;
+        readImagesForRespectiveDefects(scope,mContext, partImage);
+        partImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  picturePath =item.getS3ImageName();
+                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                partTitle = item.getTitle();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if(mContext instanceof SelectedItems)
+                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+
+            }
+        });
+
+
+        TextView typeLabel = (TextView) view.findViewById(R.id.typeLabel) ;
+
+        typeLabel.setTypeface(typeFace);
+
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View clickView) {
+                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
+                    try {
+                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
+                        item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/wire_done.png");
+                        item.setInspectionDone(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                    Log.i("vidisha","imageName=="+item.getImageName());
+                    item.setInspectionDone(false);
+                    item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
+
+                }
+                if(mGridAdapter!=null)
+                    mGridAdapter.notifyDataSetChanged();
+                Picasso.with(SelectedItems.this).load(item.getImage())
+                        .into(imgView);
+
+                String key = item.getTitle()+scope+"ListJSON";
+                Gson gson = new Gson();
+                String json = gson.toJson(underground_inspectionData_list);
+
+                if(GlobalData.metadataPreferencesEditor!=null) {
+                    GlobalData.metadataPreferencesEditor.remove(key).commit();
+                    GlobalData.metadataPreferencesEditor.putString(key, json);
+                    GlobalData.metadataPreferencesEditor.commit();
+                }
+
+                String key1 = "wireeKey";
+                Gson gson1 = new Gson();
+                String json1 = gson1.toJson(mGridData_pole);
+                GlobalData.metadataPreferencesEditor.putString(key1, json1);
+                GlobalData.metadataPreferencesEditor.commit();
+                dialog.dismiss();
+            }
+        });
+
+        TextView itemName = (TextView)view.findViewById(R.id.dataHeading) ;
+        itemName.setText(item.getTitle());
+        itemName.setTypeface(typeFace);
+        listView = (ListView) view.findViewById(R.id.inspectionData_list);
+
+
+
+        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
+
+
+
+
+
+        populateListViewWire(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+        if(noteString!=null) {
+            comments.setText(noteString.trim());
+        } else {
+            comments.setText("");
+        }
+        String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+        if(extentString!=null) {
+            if(extentString.equalsIgnoreCase("REPAIR")) {
+                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                replace.setTextColor(Color.parseColor("#3EA99F"));
+            }else
+            {
+                replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                replace.setTextColor(Color.parseColor("#FFFFFF"));
+                repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                repaire.setTextColor(Color.parseColor("#3EA99F"));
+            }
+
+        } else {
+            repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+            repaire.setTextColor(Color.parseColor("#FFFFFF"));
+            replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+            replace.setTextColor(Color.parseColor("#3EA99F"));
+            addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+
+        }
+        horizontalListView.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                horizontalListView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int position) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isCountAdd;
+                        isCountAdd = addRespectiveDefectCountWire(position, gridPosition);
+                        if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
+                            horizontalItemSelectedPosition = position;
+                            recyclerCountAdapter.notifyDataSetChanged();
+                            populateListViewWire(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+                            readImagesForRespectiveDefects(scope,mContext, partImage);
+                            String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
+                            if(noteString!=null) {
+                                comments.setText(noteString.trim());
+                            } else {
+                                comments.setText("");
+                            }
+
+                            String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
+
+                            if(extentString!=null) {
+                                if(extentString.equalsIgnoreCase("REPAIR")) {
+                                    repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                    replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    replace.setTextColor(Color.parseColor("#3EA99F"));
+                                }else
+                                {
+                                    replace.setBackgroundResource(R.drawable.repaire_replace_active);
+                                    replace.setTextColor(Color.parseColor("#FFFFFF"));
+                                    repaire.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                    repaire.setTextColor(Color.parseColor("#3EA99F"));
+                                }
+
+                            }else
+                            {
+                                repaire.setBackgroundResource(R.drawable.repaire_replace_active);
+                                repaire.setTextColor(Color.parseColor("#FFFFFF"));
+                                replace.setBackgroundResource(R.drawable.repair_replace_deactive);
+                                replace.setTextColor(Color.parseColor("#3EA99F"));
+                                addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
+                            }
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
+
+
+      /*  inspectionData_list = new ArrayList<InspectionMetaData>();
+        arrayAdapter = new InspectionMetaDataAdapter(inspectionData_list,OthersActivity.this,listView);*/
+
+        try {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    verticalItemSelectedPosition = position;
+                    localInspectionMetaData = findingListRefferenceWire(scope,gridPosition, horizontalItemSelectedPosition);
+                    final InspectionMetaData listItemsN = (InspectionMetaData) parent.getItemAtPosition(position);
+                    listView.setSelection(position);
+                    view.setSelected(true);
+
+                    String disPlayName, imageUrl,name;
+                    boolean isSelected;
+                    disPlayName = listItemsN.getDisplayName();
+                    name = listItemsN.getName();
+                    imageUrl = listItemsN.getImageUrl();
+                    isSelected = listItemsN.getIsSelected();
+                    Log.i("shri_LOG","name=="+listItemsN.getName());
+
+                    if(!isSelected){
+//                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
+                        localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
+                    } else {
+                        localInspectionMetaData.set(position, new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", false, item.getTitle()));
+                    }
+                    arrayAdapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isSelected = true;
+                            for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                                if (localInspectionMetaData.get(i).getIsSelected() != null && localInspectionMetaData.get(i).getIsSelected()) {
+                                    isSelected = false;
+                                }
+                            }
+                            if (!isSelected) {
+                                Log.i("vidisha","helloo11111");
+                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
+                                isListSelected = false;
+                            } else {
+                                Log.i("vidisha","helloo22222");
+                                isListSelected = true;
+                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
+                            }
+                        }
+                    });
+                    arrayAdapter.notifyDataSetChanged();
+
+                }
+            });
+            arrayAdapter.notifyDataSetChanged();
+
+            mGridDataJSON.add(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(view);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+/**********************************************SCOPE WIRE ENDS*****************************************************/
+
 
 
 /**********************************************SCOPE POLE STARTS*****************************************************/
@@ -1987,6 +3426,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 Gson poleMetadataGsonList = new Gson();
                 String response = GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","");
 
+
                 final ArrayList<InspectionMetaData> undergroundListItems_ArrayList = poleMetadataGsonList.fromJson(response,
                         new TypeToken<List<InspectionMetaData>>(){}.getType());
 
@@ -1994,6 +3434,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     pole_inspectionData_list = undergroundListItems_ArrayList;
                     undergroundMetadataJsonArrayList = new JSONArray(GlobalData.metadataPreferences.getString(item.getTitle()+scope+"ListJSON","").trim());
                 } else {
+                    Log.i("vidisha","hellooooin ttt"+response);
 //                pole_inspectionData_list = new ArrayList<>();
                     JSONArray j = new JSONArray(item.getData().get(item.getTitle()));
                     undergroundMetadataJsonArrayList = j;
@@ -2212,18 +3653,23 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 String key = item.getTitle()+scope+"ListJSON";
                 Gson gson = new Gson();
                 String json = gson.toJson(pole_inspectionData_list);
-
+           /*     String key1 = "treeKey";
+                Gson gson1 = new Gson();
+                String json1 = gson1.toJson(mGridData_pole);
+*/
                 if(GlobalData.metadataPreferencesEditor!=null) {
+                    Log.i("vidisha","hellooooin ");
                     GlobalData.metadataPreferencesEditor.remove(key).commit();
                     GlobalData.metadataPreferencesEditor.putString(key, json);
                     GlobalData.metadataPreferencesEditor.commit();
+                  /*  GlobalData.metadataPreferencesEditor.remove(key1).commit();
+                    GlobalData.metadataPreferencesEditor.putString(key1, json1);
+                    GlobalData.metadataPreferencesEditor.commit();*/
                 }
 
-                String key1 = "treeKey";
-                Gson gson1 = new Gson();
-                String json1 = gson1.toJson(mGridData_pole);
-                GlobalData.metadataPreferencesEditor.putString(key1, json1);
-                GlobalData.metadataPreferencesEditor.commit();
+
+
+
                 dialog.dismiss();
             }
         });
@@ -2436,13 +3882,28 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }else if (scope.equalsIgnoreCase("spl"))
         {
             if (position == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 1) {
+                localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 2) {
+                localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 3) {
+                localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
                 return findNoteData();
             }
         }else if (scope.equalsIgnoreCase("wire"))
         {
             if (position == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 1) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                return findNoteData();
+            } else if (position == 2) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
                 return findNoteData();
             }
         }
@@ -2487,13 +3948,28 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         else if (scope.equalsIgnoreCase("spl"))
         {
             if (position == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            } else if (position == 1) {
+                localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            } else if (position == 2) {
+                localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            } else if (position == 3) {
+                localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
                 return findExtentData();
             }
         }else if (scope.equalsIgnoreCase("wire"))
         {
             if (position == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            } else if (position == 1) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                return findExtentData();
+            } else if (position == 2) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
                 return findExtentData();
             }
         }else if (scope.equalsIgnoreCase("poleTop"))
@@ -2599,13 +4075,28 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }else if(scope.equalsIgnoreCase("spl"))
         {
             if (gridPositionNew == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            } else if (gridPositionNew == 3) {
+                localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToExtent(noteNew, localIndex);
             }
         }else if(scope.equalsIgnoreCase("wire"))
         {
             if (gridPositionNew == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToExtent(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToExtent(noteNew, localIndex);
             }
         }else if(scope.equalsIgnoreCase("poleTop"))
@@ -2767,13 +4258,28 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
          }else if(reportFilePath.toString().contains("spl")) {
 
              if (gridPositionNew == 0) {
-                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                 localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             } else if (gridPositionNew == 1) {
+                 localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             } else if (gridPositionNew == 2) {
+                 localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             } else if (gridPositionNew == 3) {
+                 localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
                  localIndex = findingIndexToAddImagePath();
              }
          }else if(reportFilePath.toString().contains("Wire")) {
 
              if (gridPositionNew == 0) {
-                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                 localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             } else if (gridPositionNew == 1) {
+                 localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                 localIndex = findingIndexToAddImagePath();
+             } else if (gridPositionNew == 2) {
+                 localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
                  localIndex = findingIndexToAddImagePath();
              }
          }else if(reportFilePath.toString().contains("poleTop")) {
@@ -2839,13 +4345,28 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }else if(scope.equalsIgnoreCase("spl"))
         {
             if (gridPositionNew == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            } else if (gridPositionNew == 3) {
+                localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
                 picturePath = findingPath();
             }
         }else if(scope.equalsIgnoreCase("wire"))
         {
             if (gridPositionNew == 0) {
-                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                picturePath = findingPath();
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
                 picturePath = findingPath();
             }
         }
@@ -4799,9 +6320,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         switch (v.getId())
         {
             case R.id.nextButton:
-                LoadPoleScopeSelectedData();
-                LoadTreeScopeSelectedData();
-
+               // LoadPoleScopeSelectedData();
+               // LoadTreeScopeSelectedData();
+               // LoadSPLScopeSelectedData();
+/*
                 try {
                     {
                         inspectionReport = new JSONObject();
@@ -4836,19 +6358,33 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         inspectionReport.put("loc", loc);
                         inspectionReport.put("damageScopes",poleScope);
                         Log.i("vidisha","SDA=="+inspectionReport.toString());
-                       /* if (Utils.isNetworkAvailable(SelectedItems.this)) {
+                       *//* if (Utils.isNetworkAvailable(SelectedItems.this)) {
                             Utils.createAndStartProgressBar(SelectedItems.this);
                             STAsyncHttpConnection async = new STAsyncHttpConnection();
                             async.execute(Global.SubmitSDAReportAPI);
-                        }*/
+                        }*//*
 
                     }
                     Log.i("vidisha","poleScope=="+poleScope.toString());
 
                 } catch(JSONException e){
                         e.printStackTrace();
-                    }
+                    }*/
 
+                Intent intent = new Intent(SelectedItems.this, Submission_screen.class);
+
+                    intent.putExtra("wireImage",R.drawable.wire_sub);
+
+                    intent.putExtra("poletopImage",R.drawable.pole_sub1);
+
+                    intent.putExtra("splImage",R.drawable.spl_sub);
+
+                    intent.putExtra("poleImage",R.drawable.pole_sub);
+
+                    intent.putExtra("treeImage",R.drawable.tree_sub);
+
+                    intent.putExtra("otherImage",R.drawable.other_sub);
+                startActivity(intent);
                 }
     }
 
@@ -4981,113 +6517,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
 
-    private ArrayList<InspectionMetaData> loadBreakSwitchReference(int horizontalItemSelectedPosition) {
-        switch (horizontalItemSelectedPosition){
-            case 0:
-                return SplEquipmentData.getInstance().loadBreakSwitchOne;
-            case 1:
-                return SplEquipmentData.getInstance().loadBreakSwitchTwo;
-            case 2:
-                return SplEquipmentData.getInstance().loadBreakSwitchThree;
-            case 3:
-                return SplEquipmentData.getInstance().loadBreakSwitchFour;
-            case 4:
-                return SplEquipmentData.getInstance().loadBreakSwitchFive;
-            case 5:
-                return SplEquipmentData.getInstance().loadBreakSwitchSix;
-            case 6:
-                return SplEquipmentData.getInstance().loadBreakSwitchSeven;
-            case 7:
-                return SplEquipmentData.getInstance().loadBreakSwitchEight;
-            case 8:
-                return SplEquipmentData.getInstance().loadBreakSwitchNine;
-            case 9:
-                return SplEquipmentData.getInstance().loadBreakSwitchTen;
-            default:
-                return null;
-        }
-    }
-
-    private ArrayList<InspectionMetaData> recloserReference(int horizontalItemSelectedPosition) {
-        switch (horizontalItemSelectedPosition){
-            case 0:
-                return SplEquipmentData.getInstance().recloserOne;
-            case 1:
-                return SplEquipmentData.getInstance().recloserTwo;
-            case 2:
-                return SplEquipmentData.getInstance().recloserThree;
-            case 3:
-                return SplEquipmentData.getInstance().recloserFour;
-            case 4:
-                return SplEquipmentData.getInstance().recloserFive;
-            case 5:
-                return SplEquipmentData.getInstance().recloserSix;
-            case 6:
-                return SplEquipmentData.getInstance().recloserSeven;
-            case 7:
-                return SplEquipmentData.getInstance().recloserEight;
-            case 8:
-                return SplEquipmentData.getInstance().recloserNine;
-            case 9:
-                return SplEquipmentData.getInstance().recloserTen;
-            default:
-                return null;
-        }
-    }
-
-    private ArrayList<InspectionMetaData> capacitorBankReference(int horizontalItemSelectedPosition) {
-        switch (horizontalItemSelectedPosition){
-            case 0:
-                return SplEquipmentData.getInstance().capacitorBankOne;
-            case 1:
-                return SplEquipmentData.getInstance().capacitorBankTwo;
-            case 2:
-                return SplEquipmentData.getInstance().capacitorBankThree;
-            case 3:
-                return SplEquipmentData.getInstance().capacitorBankFour;
-            case 4:
-                return SplEquipmentData.getInstance().capacitorBankFive;
-            case 5:
-                return SplEquipmentData.getInstance().capacitorBankSix;
-            case 6:
-                return SplEquipmentData.getInstance().capacitorBankSeven;
-            case 7:
-                return SplEquipmentData.getInstance().capacitorBankEight;
-            case 8:
-                return SplEquipmentData.getInstance().capacitorBankNine;
-            case 9:
-                return SplEquipmentData.getInstance().capacitorBankTen;
-            default:
-                return null;
-        }
-    }
-
-    private ArrayList<InspectionMetaData> regulatorReference(int horizontalItemSelectedPosition) {
-        switch (horizontalItemSelectedPosition){
-            case 0:
-                return SplEquipmentData.getInstance().regulatorOne;
-            case 1:
-                return SplEquipmentData.getInstance().regulatorTwo;
-            case 2:
-                return SplEquipmentData.getInstance().regulatorThree;
-            case 3:
-                return SplEquipmentData.getInstance().regulatorFour;
-            case 4:
-                return SplEquipmentData.getInstance().regulatorFive;
-            case 5:
-                return SplEquipmentData.getInstance().regulatorSix;
-            case 6:
-                return SplEquipmentData.getInstance().regulatorSeven;
-            case 7:
-                return SplEquipmentData.getInstance().regulatorEight;
-            case 8:
-                return SplEquipmentData.getInstance().regulatorNine;
-            case 9:
-                return SplEquipmentData.getInstance().regulatorTen;
-            default:
-                return null;
-        }
-    }
     public class STAsyncHttpConnection extends AsyncTask<String, Void, String> {
         /**
          * Override this method to perform a computation on a background thread. The
@@ -5218,7 +6647,17 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
                                     ReadUnderGroundData.getInstance().resetAllReference();
                                     ReadUnderGroundData.getInstance().resetAllJSONObject();
+                                    ReadPoleEquipmentData.getInstance().resetAllReference();
+                                    ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+                                    ReadPoleEquipmentData.getInstance().resetAllReference();
+                                    ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+                                    ReadWireData.getInstance().resetAllReference();
+                                    ReadWireData.getInstance().resetAllJSONObject();
+                                    ReadSplEquipmentData.getInstance().resetAllReference();
+                                    ReadSplEquipmentData.getInstance().resetAllJSONObject();
 
+                                    ReadTreeData.getInstance().resetAllReference();
+                                    ReadTreeData.getInstance().resetAllJSONObject();
                                 }
                             });
                             // Showing Alert Message
