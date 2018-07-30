@@ -164,15 +164,9 @@ public class PoleTopEquipmentData {
             }
         }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                serviceWireInitialization();
-            }
-        }).start();
     }
 
-    private void serviceWireInitialization() {
+  /*  private void serviceWireInitialization() {
         serviceWireOne = new ArrayList();
         serviceWireTwo = new ArrayList();
         serviceWireThree = new ArrayList();
@@ -183,7 +177,7 @@ public class PoleTopEquipmentData {
         serviceWireEight = new ArrayList();
         serviceWireNine = new ArrayList();
         serviceWireTen = new ArrayList();
-    }
+    }*/
 
 /*    private void secondaryInitialization() {
         secondaryOne = new ArrayList();
