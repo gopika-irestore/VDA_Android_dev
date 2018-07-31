@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
@@ -16,8 +17,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -45,10 +48,16 @@ import java.util.List;
 import vda.irestore.com.vda_android.Global.Global;
 import vda.irestore.com.vda_android.Global.GlobalData;
 import vda.irestore.com.vda_android.readData.ReadPoleEquipmentData;
+import vda.irestore.com.vda_android.readData.ReadPoleTopEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadSplEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadTreeData;
 import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
 import vda.irestore.com.vda_android.readData.ReadWireData;
+
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine1;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine2;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleHeight;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleNumber;
 
 public class MainActivity extends AppCompatActivity {
     ImageView wire,poleTop,splEquipment,pole,tree,other;
@@ -60,25 +69,36 @@ public class MainActivity extends AppCompatActivity {
     int changeOf_imageTree = 0;
     int changeOf_imageSplEquipment = 0;
     int ChangeOf_imageOther = 0;
+    Typeface typeface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        typeface = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
         getStatusBarHeight();
 
-
+        selectedFeederLine1=null;
+        selectedFeederLine2=null;
+        selectedPoleHeight=null;
+        selectedPoleNumber=null;
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
+
         ReadPoleEquipmentData.getInstance().resetAllReference();
         ReadPoleEquipmentData.getInstance().resetAllJSONObject();
-        ReadPoleEquipmentData.getInstance().resetAllReference();
-        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+
+        ReadPoleTopEquipmentData.getInstance().resetAllReference();
+        ReadPoleTopEquipmentData.getInstance().resetAllJSONObject();
+
         ReadWireData.getInstance().resetAllReference();
         ReadWireData.getInstance().resetAllJSONObject();
+
         ReadSplEquipmentData.getInstance().resetAllReference();
         ReadSplEquipmentData.getInstance().resetAllJSONObject();
+
         ReadTreeData.getInstance().resetAllReference();
         ReadTreeData.getInstance().resetAllJSONObject();
+
         wire = (ImageView)findViewById(R.id.wire);
         poleTop = (ImageView)findViewById(R.id.poleTop);
         splEquipment = (ImageView)findViewById(R.id.splEquipment);
@@ -86,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         tree = (ImageView)findViewById(R.id.tree);
         other = (ImageView)findViewById(R.id.other);
         nextButton = (Button)findViewById(R.id.nextButton);
+        nextButton.setTypeface(typeface);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +117,15 @@ public class MainActivity extends AppCompatActivity {
                 View mView = getLayoutInflater().inflate(R.layout.simulator,null);
                 Spinner spinner = mView.findViewById(R.id.spinner);
                 ImageView photo = mView.findViewById(R.id.camera);
+                final EditText pole_number = mView.findViewById(R.id.pole_number);
+                final EditText feeder_line1 = mView.findViewById(R.id.feeder_line1);
+                final EditText feeder_line2 = mView.findViewById(R.id.feeder_line2);
+
+                feeder_line1.setTypeface(typeface);
+                feeder_line2.setTypeface(typeface);
+                pole_number.setTypeface(typeface);
+
+
                 final Switch panorama_switch = mView.findViewById(R.id.panorama_switch);
 
                 photo.setOnClickListener(new View.OnClickListener() {
@@ -112,20 +142,39 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-                ArrayList<Integer> heights = new ArrayList<Integer>();
-                heights.add(35);
-                heights.add(40);
-                heights.add(45);
-                heights.add(50);
-                heights.add(55);
-                ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(getApplicationContext(), android.R.layout.simple_spinner_item, heights);
+                ArrayList<String> heights = new ArrayList<String>();
+                heights.add("30");
+                heights.add("35");
+                heights.add("40");
+                heights.add("45");
+                heights.add("50");
+                heights.add("55");
+                final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, heights);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(dataAdapter);
+               /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        String selectedItem = dataAdapter.getItem(position);
+                        selectedPoleHeight = selectedItem;
+                        Log.i("vidisha","selected Pole Height=="+selectedPoleHeight);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });*/
                 Button nextButton_inDialog = mView.findViewById(R.id.nextButton_inDialog);
                 nextButton_inDialog.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int value=0;
+
+                        selectedPoleNumber = pole_number.getText().toString();
+                        selectedFeederLine1 = feeder_line1.getText().toString();
+                        selectedFeederLine2 = feeder_line2.getText().toString();
                         Intent intent = new Intent(MainActivity.this,SelectedItems.class);
                         if(changeOf_imageWire == 1)
                             intent.putExtra("wireImage",R.drawable.wire_sub);
@@ -313,12 +362,16 @@ public class MainActivity extends AppCompatActivity {
         GlobalData.metadataPreferencesEditor.clear().apply();
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
+
         ReadPoleEquipmentData.getInstance().resetAllReference();
         ReadPoleEquipmentData.getInstance().resetAllJSONObject();
-        ReadPoleEquipmentData.getInstance().resetAllReference();
-        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+
+        ReadPoleTopEquipmentData.getInstance().resetAllReference();
+        ReadPoleTopEquipmentData.getInstance().resetAllJSONObject();
+
         ReadWireData.getInstance().resetAllReference();
         ReadWireData.getInstance().resetAllJSONObject();
+
         ReadSplEquipmentData.getInstance().resetAllReference();
         ReadSplEquipmentData.getInstance().resetAllJSONObject();
 

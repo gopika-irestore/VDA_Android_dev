@@ -166,44 +166,7 @@ public class PoleTopEquipmentData {
 
     }
 
-  /*  private void serviceWireInitialization() {
-        serviceWireOne = new ArrayList();
-        serviceWireTwo = new ArrayList();
-        serviceWireThree = new ArrayList();
-        serviceWireFour = new ArrayList();
-        serviceWireFive = new ArrayList();
-        serviceWireSix = new ArrayList();
-        serviceWireSeven = new ArrayList();
-        serviceWireEight = new ArrayList();
-        serviceWireNine = new ArrayList();
-        serviceWireTen = new ArrayList();
-    }*/
 
-/*    private void secondaryInitialization() {
-        secondaryOne = new ArrayList();
-        secondaryTwo = new ArrayList();
-        secondaryThree = new ArrayList();
-        secondaryFour = new ArrayList();
-        secondaryFive = new ArrayList();
-        secondarySix = new ArrayList();
-        secondarySeven = new ArrayList();
-        secondaryEight = new ArrayList();
-        secondaryNine = new ArrayList();
-        secondaryTen = new ArrayList();
-    }*/
-
-/*    private void primaryInitialization() {
-        primaryOne = new ArrayList<>();
-        primaryTwo = new ArrayList<>();
-        primaryThree = new ArrayList<>();
-        primaryFour = new ArrayList<>();
-        primaryFive = new ArrayList<>();
-        primarySix = new ArrayList<>();
-        primarySeven = new ArrayList<>();
-        primaryEight = new ArrayList<>();
-        primaryNine = new ArrayList<>();
-        primaryTen = new ArrayList<>();
-    }*/
 
     private void insulatorInitialization() {
         insulatorOne = new ArrayList<>();

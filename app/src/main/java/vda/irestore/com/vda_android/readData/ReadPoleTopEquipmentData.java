@@ -136,6 +136,7 @@ public class ReadPoleTopEquipmentData {
                 }
                 Log.i("DINESH_LOG", "Size = " + PoleTopEquipmentData.getInstance().transformerOne.size());
                 for (int i = 0; i < PoleTopEquipmentData.getInstance().transformerOne.size(); i++) {
+
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerOne.get(i).getKvaSize();
@@ -203,6 +204,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformTwoData() {
         // Transformer defect Two
         addNote = null;
+        addSize_Phase =null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -243,6 +245,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransTwo.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle() != null) {
+                            damageDetailsTransTwo.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getExtent();
@@ -274,6 +283,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformThreeData() {
         // Transformer defect Three
         addNote = null;
+        addSize_Phase=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -313,6 +323,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransThree.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle() != null) {
+                            damageDetailsTransThree.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerThree.get(i).getExtent();
@@ -345,6 +362,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformFourData() {
         // Transformer defect four
         addNote = null;
+        addSize_Phase=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -384,6 +402,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransFour.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle() != null) {
+                            damageDetailsTransFour.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerFour.get(i).getExtent();
@@ -415,6 +440,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformFiveData() {
         // Transformer defect Five
         addNote = null;
+        addSize_Phase=null;
         addExtent=null;
         subtitle = null;
         kvaSize = null;
@@ -454,7 +480,15 @@ public class ReadPoleTopEquipmentData {
                         if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
                             damageDetailsTransFive.put(subtitle, addNote);
                         }
-                    } if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent() != null) {
+                    }
+                    if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
+                            damageDetailsTransFive.put(subtitle, addSize_Phase);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent();
                         if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
@@ -481,6 +515,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformSixData() {
         // Transformer defect Six
         addNote = null;
+        addSize_Phase=null;
         addExtent=null;
         subtitle = null;
         kvaSize = null;
@@ -517,6 +552,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransSix.put(subtitle, kvaSize);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle() != null) {
+                            damageDetailsTransSix.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getNote() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle();
                         addNote = PoleTopEquipmentData.getInstance().transformerSix.get(i).getNote();
@@ -550,6 +592,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformSevenData() {
         // Transformer defect Seven
         addNote = null;
+        addSize_Phase=null;
         addExtent=null;
         subtitle = null;
         kvaSize = null;
@@ -589,6 +632,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransSeven.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle() != null) {
+                            damageDetailsTransSeven.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getExtent();
@@ -620,6 +670,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformEightData() {
         // Transformer defect Eight
         addNote = null;
+        addSize_Phase=null;
         addExtent=null;
         subtitle = null;
         kvaSize = null;
@@ -663,6 +714,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransEight.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle() != null) {
+                            damageDetailsTransEight.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerEight.get(i).getExtent();
@@ -690,6 +748,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformNineData() {
         // Transformer defect Nine
         addNote = null;
+        addSize_Phase=null;
         addExtent=null;
         subtitle = null;
         kvaSize = null;
@@ -733,6 +792,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransNine.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle() != null) {
+                            damageDetailsTransNine.put(subtitle, addSize_Phase);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getExtent() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle();
                         addExtent = PoleTopEquipmentData.getInstance().transformerNine.get(i).getExtent();
@@ -766,6 +832,7 @@ public class ReadPoleTopEquipmentData {
         displayName = null;
         isSelected = false;
         isChecked = false;
+        addSize_Phase=null;
 
         if (PoleTopEquipmentData.getInstance().transformerTen != null && PoleTopEquipmentData.getInstance().transformerTen.size() > 0) {
             if (damageDetailsTransTen == null)
@@ -801,6 +868,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().transformerTen.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle() != null) {
                             damageDetailsTransTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle() != null) {
+                            damageDetailsTransTen.put(subtitle, addSize_Phase);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getExtent() != null) {
@@ -4471,7 +4545,7 @@ public class ReadPoleTopEquipmentData {
         serviceWireTenPicturePath = null;
     }
 
-    public void resetALLJSONObject() {
+    public void resetAllJSONObject() {
         damageDetailsTransOne = null;
         damageDetailsTransTwo = null;
         damageDetailsTransThree = null;

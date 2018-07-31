@@ -90,7 +90,7 @@
                 android:layout_alignParentLeft="true">
 
                 <TextView
-                    android:id="@+id/spinner"
+                    android:id="@+id/poleHeightValue"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
@@ -98,6 +98,7 @@
                     android:textSize="14sp"
                     android:background="@drawable/custom_spinner_background"/>
                 <TextView
+                    android:id="@+id/poleHeightUnit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ft"
@@ -115,6 +116,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="#b6b3b3" />
             <TextView
+                android:id="@+id/submitterInfoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:text="Submitter Info"

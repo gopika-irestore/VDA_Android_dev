@@ -2318,7 +2318,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                        arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }
@@ -2344,7 +2344,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                       arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }
@@ -2370,7 +2370,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                       arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }

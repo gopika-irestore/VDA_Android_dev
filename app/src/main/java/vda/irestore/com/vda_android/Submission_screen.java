@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -86,6 +87,10 @@ import vda.irestore.com.vda_android.readData.ReadWireData;
 import vda.irestore.com.vda_android.readData.TreeData;
 
 import static vda.irestore.com.vda_android.Global.Global.S3_URL;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine1;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine2;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleHeight;
+import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleNumber;
 
 public class Submission_screen extends Activity {
     TextView submit,lat_long,spinner;
@@ -113,6 +118,9 @@ public class Submission_screen extends Activity {
     JSONObject poleTopObj;
     ArrayList v = new ArrayList();
     Typeface typeFace;
+    TextView poleHeightValue,poleHeightUnit,submitterInfoLabel;
+    EditText submitter_email,submitter_contact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,13 +133,36 @@ public class Submission_screen extends Activity {
         typeFace = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
         poleScope = new JSONObject();
         amazonS3Setup(this);
+        Log.i("vidisha","selectedFeederLine1"+selectedFeederLine1+" "+selectedFeederLine2+" "+selectedPoleNumber);
 
         setActionBar();
         getLocation();
         detailsLayout = (LinearLayout)findViewById(R.id.detailsLayout);
+        poleHeightValue = (TextView)findViewById(R.id.poleHeightValue) ;
+        poleHeightUnit = (TextView)findViewById(R.id.poleHeightUnit) ;
+        submitter_email = (EditText) findViewById(R.id.submitter_email) ;
+        submitter_contact = (EditText) findViewById(R.id.submitter_contact) ;
+        submitterInfoLabel= (TextView)findViewById(R.id.submitterInfoLabel);
+        if(selectedPoleHeight!=null) {
+            poleHeightValue.setText(selectedPoleHeight);
+        }else
+        {
+            poleHeightValue.setText("");
+        }
+
+        submitter_email.setText(sharedPref.getString("emailAddress", ""));
+        submitter_contact.setText(sharedPref.getString("phoneNumber", ""));
+        submitter_contact.setTypeface(typeFace);
+        submitter_email.setTypeface(typeFace);
+        submitterInfoLabel.setTypeface(typeFace);
+        poleHeightUnit.setTypeface(typeFace);
+        poleHeightValue.setTypeface(typeFace);
 
         HashMap<String,String> h = new HashMap();
         h.put("type","Type");
+        h.put("comments","Comment");
+        h.put("isAnchorBroken","Anchor/Guy wire - Broken");
+        h.put("isAnchorPulled","Anchor/Guy wire - Pulled");
         h.put("extent","Extent");
         h.put("isLeaking","Leaking");
         h.put("isInAccessible","Inaccessible");
@@ -1020,7 +1051,7 @@ public class Submission_screen extends Activity {
 
             }
         }
-        spinner = (TextView) findViewById(R.id.spinner);
+     //   spinner = (TextView) findViewById(R.id.spinner);
        /* ArrayList<Integer> heights = new ArrayList<Integer>();
         heights.add(35);
         heights.add(40);
@@ -1087,8 +1118,7 @@ public class Submission_screen extends Activity {
                     if(GlobalData.pole_images_array!=null) {
                         GlobalData.pole_images_array.clear();
                         GlobalData.pole_images_array = null;
-                        scopesPreferencesEditor.putString(transferObserverPole.getKey(), "success");
-                        scopesPreferencesEditor.commit();
+
                     }
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
                 }
@@ -1133,8 +1163,7 @@ public class Submission_screen extends Activity {
                     if(GlobalData.pole_top_images_array!=null) {
                         GlobalData.pole_top_images_array.clear();
                         GlobalData.pole_top_images_array = null;
-                        scopesPreferencesEditor.putString(transferObserver.getKey(), "success");
-                        scopesPreferencesEditor.commit();
+
                     }
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
                 }
@@ -1182,8 +1211,7 @@ public class Submission_screen extends Activity {
                     if(GlobalData.tree_images_array!=null) {
                         GlobalData.tree_images_array.clear();
                         GlobalData.tree_images_array = null;
-                        scopesPreferencesEditor.putString(transferObserverOthers.getKey(), "success");
-                        scopesPreferencesEditor.commit();
+
                     }
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
                 }
@@ -1231,8 +1259,7 @@ public class Submission_screen extends Activity {
                     if(GlobalData.wire_images_array!=null) {
                         GlobalData.wire_images_array.clear();
                         GlobalData.wire_images_array = null;
-                        scopesPreferencesEditor.putString(transferObserverOthers.getKey(), "success");
-                        scopesPreferencesEditor.commit();
+
                     }
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
                 }
@@ -1280,8 +1307,7 @@ public class Submission_screen extends Activity {
                     if(GlobalData.underground_images_array!=null) {
                         GlobalData.underground_images_array.clear();
                         GlobalData.underground_images_array = null;
-                        scopesPreferencesEditor.putString(transferObserverUnderground.getKey(), "success");
-                        scopesPreferencesEditor.commit();
+
                     }
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
                 }
@@ -1366,7 +1392,13 @@ public class Submission_screen extends Activity {
                     submittedByData.put("email", sharedPref.getString("emailAddress", ""));
                     submittedByData.put("phone", sharedPref.getString("phoneNumber", ""));
                     inspectionReport.put("submittedBy", submittedByData);
-                    poleDetailsData.put("height", "35");
+                    JSONArray feederLine = new JSONArray();
+
+                    feederLine.put(0, selectedFeederLine1);
+                    feederLine.put(1, selectedFeederLine2);
+                    poleDetailsData.put("height", poleHeightValue.getText().toString());
+                    poleDetailsData.put("number", selectedPoleNumber);
+                    poleDetailsData.put("feederLine",feederLine);
                     inspectionReport.put("poleDetails", poleDetailsData);
                     SimpleDateFormat oldformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
                     inspectionReport.put("displayTimestamp", oldformat.format(new Date()));

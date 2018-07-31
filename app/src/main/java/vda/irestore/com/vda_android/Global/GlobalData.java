@@ -18,6 +18,10 @@ import vda.irestore.com.vda_android.R;
  */
 
 public class GlobalData {
+    public static String selectedPoleHeight;
+    public static String selectedPoleNumber;
+    public static String selectedFeederLine1;
+    public static String selectedFeederLine2;
     public static boolean isPoleTopAllOk = false;
     public static String isPoleTopAllOk_JSON;
     public static GlobalData globalData = null;
