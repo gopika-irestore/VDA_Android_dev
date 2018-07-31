@@ -15,6 +15,16 @@ public class InspectionMetaData {
     }
 
     String extent = null;
+
+    public String getSize_phase() {
+        return size_phase;
+    }
+
+    public void setSize_phase(String size_phase) {
+        this.size_phase = size_phase;
+    }
+
+    String size_phase = null;
     String name = null;
     String displayName = null;
     String imageUrl = null;
@@ -99,6 +109,19 @@ public class InspectionMetaData {
         this.testPicturePath = null;
     }
 
+    // Adding size_phase details
+    public InspectionMetaData(String size_phase,String title, String subTitle,String s,String p) {
+        this.size_phase = size_phase;
+        this.title = title;
+        this.subTitle = subTitle;
+        this.displayName = null;
+        this.imageUrl = null;
+        this.isSelected = null;
+        this.isCheckOK = null;
+        this.isUtilityOwned = null;
+        this.picturePath = null;
+        this.testPicturePath = null;
+    }
     // adding kva size details
     public InspectionMetaData(String size, int selectPos, String title, String subTitle) {
         this.kvaSize = size;

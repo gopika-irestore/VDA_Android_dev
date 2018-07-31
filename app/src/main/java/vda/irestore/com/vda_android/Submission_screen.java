@@ -363,7 +363,7 @@ public class Submission_screen extends Activity {
 
                         }
                         detailsLayout.addView(poleTop);
-                    } } catch(JSONException e){
+                    }} catch(JSONException e){
                         e.printStackTrace();
                     }
 

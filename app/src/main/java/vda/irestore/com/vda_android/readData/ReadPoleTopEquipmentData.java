@@ -26,7 +26,7 @@ public class ReadPoleTopEquipmentData {
             secondaryOnePicturePath = null, secondaryTwoPicturePath = null, secondaryThreePicturePath = null, secondaryFourPicturePath = null, secondaryFivePicturePath = null, secondarySixPicturePath = null, secondarySevenPicturePath = null, secondaryEightPicturePath = null, secondaryNinePicturePath = null, secondaryTenPicturePath = null,
             serviceWireOnePicturePath = null, serviceWireTwoPicturePath = null, serviceWireThreePicturePath = null, serviceWireFourPicturePath = null, serviceWireFivePicturePath = null, serviceWireSixPicturePath = null, serviceWireSevenPicturePath = null, serviceWireEightPicturePath = null, serviceWireNinePicturePath = null, serviceWireTenPicturePath = null;
     public String transformTitle, crossArmTitle, fusedCutOutTitle, poleAttachTitle, poleTopPinTitle, insulatorTitle, primaryTitle, secondaryTitle, serviceWireTitle;
-    String addNote, addExtent,subtitle, kvaSize, displayName, testType, size;
+    String addNote, addSize_Phase,addExtent,subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
 
     JSONObject damageDetailsTransOne = new JSONObject();
@@ -122,6 +122,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformOneData() {
         // Transformer defect One
         addNote = null;
+        addSize_Phase =null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -154,6 +155,13 @@ public class ReadPoleTopEquipmentData {
                         addExtent = PoleTopEquipmentData.getInstance().transformerOne.get(i).getExtent();
                         if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
                             damageDetailsTransOne.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSize_phase() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle();
+                        addSize_Phase = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSize_phase();
+                        if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
+                            damageDetailsTransOne.put(subtitle, addSize_Phase);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getCheckedOK() != null) {

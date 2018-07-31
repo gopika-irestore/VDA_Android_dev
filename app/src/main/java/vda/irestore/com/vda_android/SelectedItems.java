@@ -114,7 +114,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     final int REQUEST_CAMERA_TWO = 42;
     ImageView  partImage,testingImage;
     String undergroundScopeImage,poleScopeImage,picturePath, testingPicturePath, partTitle,undergroundScopeTestingImage,voltageTestKey;
-    boolean isListSelected = true, isAddNoteSelected = true, isRepairSelected = true,isReplaceSelected = true, isTestingImageSelected = true, isTransTypeSelected = true;
+    boolean isListSelected = true, isAddNoteSelected = true,isAddSize_PhaseSelected = true, isRepairSelected = true,isReplaceSelected = true, isTestingImageSelected = true, isTransTypeSelected = true;
     private ArrayList<GridItem> mGridDataJSON;
     public int horizontalItemSelectedPosition = -1, verticalItemSelectedPosition = -1, gridPositionNew = 0, localIndexToAddNote = -1 ,localIndexToExtent = -1;
     ArrayList<InspectionMetaData> localInspectionMetaData;
@@ -2066,6 +2066,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
         View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
         RelativeLayout layoutType = (RelativeLayout) view.findViewById(R.id.typeAsset);
+        RelativeLayout layoutType_size = (RelativeLayout) view.findViewById(R.id.assetSize);
         final Spinner typeSpinner = (Spinner) view.findViewById(R.id.typeSpinner);
         final ArrayAdapter typeAdapter = new ArrayAdapter<String>(mContext,
                 android.R.layout.simple_spinner_dropdown_item,
@@ -2075,6 +2076,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         horizontalListView.setLayoutManager(linearLayoutManager);
 
+        final EditText size_phase = layoutType_size.findViewById(R.id.sizeValue);
 
 
         final EditText comments = view.findViewById(R.id.comments);
@@ -2166,8 +2168,12 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
+                if(!isAddSize_PhaseSelected||!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
+                        if(!size_phase.getText().toString().isEmpty()) {
+                            addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
+                            isAddSize_PhaseSelected = false;
+                        }
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_top_done.png");
                         item.setInspectionDone(true);
@@ -2219,12 +2225,37 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            layoutType_size.setVisibility(View.VISIBLE);
             assetTypes.add("Single Phase");
             assetTypes.add("Third Phase");
 
             typeSpinner.setAdapter(typeAdapter);
             if (gridTitle.equalsIgnoreCase("Transformer")) {
                 localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }
+
+        if(gridTitle.equalsIgnoreCase("Fused CutOut"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Polymer");
+            assetTypes.add("Potted Porcelain");
+            assetTypes.add("Branded");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+                localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
                 for (int i = 0; i < localInspectionMetaData.size(); i++) {
                     try {
                         if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
@@ -2292,6 +2323,32 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
                     }
                 }
+                if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+                    isTransTypeSelected = false;
+                    int localIndex = -1;
+                    localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
+                    for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                        try {
+                            if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("Type")) {
+                                localIndex = i;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    try {
+                        String selectedItem = typeAdapter.getItem(position).toString();
+                        if (localIndex != -1) {
+                            localInspectionMetaData.set(localIndex, new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        } else if (position != 0) {
+                            localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        }
+                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+
+                    }
+                }
                 if (gridTitle.equalsIgnoreCase("Street Light")) {
                     isTransTypeSelected = false;
                     int localIndex = -1;
@@ -2335,6 +2392,14 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         } else {
             comments.setText("");
         }
+
+        String sizeString = readSize_PhaseFromRespectiveCountList(scope,gridPosition);
+        if(sizeString!=null) {
+            size_phase.setText(sizeString.trim());
+        } else {
+            size_phase.setText("");
+        }
+
         String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
         if(extentString!=null) {
             if(extentString.equalsIgnoreCase("REPAIR")) {
@@ -2379,6 +2444,13 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 comments.setText("");
                             }
 
+                            String sizeString = readSize_PhaseFromRespectiveCountList(scope,gridPosition);
+                            if(sizeString!=null) {
+                                size_phase.setText(sizeString.trim());
+                            } else {
+                                size_phase.setText("");
+                            }
+
                             String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
 
                             if(extentString!=null) {
@@ -2406,6 +2478,26 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                             if (gridTitle.equalsIgnoreCase("Transformer")) {
                                 int typePosition = -1;
                                 localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+
+
+                                    try {
+                                        if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("type")) {
+                                            typePosition = localInspectionMetaData.get(i).getSelectPosition();
+                                        }
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                                if (typePosition != -1)
+                                    typeSpinner.setSelection(typePosition);
+                                else
+                                    typeSpinner.setSelection(0);
+                            }
+                            if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+                                int typePosition = -1;
+                                localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
                                 for (int i = 0; i < localInspectionMetaData.size(); i++) {
 
 
@@ -2738,6 +2830,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     public void ShowWireDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
         gridPositionNew = gridPosition;
         gridTitle = item.getTitle();
+        ArrayList<String> assetTypes = new ArrayList<String>();
         //isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
         mGridDataJSON = new ArrayList<>();
 
@@ -2749,7 +2842,12 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         Log.i("under","in dialog"+item.getImageName());
         final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
         View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
-
+        RelativeLayout layoutType = (RelativeLayout) view.findViewById(R.id.typeAsset);
+        final Spinner typeSpinner = (Spinner) view.findViewById(R.id.typeSpinner);
+        final ArrayAdapter typeAdapter = new ArrayAdapter<String>(mContext,
+                android.R.layout.simple_spinner_dropdown_item,
+                assetTypes);
+        RelativeLayout layoutType_size = (RelativeLayout) view.findViewById(R.id.assetSize);
         horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         horizontalListView.setLayoutManager(linearLayoutManager);
@@ -2845,7 +2943,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
+                if(!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/wire_done.png");
@@ -2890,14 +2988,218 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         listView = (ListView) view.findViewById(R.id.inspectionData_list);
 
 
-
-        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
-
-
-
-
-
         populateListViewWire(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+        if(gridTitle.equalsIgnoreCase("Primary"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            layoutType_size.setVisibility(View.VISIBLE);
+            assetTypes.add("Open Wire");
+            assetTypes.add("Spacer Cable");
+            assetTypes.add("Riser");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Primary")) {
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }
+        if(gridTitle.equalsIgnoreCase("Fused CutOut"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Polymer");
+            assetTypes.add("Potted Porcelain");
+            assetTypes.add("Branded");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+                localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }
+
+        if(gridTitle.equalsIgnoreCase("Street Light"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Street Light");
+            assetTypes.add("Flood Light");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Street Light")) {
+                localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+
+        }
+        if(gridTitle.equalsIgnoreCase("Secondary"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Open Wire");
+            assetTypes.add("Triplex");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Secondary")) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }
+
+        if(gridTitle.equalsIgnoreCase("Service Wire"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Open Wire");
+            assetTypes.add("Triplex");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Service Wire")) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+
+        }
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (gridTitle.equalsIgnoreCase("Primary")) {
+                    isTransTypeSelected = false;
+                    int localIndex = -1;
+                    localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                    for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                        try {
+                            if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("Type")) {
+                                localIndex = i;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    try {
+                        String selectedItem = typeAdapter.getItem(position).toString();
+                        if (localIndex != -1) {
+                            localInspectionMetaData.set(localIndex, new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        } else if (position != 0) {
+                            localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        }
+                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+
+                    }
+                }
+                if (gridTitle.equalsIgnoreCase("Secondary")) {
+                    isTransTypeSelected = false;
+                    int localIndex = -1;
+                    localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                    for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                        try {
+                            if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("Type")) {
+                                localIndex = i;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    try {
+                        String selectedItem = typeAdapter.getItem(position).toString();
+                        if (localIndex != -1) {
+                            localInspectionMetaData.set(localIndex, new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        } else if (position != 0) {
+                            localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        }
+                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+
+                    }
+                }
+                if (gridTitle.equalsIgnoreCase("Service Wire")) {
+                    isTransTypeSelected = false;
+                    int localIndex = -1;
+                    localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
+                    for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                        try {
+                            if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("Type")) {
+                                localIndex = i;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    try {
+                        String selectedItem = typeAdapter.getItem(position).toString();
+                        if (localIndex != -1) {
+                            localInspectionMetaData.set(localIndex, new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        } else if (position != 0) {
+                            localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        }
+                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("vidisha", "type2");
+            }
+        });
+
+
         String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
         if(noteString!=null) {
             comments.setText(noteString.trim());
@@ -2972,7 +3274,66 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 replace.setTextColor(Color.parseColor("#3EA99F"));
                                 addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
                             }
+                            if (gridTitle.equalsIgnoreCase("Primary")) {
+                                int typePosition = -1;
+                                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                                for (int i = 0; i < localInspectionMetaData.size(); i++) {
 
+
+                                    try {
+                                        if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("type")) {
+                                            typePosition = localInspectionMetaData.get(i).getSelectPosition();
+                                        }
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                                if (typePosition != -1)
+                                    typeSpinner.setSelection(typePosition);
+                                else
+                                    typeSpinner.setSelection(0);
+                            }
+                            if (gridTitle.equalsIgnoreCase("Secondary")) {
+                                int typePosition = -1;
+                                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+
+
+                                    try {
+                                        if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("type")) {
+                                            typePosition = localInspectionMetaData.get(i).getSelectPosition();
+                                        }
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                                if (typePosition != -1)
+                                    typeSpinner.setSelection(typePosition);
+                                else
+                                    typeSpinner.setSelection(0);
+                            }
+                            if (gridTitle.equalsIgnoreCase("Service Wire")) {
+                                int typePosition = -1;
+                                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
+                                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+
+
+                                    try {
+                                        if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("type")) {
+                                            typePosition = localInspectionMetaData.get(i).getSelectPosition();
+                                        }
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                                if (typePosition != -1)
+                                    typeSpinner.setSelection(typePosition);
+                                else
+                                    typeSpinner.setSelection(0);
+                            }
                         }
                     }
                 });
@@ -3320,13 +3681,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         itemName.setText(item.getTitle());
         itemName.setTypeface(typeFace);
         listView = (ListView) view.findViewById(R.id.inspectionData_list);
-
-
-
-        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
-
-
-
 
 
         populateListViewPole(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
@@ -4101,6 +4455,87 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }
         return null;
     }
+    private String readSize_PhaseFromRespectiveCountList(String scope,int position) {
+        if(scope.equalsIgnoreCase("other")) {
+            String note = null;
+            if (position == 0) {
+                localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 1) {
+                localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 2) {
+                localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 3) {
+                localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }
+        }else if (scope.equalsIgnoreCase("Pole"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = poleReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }
+        }else if (scope.equalsIgnoreCase("Tree"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }
+        }else if (scope.equalsIgnoreCase("spl"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 1) {
+                localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 2) {
+                localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 3) {
+                localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }
+        }else if (scope.equalsIgnoreCase("wire"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 1) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 2) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }
+        }
+        else if (scope.equalsIgnoreCase("poleTop"))
+        {
+            if (position == 0) {
+                localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 1) {
+                localInspectionMetaData = crossArmReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 2) {
+                localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            } else if (position == 3) {
+                localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }else if (position == 4) {
+                localInspectionMetaData = poleTopPinReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }else if (position == 5) {
+                localInspectionMetaData = insulatorReference(horizontalItemSelectedPosition);
+                return findSize_PhaseData();
+            }
+        }
+        return null;
+    }
+
     private String findNoteData() {
         String note = null;
         for (int i=0; i< localInspectionMetaData.size(); i++) {
@@ -4120,6 +4555,16 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }
         return note;
     }
+    private String findSize_PhaseData() {
+        String note = null;
+        for (int i=0; i< localInspectionMetaData.size(); i++) {
+            // to find out the respective note from inspectionMetaData in a loop
+            if(localInspectionMetaData.get(i).getSize_phase() != null)
+                note = localInspectionMetaData.get(i).getSize_phase();
+        }
+        return note;
+    }
+
 
     private void addNoteToRespectiveCountList(String scope,String title, String note) {
         // adding note to respective count (horizontal list item)
@@ -4250,6 +4695,96 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         }
     }
 
+    private void addSize_PhaseToRespectiveCountList(String scope,String title, String note) {
+        // adding note to respective count (horizontal list item)
+        String noteNew = null;
+        int localIndex = -1;
+
+        if(scope.equalsIgnoreCase("other")) {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = pullBoxReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = spiceBoxReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 3) {
+                localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("Pole"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = poleReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("Tree"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("spl"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = regulatorReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = capacitorBankReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = recloserReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 3) {
+                localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("wire"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = primaryWireReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = secondaryWireReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+        }else if(scope.equalsIgnoreCase("poleTop"))
+        {
+            if (gridPositionNew == 0) {
+                localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 1) {
+                localInspectionMetaData = crossArmReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            } else if (gridPositionNew == 2) {
+                localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }else if (gridPositionNew == 3) {
+                localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }else if (gridPositionNew == 4) {
+                localInspectionMetaData = poleTopPinReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }else if (gridPositionNew == 5) {
+                localInspectionMetaData = insulatorReference(horizontalItemSelectedPosition);
+                noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+        }
+        if(noteNew != null){
+            localInspectionMetaData.set(localIndexToExtent, new InspectionMetaData(note.trim(), title, "size"," "," "));
+            arrayAdapter.notifyDataSetChanged();
+        } else {
+            localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
+            arrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+
     InspectionMetaData inspectionMetaData;
     private String findingIndexToAddNote(String titleNew, int localIndex) {
         for(int i=0; i<localInspectionMetaData.size(); i++) {
@@ -4265,6 +4800,17 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         for(int i=0; i<localInspectionMetaData.size(); i++) {
             if(titleNew == null) {
                 titleNew = localInspectionMetaData.get(i).getExtent();
+                inspectionMetaData = localInspectionMetaData.get(i);
+                localIndexToExtent = i;
+            }
+        }
+        return titleNew;
+    }
+
+    private String findingIndexToSize_Phase(String titleNew, int localIndex) {
+        for(int i=0; i<localInspectionMetaData.size(); i++) {
+            if(titleNew == null) {
+                titleNew = localInspectionMetaData.get(i).getSize_phase();
                 inspectionMetaData = localInspectionMetaData.get(i);
                 localIndexToExtent = i;
             }
