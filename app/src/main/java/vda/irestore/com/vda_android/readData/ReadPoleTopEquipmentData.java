@@ -19,14 +19,14 @@ public class ReadPoleTopEquipmentData {
             crossArmOnePicturePath = null, crossArmTwoPicturePath = null, crossArmThreePicturePath = null, crossArmFourPicturePath = null, crossArmFivePicturePath = null, crossArmSixPicturePath = null, crossArmSevenPicturePath = null, crossArmEightPicturePath = null, crossArmNinePicturePath = null, crossArmTenPicturePath = null,
             fusedCutOutOnePicturePath = null, fusedCutOutTwoPicturePath = null, fusedCutOutThreePicturePath = null, fusedCutOutFourPicturePath = null, fusedCutOutFivePicturePath = null, fusedCutOutSixPicturePath = null, fusedCutOutSevenPicturePath = null, fusedCutOutEightPicturePath = null, fusedCutOutNinePicturePath = null, fusedCutOutTenPicturePath = null,
             poleAttachmentOnePicturePath = null, poleAttachmentTwoPicturePath = null, poleAttachmentThreePicturePath = null, poleAttachmentFourPicturePath = null, poleAttachmentFivePicturePath = null, poleAttachmentSixPicturePath = null, poleAttachmentSevenPicturePath = null, poleAttachmentEightPicturePath = null, poleAttachmentNinePicturePath = null, poleAttachmentTenPicturePath = null,
-            streetLightOnePicturePath = null, streetLightTwoPicturePath = null, streetLightThreePicturePath = null, streetLightFourPicturePath = null, streetLightFivePicturePath = null, streetLightSixPicturePath = null, streetLightSevenPicturePath = null, streetLightEightPicturePath = null, streetLightNinePicturePath = null, streetLightTenPicturePath = null,
+            streetlightOnePicturePath = null, streetlightTwoPicturePath = null, streetlightThreePicturePath = null, streetlightFourPicturePath = null, streetlightFivePicturePath = null, streetlightSixPicturePath = null, streetlightSevenPicturePath = null, streetlightEightPicturePath = null, streetlightNinePicturePath = null, streetlightTenPicturePath = null,
             poleTopPinOnePicturePath = null, poleTopPinTwoPicturePath = null, poleTopPinThreePicturePath = null, poleTopPinFourPicturePath = null, poleTopPinFivePicturePath = null, poleTopPinSixPicturePath = null, poleTopPinSevenPicturePath = null, poleTopPinEightPicturePath = null, poleTopPinNinePicturePath = null, poleTopPinTenPicturePath = null,
             insulatorOnePicturePath = null, insulatorTwoPicturePath = null, insulatorThreePicturePath = null, insulatorFourPicturePath = null, insulatorFivePicturePath = null, insulatorSixPicturePath = null, insulatorSevenPicturePath = null, insulatorEightPicturePath = null, insulatorNinePicturePath = null, insulatorTenPicturePath = null,
             primaryOnePicturePath = null, primaryTwoPicturePath = null, primaryThreePicturePath = null, primaryFourPicturePath = null, primaryFivePicturePath = null, primarySixPicturePath = null, primarySevenPicturePath = null, primaryEightPicturePath = null, primaryNinePicturePath = null, primaryTenPicturePath = null,
             secondaryOnePicturePath = null, secondaryTwoPicturePath = null, secondaryThreePicturePath = null, secondaryFourPicturePath = null, secondaryFivePicturePath = null, secondarySixPicturePath = null, secondarySevenPicturePath = null, secondaryEightPicturePath = null, secondaryNinePicturePath = null, secondaryTenPicturePath = null,
             serviceWireOnePicturePath = null, serviceWireTwoPicturePath = null, serviceWireThreePicturePath = null, serviceWireFourPicturePath = null, serviceWireFivePicturePath = null, serviceWireSixPicturePath = null, serviceWireSevenPicturePath = null, serviceWireEightPicturePath = null, serviceWireNinePicturePath = null, serviceWireTenPicturePath = null;
     public String transformTitle, crossArmTitle, fusedCutOutTitle, poleAttachTitle, poleTopPinTitle, insulatorTitle, primaryTitle, secondaryTitle, serviceWireTitle;
-    String addNote, subtitle, kvaSize, displayName, testType, size;
+    String addNote, addExtent,subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
 
     JSONObject damageDetailsTransOne = new JSONObject();
@@ -64,16 +64,16 @@ public class ReadPoleTopEquipmentData {
 
 
 
-    JSONObject damageDetailsStreetLightOne = new JSONObject();
-    JSONObject damageDetailsStreetLightTwo = new JSONObject();
-    JSONObject damageDetailsStreetLightThree = new JSONObject();
-    JSONObject damageDetailsStreetLightFour = new JSONObject();
-    JSONObject damageDetailsStreetLightFive = new JSONObject();
-    JSONObject damageDetailsStreetLightSix = new JSONObject();
-    JSONObject damageDetailsStreetLightSeven = new JSONObject();
-    JSONObject damageDetailsStreetLightEight = new JSONObject();
-    JSONObject damageDetailsStreetLightNine = new JSONObject();
-    JSONObject damageDetailsStreetLightTen = new JSONObject();
+    JSONObject damageDetailsstreetlightOne = new JSONObject();
+    JSONObject damageDetailsstreetlightTwo = new JSONObject();
+    JSONObject damageDetailsstreetlightThree = new JSONObject();
+    JSONObject damageDetailsstreetlightFour = new JSONObject();
+    JSONObject damageDetailsstreetlightFive = new JSONObject();
+    JSONObject damageDetailsstreetlightSix = new JSONObject();
+    JSONObject damageDetailsstreetlightSeven = new JSONObject();
+    JSONObject damageDetailsstreetlightEight = new JSONObject();
+    JSONObject damageDetailsstreetlightNine = new JSONObject();
+    JSONObject damageDetailsstreetlightTen = new JSONObject();
 
     JSONObject damageDetailsPoleTopPinOne = new JSONObject();
     JSONObject damageDetailsPoleTopPinTwo = new JSONObject();
@@ -122,6 +122,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformOneData() {
         // Transformer defect One
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -146,6 +147,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().transformerOne.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
                             damageDetailsTransOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerOne.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
+                            damageDetailsTransOne.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getCheckedOK() != null) {
@@ -187,6 +195,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformTwoData() {
         // Transformer defect Two
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -226,6 +235,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransTwo.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle() != null) {
+                            damageDetailsTransTwo.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getCheckedOK();
@@ -255,6 +271,7 @@ public class ReadPoleTopEquipmentData {
         displayName = null;
         isSelected = false;
         isChecked = false;
+        addExtent=null;
 
         if (PoleTopEquipmentData.getInstance().transformerThree != null && PoleTopEquipmentData.getInstance().transformerThree.size() > 0) {
             if (damageDetailsTransThree == null)
@@ -288,6 +305,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransThree.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerThree.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle() != null) {
+                            damageDetailsTransThree.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().transformerThree.get(i).getCheckedOK();
@@ -318,6 +342,7 @@ public class ReadPoleTopEquipmentData {
         displayName = null;
         isSelected = false;
         isChecked = false;
+        addExtent=null;
 
         if (PoleTopEquipmentData.getInstance().transformerFour != null && PoleTopEquipmentData.getInstance().transformerFour.size() > 0) {
             if (damageDetailsTransFour == null)
@@ -351,6 +376,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransFour.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerFour.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle() != null) {
+                            damageDetailsTransFour.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().transformerFour.get(i).getCheckedOK();
@@ -375,6 +407,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformFiveData() {
         // Transformer defect Five
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -413,6 +446,12 @@ public class ReadPoleTopEquipmentData {
                         if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
                             damageDetailsTransFive.put(subtitle, addNote);
                         }
+                    } if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
+                            damageDetailsTransFive.put(subtitle, addExtent);
+                        }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle();
@@ -434,6 +473,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformSixData() {
         // Transformer defect Six
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -475,6 +515,12 @@ public class ReadPoleTopEquipmentData {
                         if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle() != null) {
                             damageDetailsTransSix.put(subtitle, addNote);
                         }
+                    } if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerSix.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle() != null) {
+                            damageDetailsTransSix.put(subtitle, addExtent);
+                        }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle();
@@ -496,6 +542,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformSevenData() {
         // Transformer defect Seven
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -534,6 +581,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransSeven.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle() != null) {
+                            damageDetailsTransSeven.put(subtitle, addExtent);
+                        }
+                    }
 
                     if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getTitle() != null)
                         transformTitle = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getTitle();
@@ -558,6 +612,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformEightData() {
         // Transformer defect Eight
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -600,6 +655,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransEight.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerEight.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle() != null) {
+                            damageDetailsTransEight.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().transformerEight.get(i).getCheckedOK();
@@ -620,6 +682,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformNineData() {
         // Transformer defect Nine
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -662,6 +725,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransNine.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerNine.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle() != null) {
+                            damageDetailsTransNine.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().transformerNine.get(i).getCheckedOK();
@@ -682,6 +752,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readTransformTenData() {
         // Transformer defect Ten
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -724,6 +795,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsTransTen.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().transformerTen.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle() != null) {
+                            damageDetailsTransTen.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().transformerTen.get(i).getCheckedOK();
@@ -743,6 +821,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmOneData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -772,6 +851,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmOne.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmOne.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmOne.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmOne.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmOne.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmOne.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmOne.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmOne.get(i).getCheckedOK() != null) {
@@ -805,6 +891,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmTwoData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -832,6 +919,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmTwo.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmTwo.get(i).getCheckedOK() != null) {
@@ -865,6 +959,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmThreeData() {
         addNote = null;
+        addExtent =null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -892,6 +987,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmThree.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmThree.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmThree.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmThree.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmThree.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmThree.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmThree.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmThree.get(i).getCheckedOK() != null) {
@@ -926,6 +1028,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readCrossArmFourData() {
         // Transformer defect One
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -953,6 +1056,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmFour.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmFour.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmFour.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmFour.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmFour.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmFour.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmFour.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmFour.get(i).getCheckedOK() != null) {
@@ -986,6 +1096,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmFiveData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1013,6 +1124,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmFive.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmFive.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmFive.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmFive.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmFive.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmFive.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmFive.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmFive.get(i).getCheckedOK() != null) {
@@ -1047,6 +1165,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmSixData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1074,6 +1193,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmSix.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmSix.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmSix.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmSix.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmSix.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmSix.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmSix.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmSix.get(i).getCheckedOK() != null) {
@@ -1109,6 +1235,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmSevenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1136,6 +1263,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmSeven.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmSeven.get(i).getCheckedOK() != null) {
@@ -1170,6 +1304,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmEightData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1197,6 +1332,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmEight.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmEight.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmEight.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmEight.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmEight.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmEight.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmEight.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmEight.get(i).getCheckedOK() != null) {
@@ -1231,6 +1373,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmNineData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1258,6 +1401,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmNine.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmNine.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmNine.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmNine.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmNine.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmNine.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmNine.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmNine.get(i).getCheckedOK() != null) {
@@ -1292,6 +1442,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readCrossArmTenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1319,6 +1470,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().crossArmTen.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().crossArmTen.get(i).getSubTitle() != null) {
                             damageDetailsCrossArmTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().crossArmTen.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().crossArmTen.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().crossArmTen.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().crossArmTen.get(i).getSubTitle() != null) {
+                            damageDetailsCrossArmTen.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().crossArmTen.get(i).getCheckedOK() != null) {
@@ -1353,6 +1511,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutOneData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1383,6 +1542,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutOne.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getCheckedOK() != null) {
@@ -1417,6 +1583,7 @@ public class ReadPoleTopEquipmentData {
     public JSONObject readFusedCutOutTwoData() {
         // Transformer defect One
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1445,6 +1612,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutTwo.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getCheckedOK() != null) {
@@ -1478,6 +1652,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutThreeData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1507,6 +1682,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutThree.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getCheckedOK() != null) {
@@ -1541,6 +1723,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutFourData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1569,6 +1752,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutFour.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getCheckedOK() != null) {
@@ -1602,6 +1792,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutFiveData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1630,6 +1821,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutFive.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getCheckedOK() != null) {
@@ -1663,6 +1861,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutSixData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1691,6 +1890,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutSix.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getCheckedOK() != null) {
@@ -1724,6 +1930,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutSevenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1751,6 +1958,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutSeven.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getCheckedOK() != null) {
@@ -1784,6 +1998,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutEightData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1812,6 +2027,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutEight.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getCheckedOK() != null) {
@@ -1845,6 +2067,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutNineData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1873,6 +2096,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutNine.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getCheckedOK() != null) {
@@ -1907,6 +2137,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readFusedCutOutTenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -1934,6 +2165,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getSubTitle() != null) {
                             damageDetailsFusedCutTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getSubTitle() != null) {
+                            damageDetailsFusedCutTen.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getCheckedOK() != null) {
@@ -1968,6 +2206,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinOneData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2001,6 +2240,13 @@ public class ReadPoleTopEquipmentData {
                             damageDetailsPoleTopPinOne.put(subtitle, addNote);
                         }
                     }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinOne.put(subtitle, addExtent);
+                        }
+                    }
                     if (PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getCheckedOK() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getSubTitle();
                         isChecked = PoleTopEquipmentData.getInstance().poleTopPinOne.get(i).getCheckedOK();
@@ -2032,6 +2278,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinTwoData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2061,6 +2308,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinTwo.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinTwo.get(i).getCheckedOK() != null) {
@@ -2094,6 +2348,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinThreeData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2122,6 +2377,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinThree.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinThree.get(i).getCheckedOK() != null) {
@@ -2155,6 +2417,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinFourData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2182,6 +2445,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinFour.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinFour.get(i).getCheckedOK() != null) {
@@ -2215,6 +2485,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinFiveData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2242,6 +2513,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinFive.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinFive.get(i).getCheckedOK() != null) {
@@ -2275,6 +2553,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinSixData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2302,6 +2581,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinSix.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinSix.get(i).getCheckedOK() != null) {
@@ -2335,6 +2621,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinSevenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2362,6 +2649,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinSeven.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinSeven.get(i).getCheckedOK() != null) {
@@ -2395,6 +2689,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinEightData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2422,6 +2717,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinEight.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinEight.get(i).getCheckedOK() != null) {
@@ -2455,6 +2757,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinNineData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2482,6 +2785,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinNine.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinNine.get(i).getCheckedOK() != null) {
@@ -2515,6 +2825,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readpoleTopPinTenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2543,6 +2854,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getSubTitle() != null) {
                             damageDetailsPoleTopPinTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getSubTitle() != null) {
+                            damageDetailsPoleTopPinTen.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().poleTopPinTen.get(i).getCheckedOK() != null) {
@@ -2576,6 +2894,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readInsulatorOneData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2606,6 +2925,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorOne.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorOne.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorOne.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorOne.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorOne.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorOne.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorOne.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorOne.get(i).getCheckedOK() != null) {
@@ -2639,6 +2965,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorTwoData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2666,6 +2993,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorTwo.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorTwo.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorTwo.get(i).getCheckedOK() != null) {
@@ -2699,6 +3033,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorThreeData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2727,6 +3062,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorThree.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorThree.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorThree.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorThree.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorThree.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorThree.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorThree.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorThree.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorThree.get(i).getCheckedOK() != null) {
@@ -2760,6 +3102,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorFourData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2787,6 +3130,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorFour.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorFour.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorFour.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorFour.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorFour.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorFour.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorFour.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorFour.get(i).getCheckedOK() != null) {
@@ -2820,6 +3170,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorFiveData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2847,6 +3198,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorFive.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorFive.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorFive.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorFive.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorFive.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorFive.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorFive.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorFive.get(i).getCheckedOK() != null) {
@@ -2880,6 +3238,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorSixData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2908,6 +3267,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorSix.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorSix.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorSix.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorSix.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorSix.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorSix.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorSix.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorSix.get(i).getCheckedOK() != null) {
@@ -2941,6 +3307,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorSevenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -2970,6 +3337,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorSeven.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorSeven.get(i).getCheckedOK() != null) {
@@ -3003,6 +3377,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorEightData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3030,6 +3405,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorEight.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorEight.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorEight.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorEight.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorEight.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorEight.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorEight.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorEight.get(i).getCheckedOK() != null) {
@@ -3063,6 +3445,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorNineData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3090,6 +3473,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorNine.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorNine.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorNine.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorNine.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorNine.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorNine.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorNine.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorNine.get(i).getCheckedOK() != null) {
@@ -3123,6 +3513,7 @@ public class ReadPoleTopEquipmentData {
 
     public JSONObject readinsulatorTenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
@@ -3150,6 +3541,13 @@ public class ReadPoleTopEquipmentData {
                         addNote = PoleTopEquipmentData.getInstance().insulatorTen.get(i).getNote();
                         if (PoleTopEquipmentData.getInstance().insulatorTen.get(i).getSubTitle() != null) {
                             damageDetailsInsulatorTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().insulatorTen.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().insulatorTen.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().insulatorTen.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().insulatorTen.get(i).getSubTitle() != null) {
+                            damageDetailsInsulatorTen.put(subtitle, addExtent);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().insulatorTen.get(i).getCheckedOK() != null) {
@@ -3182,57 +3580,62 @@ public class ReadPoleTopEquipmentData {
     }
 
 
-
-    public JSONObject readserviceWireOneData() {
+    public JSONObject readstreetlightOneData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireOne != null && PoleTopEquipmentData.getInstance().serviceWireOne.size() > 0) {
-            if (damageDetailsserviceWireOne == null)
-                damageDetailsserviceWireOne = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightOne != null && PoleTopEquipmentData.getInstance().streetlightOne.size() > 0) {
+            if (damageDetailsstreetlightOne == null)
+                damageDetailsstreetlightOne = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireOne.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getPicturePath() != null) {
-                        serviceWireOnePicturePath = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getPicturePath();
-//                        serviceWireOnePicturePath = serviceWireOnePicturePath.substring(serviceWireOnePicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightOne.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getPicturePath() != null) {
+                        streetlightOnePicturePath = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getPicturePath();
+//                        streetlightOnePicturePath = streetlightOnePicturePath.substring(streetlightOnePicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getTitle() != null)
-                        serviceWireTitle = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getTitle();
-                    if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireOne.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightOne.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireOne.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightOne.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightOne.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireOne.put(subtitle, isChecked);
+                            damageDetailsstreetlightOne.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireOne.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightOne.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireOne.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireOne.put(displayName, isSelected);
+                                damageDetailsstreetlightOne.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3242,57 +3645,65 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireOne;
+        return damageDetailsstreetlightOne;
     }
 
-    public JSONObject readserviceWireTwoData() {
+    public JSONObject readstreetlightTwoData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireTwo != null && PoleTopEquipmentData.getInstance().serviceWireTwo.size() > 0) {
-            if (damageDetailsserviceWireTwo == null)
-                damageDetailsserviceWireTwo = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightTwo != null && PoleTopEquipmentData.getInstance().streetlightTwo.size() > 0) {
+            if (damageDetailsstreetlightTwo == null)
+                damageDetailsstreetlightTwo = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireTwo.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getPicturePath() != null) {
-                        serviceWireTwoPicturePath = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getPicturePath();
-//                        serviceWireTwoPicturePath = serviceWireTwoPicturePath.substring(serviceWireTwoPicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightTwo.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getPicturePath() != null) {
+                        streetlightTwoPicturePath = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getPicturePath();
+//                        streetlightTwoPicturePath = streetlightTwoPicturePath.substring(streetlightTwoPicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireTwo.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightTwo.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireTwo.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightTwo.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightTwo.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireTwo.put(subtitle, isChecked);
+                            damageDetailsstreetlightTwo.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireTwo.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightTwo.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireTwo.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireTwo.put(displayName, isSelected);
+                                damageDetailsstreetlightTwo.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3302,57 +3713,66 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireTwo;
+        return damageDetailsstreetlightTwo;
     }
 
-    public JSONObject readserviceWireThreeData() {
+    public JSONObject readstreetlightThreeData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireThree != null && PoleTopEquipmentData.getInstance().serviceWireThree.size() > 0) {
-            if (damageDetailsserviceWireThree == null)
-                damageDetailsserviceWireThree = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightThree != null && PoleTopEquipmentData.getInstance().streetlightThree.size() > 0) {
+            if (damageDetailsstreetlightThree == null)
+                damageDetailsstreetlightThree = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireThree.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getPicturePath() != null) {
-                        serviceWireThreePicturePath = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getPicturePath();
-//                        serviceWireThreePicturePath = serviceWireThreePicturePath.substring(serviceWireThreePicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightThree.size(); i++) {
+
+                    if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getPicturePath() != null) {
+                        streetlightThreePicturePath = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getPicturePath();
+//                        streetlightThreePicturePath = streetlightThreePicturePath.substring(streetlightThreePicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireThree.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightThree.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireThree.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightThree.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightThree.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireThree.put(subtitle, isChecked);
+                            damageDetailsstreetlightThree.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireThree.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightThree.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireThree.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireThree.put(displayName, isSelected);
+                                damageDetailsstreetlightThree.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3362,57 +3782,65 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireThree;
+        return damageDetailsstreetlightThree;
     }
 
-    public JSONObject readserviceWireFourData() {
+    public JSONObject readstreetlightFourData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireFour != null && PoleTopEquipmentData.getInstance().serviceWireFour.size() > 0) {
-            if (damageDetailsserviceWireFour == null)
-                damageDetailsserviceWireFour = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightFour != null && PoleTopEquipmentData.getInstance().streetlightFour.size() > 0) {
+            if (damageDetailsstreetlightFour == null)
+                damageDetailsstreetlightFour = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireFour.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getPicturePath() != null) {
-                        serviceWireFourPicturePath = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getPicturePath();
-//                        serviceWireFourPicturePath = serviceWireFourPicturePath.substring(serviceWireFourPicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightFour.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getPicturePath() != null) {
+                        streetlightFourPicturePath = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getPicturePath();
+//                        streetlightFourPicturePath = streetlightFourPicturePath.substring(streetlightFourPicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireFour.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightFour.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireFour.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightFour.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightFour.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireFour.put(subtitle, isChecked);
+                            damageDetailsstreetlightFour.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireFour.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightFour.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireFour.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireFour.put(displayName, isSelected);
+                                damageDetailsstreetlightFour.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3422,57 +3850,65 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireFour;
+        return damageDetailsstreetlightFour;
     }
 
-    public JSONObject readserviceWireFiveData() {
+    public JSONObject readstreetlightFiveData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireFive != null && PoleTopEquipmentData.getInstance().serviceWireFive.size() > 0) {
-            if (damageDetailsserviceWireFive == null)
-                damageDetailsserviceWireFive = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightFive != null && PoleTopEquipmentData.getInstance().streetlightFive.size() > 0) {
+            if (damageDetailsstreetlightFive == null)
+                damageDetailsstreetlightFive = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireFive.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getPicturePath() != null) {
-                        serviceWireFivePicturePath = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getPicturePath();
-//                        serviceWireFivePicturePath = serviceWireFivePicturePath.substring(serviceWireFivePicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightFive.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getPicturePath() != null) {
+                        streetlightFivePicturePath = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getPicturePath();
+//                        streetlightFivePicturePath = streetlightFivePicturePath.substring(streetlightFivePicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireFive.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightFive.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireFive.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightFive.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightFive.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireFive.put(subtitle, isChecked);
+                            damageDetailsstreetlightFive.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireFive.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightFive.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireFive.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireFive.put(displayName, isSelected);
+                                damageDetailsstreetlightFive.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3482,57 +3918,66 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireFive;
+        return damageDetailsstreetlightFive;
     }
 
-    public JSONObject readserviceWireSixData() {
+    public JSONObject readstreetlightSixData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireSix != null && PoleTopEquipmentData.getInstance().serviceWireSix.size() > 0) {
-            if (damageDetailsserviceWireSix == null)
-                damageDetailsserviceWireSix = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightSix != null && PoleTopEquipmentData.getInstance().streetlightSix.size() > 0) {
+            if (damageDetailsstreetlightSix == null)
+                damageDetailsstreetlightSix = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireSix.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getPicturePath() != null) {
-                        serviceWireSixPicturePath = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getPicturePath();
-//                        serviceWireSixPicturePath = serviceWireSixPicturePath.substring(serviceWireSixPicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightSix.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getPicturePath() != null) {
+                        streetlightSixPicturePath = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getPicturePath();
+//                        streetlightSixPicturePath = streetlightSixPicturePath.substring(streetlightSixPicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireSix.put(subtitle, kvaSize);
+
+                    if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightSix.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireSix.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightSix.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightSix.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireSix.put(subtitle, isChecked);
+                            damageDetailsstreetlightSix.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireSix.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightSix.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireSix.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireSix.put(displayName, isSelected);
+                                damageDetailsstreetlightSix.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3542,58 +3987,67 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireSix;
+        return damageDetailsstreetlightSix;
     }
 
-    public JSONObject readserviceWireSevenData() {
+    public JSONObject readstreetlightSevenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireSeven != null && PoleTopEquipmentData.getInstance().serviceWireSeven.size() > 0) {
-            if (damageDetailsserviceWireSeven == null)
-                damageDetailsserviceWireSeven = new JSONObject();
-            try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireSeven.size(); i++) {
+        if (PoleTopEquipmentData.getInstance().streetlightSeven != null && PoleTopEquipmentData.getInstance().streetlightSeven.size() > 0) {
+            if (damageDetailsstreetlightSeven == null)
+                damageDetailsstreetlightSeven = new JSONObject();
 
-                    if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getPicturePath() != null) {
-                        serviceWireSevenPicturePath = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getPicturePath();
-//                        serviceWireSevenPicturePath = serviceWireSevenPicturePath.substring(serviceWireSevenPicturePath.lastIndexOf("/") + 1);
+            try {
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightSeven.size(); i++) {
+
+                    if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getPicturePath() != null) {
+                        streetlightSevenPicturePath = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getPicturePath();
+//                        streetlightSevenPicturePath = streetlightSevenPicturePath.substring(streetlightSevenPicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireSeven.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightSeven.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireSeven.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightSeven.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightSeven.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireSeven.put(subtitle, isChecked);
+                            damageDetailsstreetlightSeven.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireSeven.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightSeven.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireSeven.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireSeven.put(displayName, isSelected);
+                                damageDetailsstreetlightSeven.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3603,57 +4057,65 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireSeven;
+        return damageDetailsstreetlightSeven;
     }
 
-    public JSONObject readserviceWireEightData() {
+    public JSONObject readstreetlightEightData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireEight != null && PoleTopEquipmentData.getInstance().serviceWireEight.size() > 0) {
-            if (damageDetailsserviceWireEight == null)
-                damageDetailsserviceWireEight = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightEight != null && PoleTopEquipmentData.getInstance().streetlightEight.size() > 0) {
+            if (damageDetailsstreetlightEight == null)
+                damageDetailsstreetlightEight = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireEight.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getPicturePath() != null) {
-                        serviceWireEightPicturePath = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getPicturePath();
-//                        serviceWireEightPicturePath = serviceWireEightPicturePath.substring(serviceWireEightPicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightEight.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getPicturePath() != null) {
+                        streetlightEightPicturePath = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getPicturePath();
+//                        streetlightEightPicturePath = streetlightEightPicturePath.substring(streetlightEightPicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireEight.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightEight.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireEight.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightEight.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightEight.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireEight.put(subtitle, isChecked);
+                            damageDetailsstreetlightEight.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireEight.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightEight.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireEight.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireEight.put(displayName, isSelected);
+                                damageDetailsstreetlightEight.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3663,57 +4125,65 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireEight;
+        return damageDetailsstreetlightEight;
     }
 
-    public JSONObject readserviceWireNineData() {
+    public JSONObject readstreetlightNineData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireNine != null && PoleTopEquipmentData.getInstance().serviceWireNine.size() > 0) {
-            if (damageDetailsserviceWireNine == null)
-                damageDetailsserviceWireNine = new JSONObject();
+        if (PoleTopEquipmentData.getInstance().streetlightNine != null && PoleTopEquipmentData.getInstance().streetlightNine.size() > 0) {
+            if (damageDetailsstreetlightNine == null)
+                damageDetailsstreetlightNine = new JSONObject();
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireNine.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getPicturePath() != null) {
-                        serviceWireNinePicturePath = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getPicturePath();
-//                        serviceWireNinePicturePath = serviceWireNinePicturePath.substring(serviceWireNinePicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightNine.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getPicturePath() != null) {
+                        streetlightNinePicturePath = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getPicturePath();
+//                        streetlightNinePicturePath = streetlightNinePicturePath.substring(streetlightNinePicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireNine.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightNine.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireNine.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightNine.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightNine.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireNine.put(subtitle, isChecked);
+                            damageDetailsstreetlightNine.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireNine.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightNine.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireNine.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireNine.put(displayName, isSelected);
+                                damageDetailsstreetlightNine.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3723,57 +4193,65 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireNine;
+        return damageDetailsstreetlightNine;
     }
 
-    public JSONObject readserviceWireTenData() {
+    public JSONObject readstreetlightTenData() {
         addNote = null;
+        addExtent=null;
         subtitle = null;
         kvaSize = null;
         displayName = null;
         isSelected = false;
         isChecked = false;
 
-        if (PoleTopEquipmentData.getInstance().serviceWireTen != null && PoleTopEquipmentData.getInstance().serviceWireTen.size() > 0) {
-            if (damageDetailsserviceWireTen == null)
-                damageDetailsserviceWireTen = null;
+        if (PoleTopEquipmentData.getInstance().streetlightTen != null && PoleTopEquipmentData.getInstance().streetlightTen.size() > 0) {
+            if (damageDetailsstreetlightTen == null)
+                damageDetailsstreetlightTen = null;
             try {
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireTen.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getPicturePath() != null) {
-                        serviceWireTenPicturePath = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getPicturePath();
-//                        serviceWireTenPicturePath = serviceWireTenPicturePath.substring(serviceWireTenPicturePath.lastIndexOf("/") + 1);
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightTen.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getPicturePath() != null) {
+                        streetlightTenPicturePath = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getPicturePath();
+//                        streetlightTenPicturePath = streetlightTenPicturePath.substring(streetlightTenPicturePath.lastIndexOf("/") + 1);
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getKvaSize() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getSubTitle();
-                        kvaSize = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getKvaSize();
-                        if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireTen.put(subtitle, kvaSize);
+                    if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getKvaSize() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle();
+                        kvaSize = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getKvaSize();
+                        if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightTen.put(subtitle, kvaSize);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getNote() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getSubTitle();
-                        addNote = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getNote();
-                        if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getSubTitle() != null) {
-                            damageDetailsserviceWireTen.put(subtitle, addNote);
+                    if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getNote() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle();
+                        addNote = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getNote();
+                        if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightTen.put(subtitle, addNote);
                         }
                     }
-                    if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getCheckedOK() != null) {
-                        subtitle = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getSubTitle();
-                        isChecked = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getCheckedOK();
+                    if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getExtent() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle();
+                        addExtent = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getExtent();
+                        if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle() != null) {
+                            damageDetailsstreetlightTen.put(subtitle, addExtent);
+                        }
+                    }
+                    if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getCheckedOK() != null) {
+                        subtitle = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle();
+                        isChecked = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getCheckedOK();
                         if (isChecked) {
-                            damageDetailsserviceWireTen.put(subtitle, isChecked);
+                            damageDetailsstreetlightTen.put(subtitle, isChecked);
                         }
                     }
                 }
-                for (int i = 0; i < PoleTopEquipmentData.getInstance().serviceWireTen.size(); i++) {
-                    if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getDisplayName() != null)
+                for (int i = 0; i < PoleTopEquipmentData.getInstance().streetlightTen.size(); i++) {
+                    if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getDisplayName() != null)
 //                        Log.i("DINESH_LOG", "Display Name = " + PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getDisplayName());
-                        if (PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getIsSelected() != null) {
-                            isSelected = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getIsSelected();
-                            displayName = PoleTopEquipmentData.getInstance().serviceWireTen.get(i).getName();
+                        if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getIsSelected() != null) {
+                            isSelected = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getIsSelected();
+                            displayName = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getName();
                             if (isSelected) {
 
-                                damageDetailsserviceWireTen.put(displayName, isSelected);
+                                damageDetailsstreetlightTen.put(displayName, isSelected);
                             }
                         }
                 }
@@ -3783,7 +4261,7 @@ public class ReadPoleTopEquipmentData {
         } else {
             return null;
         }
-        return damageDetailsserviceWireTen;
+        return damageDetailsstreetlightTen;
     }
 
     public void resetAllReference() {
@@ -3940,16 +4418,16 @@ public class ReadPoleTopEquipmentData {
 
 
 
-        streetLightOnePicturePath = null;
-        streetLightTwoPicturePath = null;
-        streetLightThreePicturePath = null;
-        streetLightFourPicturePath = null;
-        streetLightFivePicturePath = null;
-        streetLightSixPicturePath = null;
-        streetLightSevenPicturePath = null;
-        streetLightEightPicturePath = null;
-        streetLightNinePicturePath = null;
-        streetLightTenPicturePath = null;
+        streetlightOnePicturePath = null;
+        streetlightTwoPicturePath = null;
+        streetlightThreePicturePath = null;
+        streetlightFourPicturePath = null;
+        streetlightFivePicturePath = null;
+        streetlightSixPicturePath = null;
+        streetlightSevenPicturePath = null;
+        streetlightEightPicturePath = null;
+        streetlightNinePicturePath = null;
+        streetlightTenPicturePath = null;
 
         poleTopPinOnePicturePath = null;
         poleTopPinTwoPicturePath = null;
@@ -4020,16 +4498,16 @@ public class ReadPoleTopEquipmentData {
         damageDetailsFusedCutTen = null;
 
 
-        damageDetailsStreetLightOne = null;
-        damageDetailsStreetLightTwo = null;
-        damageDetailsStreetLightThree = null;
-        damageDetailsStreetLightFour = null;
-        damageDetailsStreetLightFive = null;
-        damageDetailsStreetLightSix = null;
-        damageDetailsStreetLightSeven = null;
-        damageDetailsStreetLightEight = null;
-        damageDetailsStreetLightNine = null;
-        damageDetailsStreetLightTen = null;
+        damageDetailsstreetlightOne = null;
+        damageDetailsstreetlightTwo = null;
+        damageDetailsstreetlightThree = null;
+        damageDetailsstreetlightFour = null;
+        damageDetailsstreetlightFive = null;
+        damageDetailsstreetlightSix = null;
+        damageDetailsstreetlightSeven = null;
+        damageDetailsstreetlightEight = null;
+        damageDetailsstreetlightNine = null;
+        damageDetailsstreetlightTen = null;
 
         damageDetailsPoleTopPinOne = null;
         damageDetailsPoleTopPinTwo = null;

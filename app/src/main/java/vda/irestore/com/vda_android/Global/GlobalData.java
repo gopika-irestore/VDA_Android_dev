@@ -52,7 +52,7 @@ public class GlobalData {
             numberOfInsulatorDefect = null,
             numberOfPrimaryDefect = null,
             numberOfSecondaryDefect = null,
-            numberOfServiceWireDefect = null;
+            numberOfstreetLightWireDefect = null;
 
     public ArrayList numberOfPoleDefects = null,
             numberOfGuyWireDefects = null,

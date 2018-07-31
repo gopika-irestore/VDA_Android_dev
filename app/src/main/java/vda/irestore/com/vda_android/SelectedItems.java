@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -32,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,7 +114,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     final int REQUEST_CAMERA_TWO = 42;
     ImageView  partImage,testingImage;
     String undergroundScopeImage,poleScopeImage,picturePath, testingPicturePath, partTitle,undergroundScopeTestingImage,voltageTestKey;
-    boolean isListSelected = true, isAddNoteSelected = true, isRepairSelected = true,isReplaceSelected = true, isTestingImageSelected = true, isVoltageTestingSelected = true;
+    boolean isListSelected = true, isAddNoteSelected = true, isRepairSelected = true,isReplaceSelected = true, isTestingImageSelected = true, isTransTypeSelected = true;
     private ArrayList<GridItem> mGridDataJSON;
     public int horizontalItemSelectedPosition = -1, verticalItemSelectedPosition = -1, gridPositionNew = 0, localIndexToAddNote = -1 ,localIndexToExtent = -1;
     ArrayList<InspectionMetaData> localInspectionMetaData;
@@ -124,20 +126,17 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     private View v1;
     ArrayList<InspectionMetaData> underground_inspectionData_list ,pole_inspectionData_list;
     InspectionMetaDataAdapter arrayAdapter;
-    JSONArray poleJsonArray,poleMetadataJsonArrayList;
-    JSONArray undergroundJsonArray,undergroundMetadataJsonArrayList;
+    JSONArray poleJsonArray;
+    JSONArray undergroundMetadataJsonArrayList;
     SharedPreferences sharedPref, scopesPreferences, metadataPreferences;
     SharedPreferences.Editor scopesPreferencesEditor, metadataPreferencesEditor;
-    boolean
-            isPoleClassSelected = true, isPoleHeightSelected = true, isDoublePoleselected = true,  isVisualTestingSelected = true,
-            isSoundTestingSelected = true, isResistographSelected = true;
+
     int i = 1;
 
     private GridView mGridView_pole;
     private GridViewAdapter mGridAdapter;
     private ArrayList<GridItem> mGridData_pole;
 
-    Boolean isSelected = false;
     Typeface typeFace;
 
     int code = 0;
@@ -148,11 +147,8 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     AmazonS3 s3;
     RecyclerView horizontalListView;
     CountAdapter recyclerCountAdapter;
-    public int selectedItem;
     TextView nextButton;
-    TransferUtility transferUtility;
 
-    JSONObject poleScope = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,14 +156,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         Title = (TextView)findViewById(R.id.topToolbar_TextView_Title) ;
         Bundle bundle = getIntent().getExtras();
         typeFace = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
-
-        polePartCompleted = 0;
-
-       // isListSelected = true;  isAddNoteSelected = true; isRepairSelected = true; isTestingImageSelected = true;
-       // isPoleClassSelected = true; isPoleHeightSelected = true; isDoublePoleselected = true; isVoltageTestingSelected = true; isVisualTestingSelected = true;
-       // isSoundTestingSelected = true; isResistographSelected = true;
-        Log.i("vidisha","Utils"+ Global.currentLocation);
-        Log.i("vidisha","Utils11"+ Utils.currentLocation);
 
         GlobalData.initializeSharedPrefernceData(this);
         sharedPref = getSharedPreferences(getString(
@@ -185,8 +173,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         metadataPreferences = getSharedPreferences(getString(
                 R.string.metadataPreferences), Context.MODE_PRIVATE);
         metadataPreferencesEditor = metadataPreferences.edit();
-        amazonS3Setup(this);
-
         mGridView_pole = (GridView) findViewById(R.id.grid);
         nextButton = (TextView)findViewById(R.id.nextButton);
         nextButton.setTypeface(typeFace);
@@ -2023,15 +2009,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 }
                 break;
 
-            case 6:
-                if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
-                    isCountAdded = true;
-                    GlobalData.getInstance().numberOfServiceWireDefect.add(position, GlobalData.getInstance().numberOfServiceWireDefect.size());
-                    recyclerCountAdapter.notifyItemInserted(position);
-                    recyclerCountAdapter.notifyDataSetChanged();
-                }
-                break;
-
 
         }
         return isCountAdded;
@@ -2069,15 +2046,12 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 horizontalListView.setAdapter(recyclerCountAdapter);
                 recyclerCountAdapter.notifyDataSetChanged();
                 break;
-            case 6:
-                recyclerCountAdapter = new CountAdapter(context, GlobalData.getInstance().numberOfServiceWireDefect);
-                horizontalListView.setAdapter(recyclerCountAdapter);
-                recyclerCountAdapter.notifyDataSetChanged();
-                break;
+
         }
     }
 
     public void ShowPoleTopDialog(final String scope,final Context mContext, final GridItem item,final ImageView imgView, final int gridPosition) {
+        ArrayList<String> assetTypes = new ArrayList<String>();
         gridPositionNew = gridPosition;
         gridTitle = item.getTitle();
         //isListSelected = true; isAddNoteSelected = true; isRepairSelected = true; isVoltageTestingSelected = true; isTestingImageSelected = true;
@@ -2091,6 +2065,11 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         Log.i("under","in dialog"+item.getImageName());
         final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
         View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
+        RelativeLayout layoutType = (RelativeLayout) view.findViewById(R.id.typeAsset);
+        final Spinner typeSpinner = (Spinner) view.findViewById(R.id.typeSpinner);
+        final ArrayAdapter typeAdapter = new ArrayAdapter<String>(mContext,
+                android.R.layout.simple_spinner_dropdown_item,
+                assetTypes);
 
         horizontalListView = (RecyclerView) view.findViewById(R.id.recyler_count_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -2187,7 +2166,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
+                if(!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_top_done.png");
@@ -2233,13 +2212,123 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
 
-        RelativeLayout layoutType= (RelativeLayout)view.findViewById(R.id.typeAsset) ;
-
-
-
-
 
         populateListViewPoleTop(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+
+        if(gridTitle.equalsIgnoreCase("Transformer"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Single Phase");
+            assetTypes.add("Third Phase");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Transformer")) {
+                localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }
+
+        if(gridTitle.equalsIgnoreCase("Street Light"))
+        {
+            int position;
+            layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Street Light");
+            assetTypes.add("Flood Light");
+
+            typeSpinner.setAdapter(typeAdapter);
+            if (gridTitle.equalsIgnoreCase("Street Light")) {
+                localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
+                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                    try {
+                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
+                            position = localInspectionMetaData.get(i).getSelectPosition();
+                            typeSpinner.setSelection(position);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+
+        }
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (gridTitle.equalsIgnoreCase("Transformer")) {
+                    isTransTypeSelected = false;
+                    int localIndex = -1;
+                    localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                    for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                        try {
+                            if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("Type")) {
+                                localIndex = i;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    try {
+                        String selectedItem = typeAdapter.getItem(position).toString();
+                        if (localIndex != -1) {
+                            localInspectionMetaData.set(localIndex, new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        } else if (position != 0) {
+                            localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        }
+                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+
+                    }
+                }
+                if (gridTitle.equalsIgnoreCase("Street Light")) {
+                    isTransTypeSelected = false;
+                    int localIndex = -1;
+                    localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
+                    for (int i = 0; i < localInspectionMetaData.size(); i++) {
+                        try {
+                            if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("Type")) {
+                                localIndex = i;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    try {
+                        String selectedItem = typeAdapter.getItem(position).toString();
+                        if (localIndex != -1) {
+                            localInspectionMetaData.set(localIndex, new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        } else if (position != 0) {
+                            localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
+                        }
+                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("vidisha", "type2");
+            }
+        });
+
+
         String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
         if(noteString!=null) {
             comments.setText(noteString.trim());
@@ -2314,7 +2403,46 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 replace.setTextColor(Color.parseColor("#3EA99F"));
                                 addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
                             }
+                            if (gridTitle.equalsIgnoreCase("Transformer")) {
+                                int typePosition = -1;
+                                localInspectionMetaData = transtormReference(horizontalItemSelectedPosition);
+                                for (int i = 0; i < localInspectionMetaData.size(); i++) {
 
+
+                                    try {
+                                        if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("type")) {
+                                            typePosition = localInspectionMetaData.get(i).getSelectPosition();
+                                        }
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                                if (typePosition != -1)
+                                    typeSpinner.setSelection(typePosition);
+                                else
+                                    typeSpinner.setSelection(0);
+                            }
+                            if (gridTitle.equalsIgnoreCase("Street Light")) {
+                                int typePosition = -1;
+                                localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
+                                for (int i = 0; i < localInspectionMetaData.size(); i++) {
+
+
+                                    try {
+                                        if (localInspectionMetaData.get(i).getSelectPosition() != -1 && localInspectionMetaData.get(i).getSubTitle().equalsIgnoreCase("type")) {
+                                            typePosition = localInspectionMetaData.get(i).getSelectPosition();
+                                        }
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                                if (typePosition != -1)
+                                    typeSpinner.setSelection(typePosition);
+                                else
+                                    typeSpinner.setSelection(0);
+                            }
                         }
                     }
                 });
@@ -3506,6 +3634,8 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
         final TextView repaire = view.findViewById(R.id.repair);
         final TextView replace = view.findViewById(R.id.replace);
+        repaire.setVisibility(View.GONE);
+        replace.setVisibility(View.GONE);
         repaire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -4500,294 +4630,5 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     }
 
 
-    private void callAPI()
-    {
-
-          /*          inspectionReport = new JSONObject();
-                    JSONObject submittedByData = new JSONObject();
-                    JSONObject poleDetailsData = new JSONObject();
-
-                    submittedByData.put("email", sharedPref.getString("emailAddress", ""));
-                    submittedByData.put("phone", sharedPref.getString("phoneNumber", ""));
-                    inspectionReport.put("submittedBy", submittedByData);
-                    poleDetailsData.put("height", "35");
-                    inspectionReport.put("poleDetails", poleDetailsData);
-                    SimpleDateFormat oldformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
-
-                    inspectionReport.put("displayTimestamp", oldformat.format(new Date()));
-
-                    JSONObject address = new JSONObject();
-
-                    address.put("userAddress", Global.addressString);
-                    address.put("resolvedAddress", Global.addressString);
-
-                    inspectionReport.put("address", address);
-                    inspectionReport.put("version", 1);
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-                    inspectionReport.put("deviceReportId", sharedPref.getString("phoneNumber", "")+ "_" + dateFormat.format(new Date()));
-                    JSONObject loc = new JSONObject();
-                    loc.put("type", "Point");
-                    JSONArray l = new JSONArray();
-
-                    l.put(0, Global.currentLocation.getLongitude());
-                    l.put(1, Global.currentLocation.getLatitude());
-                    loc.put("coordinates", l);
-                    inspectionReport.put("loc", loc);
-                    inspectionReport.put("damageScopes",poleScope);
-                        Log.i("vidisha","SDA=="+inspectionReport.toString());
-                    if (Utils.isNetworkAvailable(SelectedItems.this)) {
-                        Utils.createAndStartProgressBar(SelectedItems.this);
-                        STAsyncHttpConnection async = new STAsyncHttpConnection();
-                        async.execute(Global.SubmitSDAReportAPI);
-                    }*/
-    }
-    private String truncateAndAddThumbnailString(String thumbnail) {
-        if (thumbnail != null) {
-            thumbnail = thumbnail.substring(0, thumbnail.length() - 4);
-            thumbnail = thumbnail + "-thumbnail.png";
-            return thumbnail;
-        } else {
-            return "";
-        }
-    }
-
-    public void amazonS3Setup(Context mContext) {
-        credentialsProvider(mContext);
-        setTransferUtility(mContext);
-    }
-
-    public void credentialsProvider(Context mContext) {
-        // Initialize the Amazon Cognito credentials provider
-        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-                mContext,
-                Utils.COGNITO_POOL_ID, // Identity Pool ID
-                Utils.COGNITO_REGION // Region
-        );
-        setAmazonS3Client(credentialsProvider);
-    }
-
-    public void setAmazonS3Client(CognitoCachingCredentialsProvider credentialsProvider) {
-        // Create an S3 client
-        s3 = new AmazonS3Client(credentialsProvider);
-        // Set the region of your S3 bucket
-        s3.setRegion(Region.getRegion(Utils.BUCKET_REGION));
-    }
-
-    public void setTransferUtility(Context mContect) {
-        transferUtility = new TransferUtility(s3, mContect);
-    }
-    public void setFileToUploadPole() {
-        if(GlobalData.pole_images_array!=null) {
-            for (int i = 0; i < GlobalData.pole_images_array.size(); i++) {
-                Log.i("amazT_vidisha", "images_array==" + GlobalData.pole_images_array.get(i).getName());
-                TransferObserver transferObserverPole = transferUtility.upload(
-                        sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
-                        //"irestore-ir-dev/dev",     /* The bucket to upload to */
-                        GlobalData.pole_images_array.get(i).getName(),      /* The key for the uploaded object */
-                        GlobalData.pole_images_array.get(i) , CannedAccessControlList.PublicRead     /* The file where the data to upload exists */
-                );
-                transferObserverListenerPole(transferObserverPole/*,synProcess*/);
-
-            }
-        }
-    }
-
-    public void transferObserverListenerPole(final TransferObserver transferObserverPole/*,String progress*/) {
-        //  final String syncProgress  = progress;
-        transferObserverPole.setTransferListener(new TransferListener() {
-            @Override
-            public void onStateChanged(int id, TransferState state) {
-                Log.i("amazT_vidisha", "upload" + GlobalData.scopesPreferences.getString(transferObserverPole.getKey(), ""));
-                Log.e("state", state + "" + id);
-                Log.i("amazT_vidisha", "state==" + state);
-                Log.i("amazT_vidisha", "total==" + transferObserverPole.getBytesTotal());
-                Log.i("amazT_vidisha", "transfered==" + transferObserverPole.getBytesTransferred());
-                if (state == TransferState.COMPLETED) {
-                    if(GlobalData.pole_images_array!=null) {
-                        GlobalData.pole_images_array.clear();
-                        GlobalData.pole_images_array = null;
-                        scopesPreferencesEditor.putString(transferObserverPole.getKey(), "success");
-                        scopesPreferencesEditor.commit();
-                    }
-//                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
-            }
-
-            @Override
-            public void onError(int id, Exception ex) {
-                Log.e("error", "error");
-            }
-        });
-    }
-
-
-
-    public class STAsyncHttpConnection extends AsyncTask<String, Void, String> {
-        /**
-         * Override this method to perform a computation on a background thread. The
-         * specified parameters are the parameters passed to {@link #execute}
-         * by the caller of this task.
-         * <p>
-         * This method can call {@link #publishProgress} to publish updates
-         * on the UI thread.
-         *
-         * @param params The parameters of the task.
-         * @return A result, defined by the subclass of this task.
-         * @see #onPreExecute()
-         * @see #onPostExecute
-         * @see #publishProgress
-         */
-        @Override
-        protected String doInBackground(String... params) {
-            String result = null, urlStr = params[0];
-            HttpURLConnection urlConnection = null;
-            exception = null;
-            try {
-                URL url = new URL(urlStr);
-                Log.i("STAsyncHttpConnection", "URL: " + urlStr);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
-                // handle POST parameters
-                // if (p != null) {
-
-                if (android.util.Log.isLoggable("STAsyncHttpConnection", android.util.Log.INFO)) {
-                    Log.i("STAsyncHttpConnection", "POST parameters: ");
-                }
-                urlConnection.setRequestProperty("x-account-key", sharedPref.getString("accountKey", ""));
-                urlConnection.setRequestProperty("x-access-token", sharedPref.getString("token", ""));
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setRequestProperty("x-application", Global.appKey);
-                urlConnection.setRequestProperty("x-user", sharedPref.getString("phoneNumber", ""));
-
-
-                urlConnection.setRequestMethod("PUT");
-
-                JSONObject jsonObject = new JSONObject();
-
-                jsonObject.put("sdaData", inspectionReport);
-
-
-                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-                wr.writeBytes(jsonObject.toString());
-                wr.flush();
-                wr.close();
-
-                int statusCode = urlConnection.getResponseCode();
-                Log.i("iRestore", "statusCode My Profile" + statusCode);
-                if (statusCode == HttpURLConnection.HTTP_OK) {
-                    //Get Response
-                    InputStream is = urlConnection.getInputStream();
-                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                    String line;
-                    StringBuffer response = new StringBuffer();
-                    while ((line = rd.readLine()) != null) {
-                        response.append(line);
-                    }
-                    rd.close();
-                    result = response.toString();
-                } else if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    result = "{\"Error\" : true, \"Message\" : \"Unauthorized user\"}";
-                } else if (statusCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT || statusCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
-                    result = "{\"Error\" : true, \"Message\" : \"Request Timed out. Please try again later\"}";
-                } else if (statusCode == 403) {
-                    result = "{\"Error\" : true, \"Message\" : \"Email address has been taken.Please try with a different email address\"}";
-                } else {
-                    result = "{\"Error\" : true, \"Message\" : \"Server Error, please try again later\"}";
-                }
-            } catch (MalformedURLException ex) {
-                exception = ex;
-                Log.e("SocketTimeout exception", ex.toString());
-            } catch (SocketTimeoutException ex) {
-                exception = ex;
-                ex.printStackTrace();
-                Log.e("SocketTimeout exception", ex.toString());
-            } catch (EOFException ef) {
-                exception = ef;
-                ef.printStackTrace();
-                Log.e("EOFException exception", ef.toString());
-            } catch (IOException ez) {
-                exception = ez;
-                ez.printStackTrace();
-                Log.e("IO exception", ez.toString());
-            } catch (Exception ez) {
-                exception = ez;
-                Log.e("exception", ez.toString());
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (exception == null && result != null) {
-                    try {
-                        JSONObject responseObj = new JSONObject(result);
-                        Log.i("iRestore", "result*****" + result);
-
-                        if (responseObj.getBoolean("Error")) {
-                            Toast.makeText(SelectedItems.this, responseObj.getString("Message"),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SelectedItems.this);
-                            alertDialog.setTitle("Alert");
-                            alertDialog.setMessage("The report has been submitted successfully. The images will be uploading in background");
-                            // on pressing cancel button
-                            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    Intent intent = new Intent(SelectedItems.this, MainActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
-                                    setFileToUploadPole();
-
-                                    dialog.cancel();
-
-                                    ReadUnderGroundData.getInstance().resetAllReference();
-                                    ReadUnderGroundData.getInstance().resetAllJSONObject();
-                                    ReadPoleEquipmentData.getInstance().resetAllReference();
-                                    ReadPoleEquipmentData.getInstance().resetAllJSONObject();
-                                    ReadPoleEquipmentData.getInstance().resetAllReference();
-                                    ReadPoleEquipmentData.getInstance().resetAllJSONObject();
-                                    ReadWireData.getInstance().resetAllReference();
-                                    ReadWireData.getInstance().resetAllJSONObject();
-                                    ReadSplEquipmentData.getInstance().resetAllReference();
-                                    ReadSplEquipmentData.getInstance().resetAllJSONObject();
-
-                                    ReadTreeData.getInstance().resetAllReference();
-                                    ReadTreeData.getInstance().resetAllJSONObject();
-                                }
-                            });
-                            // Showing Alert Message
-                            alertDialog.show();
-                        }
-                    } catch (Exception e) {
-
-                    }
-                } else {
-                    Toast.makeText(SelectedItems.this, getResources().getString(R.string.error),
-                            Toast.LENGTH_SHORT).show();
-                }
-                if (Utils.progress.isShowing()) {
-                    Utils.stopProgressBar();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
 }
