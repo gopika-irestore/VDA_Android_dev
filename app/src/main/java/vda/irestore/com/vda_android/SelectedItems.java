@@ -21,9 +21,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -103,6 +106,7 @@ import static vda.irestore.com.vda_android.Global.Global.S3_URL;
 public class SelectedItems extends PermissionsActivity implements View.OnClickListener{
 
     JSONObject inspectionReport;
+    InputMethodManager imm;
     private static final int CONNECTION_TIMEOUT = 6000;
     Exception exception;
     HashMap<String,JSONObject> undergroundParts_Images  = new HashMap<>();
@@ -2079,6 +2083,31 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         final EditText size_phase = layoutType_size.findViewById(R.id.sizeValue);
 
 
+        size_phase
+                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                                                  KeyEvent event) {
+                        boolean handled = false;
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            if(!size_phase.getText().toString().isEmpty()) {
+                                addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
+                                isAddSize_PhaseSelected = false;
+                            }/*else
+                            {
+                                addSize_PhaseToRespectiveCountList(scope, gridTitle, "");
+                                isAddSize_PhaseSelected = true;
+                            }*/
+                            handled = true;
+                            imm = (InputMethodManager) getSystemService(
+                                    Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(size_phase.getApplicationWindowToken(), 0);
+                        }
+                        return handled;
+                    }
+                });
+
+
         final EditText comments = view.findViewById(R.id.comments);
         final TextView repaire = view.findViewById(R.id.repair);
         final TextView replace = view.findViewById(R.id.replace);
@@ -2170,10 +2199,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isAddSize_PhaseSelected||!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
-                        if(!size_phase.getText().toString().isEmpty()) {
-                            addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
-                            isAddSize_PhaseSelected = false;
-                        }
+
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_top_done.png");
                         item.setInspectionDone(true);
@@ -2226,6 +2252,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             int position;
             layoutType.setVisibility(View.VISIBLE);
             layoutType_size.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Single Phase");
             assetTypes.add("Third Phase");
 
@@ -2249,6 +2276,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Polymer");
             assetTypes.add("Potted Porcelain");
             assetTypes.add("Branded");
@@ -2273,6 +2301,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Street Light");
             assetTypes.add("Flood Light");
 
@@ -2344,7 +2373,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                       arrayAdapter.notifyDataSetChanged();
+                        arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }
@@ -2370,7 +2399,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                       arrayAdapter.notifyDataSetChanged();
+                       arrayAdapter.notifyDataSetChanged();;
                     } catch (Exception e) {
 
                     }
@@ -2435,6 +2464,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         if (!isCountAdd && recyclerCountAdapter.getItemCount() <= 10) {
                             horizontalItemSelectedPosition = position;
                             recyclerCountAdapter.notifyDataSetChanged();
+
                             populateListViewPoleTop(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
                             readImagesForRespectiveDefects(scope,mContext, partImage);
                             String noteString = readNoteFromRespectiveCountList(scope,gridPosition);
@@ -2994,6 +3024,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             int position;
             layoutType.setVisibility(View.VISIBLE);
             layoutType_size.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Open Wire");
             assetTypes.add("Spacer Cable");
             assetTypes.add("Riser");
@@ -3017,6 +3048,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Polymer");
             assetTypes.add("Potted Porcelain");
             assetTypes.add("Branded");
@@ -3041,6 +3073,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Street Light");
             assetTypes.add("Flood Light");
 
@@ -3064,6 +3097,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Open Wire");
             assetTypes.add("Triplex");
 
@@ -3087,6 +3121,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
+            assetTypes.add("Select");
             assetTypes.add("Open Wire");
             assetTypes.add("Triplex");
 
@@ -3132,7 +3167,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                       arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }
@@ -3158,7 +3193,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                        arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }
@@ -3184,7 +3219,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                         } else if (position != 0) {
                             localInspectionMetaData.add(new InspectionMetaData(selectedItem, position, gridTitle, "type"));
                         }
-                        GlobalData.getInstance().arrayAdapter.notifyDataSetChanged();
+                        arrayAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }

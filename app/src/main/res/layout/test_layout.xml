@@ -170,6 +170,8 @@
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
                     android:textColor="#666666" />
             </RelativeLayout>
             <RelativeLayout

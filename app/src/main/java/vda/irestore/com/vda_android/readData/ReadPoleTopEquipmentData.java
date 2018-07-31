@@ -134,14 +134,16 @@ public class ReadPoleTopEquipmentData {
                 if (damageDetailsTransOne == null) {
                     damageDetailsTransOne = new JSONObject();
                 }
-                Log.i("DINESH_LOG", "Size = " + PoleTopEquipmentData.getInstance().transformerOne.size());
                 for (int i = 0; i < PoleTopEquipmentData.getInstance().transformerOne.size(); i++) {
 
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerOne.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
-                            damageDetailsTransOne.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransOne.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransOne.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getNote() != null) {
@@ -161,8 +163,12 @@ public class ReadPoleTopEquipmentData {
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSize_phase() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSize_phase();
+                        Log.i("vidisha","addsize=="+addSize_Phase);
                         if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
-                            damageDetailsTransOne.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransOne.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransOne.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getCheckedOK() != null) {
@@ -185,6 +191,10 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransOne.put(displayName, isSelected);
+                        }
+                        else
+                        {
+                            damageDetailsTransOne.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getPicturePath() != null) {
@@ -229,13 +239,19 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransTwo.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsTransTwo.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle() != null) {
-                            damageDetailsTransTwo.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransTwo.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransTwo.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getNote() != null) {
@@ -307,13 +323,19 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransThree.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsTransThree.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerThree.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle() != null) {
-                            damageDetailsTransThree.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransThree.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransThree.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getNote() != null) {
@@ -386,13 +408,19 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransFour.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsTransFour.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerFour.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle() != null) {
-                            damageDetailsTransFour.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransFour.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransFour.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getNote() != null) {
@@ -471,7 +499,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerFive.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
-                            damageDetailsTransFive.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransFive.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransFive.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getNote() != null) {
@@ -493,6 +524,9 @@ public class ReadPoleTopEquipmentData {
                         addExtent = PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent();
                         if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
                             damageDetailsTransFive.put(subtitle, addExtent);
+                        }else
+                        {
+                            damageDetailsTransFive.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getCheckedOK() != null) {
@@ -543,13 +577,19 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransSix.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsTransSix.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerSix.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle() != null) {
-                            damageDetailsTransSix.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransSix.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransSix.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSize_phase() != null) {
@@ -616,13 +656,19 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransSeven.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsTransSeven.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle() != null) {
-                            damageDetailsTransSeven.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransSeven.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransSeven.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getNote() != null) {
@@ -698,13 +744,19 @@ public class ReadPoleTopEquipmentData {
                         if (isSelected) {
 
                             damageDetailsTransEight.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsTransEight.remove(displayName);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerEight.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle() != null) {
-                            damageDetailsTransEight.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransEight.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransEight.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getNote() != null) {
@@ -777,12 +829,19 @@ public class ReadPoleTopEquipmentData {
 
                             damageDetailsTransNine.put(displayName, isSelected);
                         }
+                        else
+                        {
+                            damageDetailsTransNine.remove(displayName);
+                        }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerNine.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle() != null) {
-                            damageDetailsTransNine.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransNine.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransNine.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getNote() != null) {
@@ -855,12 +914,19 @@ public class ReadPoleTopEquipmentData {
 
                             damageDetailsTransTen.put(displayName, isSelected);
                         }
+                        else
+                        {
+                            damageDetailsTransTen.remove(displayName);
+                        }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getKvaSize() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().transformerTen.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle() != null) {
-                            damageDetailsTransTen.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsTransTen.put(subtitle, kvaSize);
+                            else
+                                damageDetailsTransTen.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getNote() != null) {
@@ -959,6 +1025,9 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsCrossArmOne.put(displayName, isSelected);
+                            } else
+                            {
+                                damageDetailsCrossArmOne.remove(displayName);
                             }
                         }
                 }
@@ -1028,6 +1097,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsCrossArmTwo.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsCrossArmTwo.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -1095,6 +1168,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsCrossArmThree.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsCrossArmThree.remove(displayName);
                             }
                         }
                 }
@@ -1165,6 +1242,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsCrossArmFour.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsCrossArmFour.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -1233,6 +1314,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsCrossArmFive.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsCrossArmFive.remove(displayName);
                             }
                         }
                 }
@@ -1304,6 +1389,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsCrossArmSix.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsCrossArmSix.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -1372,6 +1461,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsCrossArmSeven.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsCrossArmSeven.remove(displayName);
                             }
                         }
                 }
@@ -1442,6 +1535,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsCrossArmEight.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsCrossArmEight.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -1510,6 +1607,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsCrossArmNine.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsCrossArmNine.remove(displayName);
                             }
                         }
                 }
@@ -1580,6 +1681,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsCrossArmTen.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsCrossArmTen.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -1616,7 +1721,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutOne.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutOne.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutOne.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutOne.get(i).getNote() != null) {
@@ -1650,6 +1758,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutOne.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutOne.remove(displayName);
                             }
                         }
                 }
@@ -1686,7 +1798,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutTwo.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutTwo.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutTwo.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutTwo.get(i).getNote() != null) {
@@ -1720,6 +1835,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutTwo.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutTwo.remove(displayName);
                             }
                         }
                 }
@@ -1756,7 +1875,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutThree.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutThree.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutThree.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutThree.get(i).getNote() != null) {
@@ -1792,6 +1914,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsFusedCutThree.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsFusedCutThree.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -1826,7 +1952,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutFour.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutFour.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutFour.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutFour.get(i).getNote() != null) {
@@ -1860,6 +1989,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutFour.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutFour.remove(displayName);
                             }
                         }
                 }
@@ -1895,7 +2028,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutFive.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutFive.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutFive.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutFive.get(i).getNote() != null) {
@@ -1929,6 +2065,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutFive.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutFive.remove(displayName);
                             }
                         }
                 }
@@ -1964,7 +2104,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutSix.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutSix.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutSix.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutSix.get(i).getNote() != null) {
@@ -1999,6 +2142,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsFusedCutSix.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsFusedCutSix.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2032,7 +2179,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutSeven.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutSeven.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutSeven.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutSeven.get(i).getNote() != null) {
@@ -2066,6 +2216,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutSeven.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutSeven.remove(displayName);
                             }
                         }
                 }
@@ -2101,7 +2255,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutEight.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutEight.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutEight.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutEight.get(i).getNote() != null) {
@@ -2135,6 +2292,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutEight.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutEight.remove(displayName);
                             }
                         }
                 }
@@ -2170,7 +2331,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutNine.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutNine.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutNine.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutNine.get(i).getNote() != null) {
@@ -2204,6 +2368,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutNine.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutNine.remove(displayName);
                             }
                         }
                 }
@@ -2239,7 +2407,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getSubTitle() != null) {
-                            damageDetailsFusedCutTen.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsFusedCutTen.put(subtitle, kvaSize);
+                            else
+                                damageDetailsFusedCutTen.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().fusedCutTen.get(i).getNote() != null) {
@@ -2273,6 +2444,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsFusedCutTen.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsFusedCutTen.remove(displayName);
                             }
                         }
                 }
@@ -2347,6 +2522,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsPoleTopPinOne.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsPoleTopPinOne.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2417,6 +2596,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsPoleTopPinTwo.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsPoleTopPinTwo.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2486,6 +2669,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsPoleTopPinThree.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsPoleTopPinThree.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2553,6 +2740,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsPoleTopPinFour.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsPoleTopPinFour.remove(displayName);
                             }
                         }
                 }
@@ -2622,6 +2813,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsPoleTopPinFive.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsPoleTopPinFive.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2689,6 +2884,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsPoleTopPinSix.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsPoleTopPinSix.remove(displayName);
                             }
                         }
                 }
@@ -2758,6 +2957,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsPoleTopPinSeven.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsPoleTopPinSeven.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2825,6 +3028,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsPoleTopPinEight.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsPoleTopPinEight.remove(displayName);
                             }
                         }
                 }
@@ -2894,6 +3101,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsPoleTopPinNine.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsPoleTopPinNine.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -2962,6 +3173,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsPoleTopPinTen.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsPoleTopPinTen.remove(displayName);
                             }
                         }
                 }
@@ -3034,6 +3249,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsInsulatorOne.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsInsulatorOne.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3101,6 +3320,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsInsulatorTwo.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsInsulatorTwo.remove(displayName);
                             }
                         }
                 }
@@ -3171,6 +3394,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsInsulatorThree.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsInsulatorThree.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3238,6 +3465,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsInsulatorFour.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsInsulatorFour.remove(displayName);
                             }
                         }
                 }
@@ -3307,6 +3538,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsInsulatorFive.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsInsulatorFive.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3375,6 +3610,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsInsulatorSix.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsInsulatorSix.remove(displayName);
                             }
                         }
                 }
@@ -3446,6 +3685,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsInsulatorSeven.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsInsulatorSeven.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3513,6 +3756,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsInsulatorEight.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsInsulatorEight.remove(displayName);
                             }
                         }
                 }
@@ -3582,6 +3829,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsInsulatorNine.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsInsulatorNine.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3650,6 +3901,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsInsulatorTen.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsInsulatorTen.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3684,7 +3939,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightOne.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightOne.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightOne.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightOne.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightOne.get(i).getNote() != null) {
@@ -3719,6 +3977,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightOne.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightOne.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3752,7 +4014,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightTwo.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightTwo.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightTwo.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightTwo.get(i).getNote() != null) {
@@ -3786,6 +4051,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsstreetlightTwo.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsstreetlightTwo.remove(displayName);
                             }
                         }
                 }
@@ -3821,7 +4090,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightThree.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightThree.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightThree.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightThree.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightThree.get(i).getNote() != null) {
@@ -3856,6 +4128,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightThree.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightThree.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3889,7 +4165,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightFour.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightFour.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightFour.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightFour.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightFour.get(i).getNote() != null) {
@@ -3924,6 +4203,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightFour.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightFour.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -3957,7 +4240,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightFive.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightFive.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightFive.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightFive.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightFive.get(i).getNote() != null) {
@@ -3991,6 +4277,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsstreetlightFive.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsstreetlightFive.remove(displayName);
                             }
                         }
                 }
@@ -4026,7 +4316,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightSix.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightSix.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightSix.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightSix.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightSix.get(i).getNote() != null) {
@@ -4060,6 +4353,10 @@ public class ReadPoleTopEquipmentData {
                             if (isSelected) {
 
                                 damageDetailsstreetlightSix.put(displayName, isSelected);
+                            }
+                            else
+                            {
+                                damageDetailsstreetlightSix.remove(displayName);
                             }
                         }
                 }
@@ -4096,7 +4393,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightSeven.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightSeven.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightSeven.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightSeven.get(i).getNote() != null) {
@@ -4131,6 +4431,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightSeven.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightSeven.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -4164,7 +4468,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightEight.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightEight.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightEight.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightEight.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightEight.get(i).getNote() != null) {
@@ -4199,6 +4506,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightEight.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightEight.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -4232,7 +4543,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightNine.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightNine.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightNine.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightNine.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightNine.get(i).getNote() != null) {
@@ -4267,6 +4581,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightNine.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightNine.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -4300,7 +4618,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle();
                         kvaSize = PoleTopEquipmentData.getInstance().streetlightTen.get(i).getKvaSize();
                         if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getSubTitle() != null) {
-                            damageDetailsstreetlightTen.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsstreetlightTen.put(subtitle, kvaSize);
+                            else
+                                damageDetailsstreetlightTen.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().streetlightTen.get(i).getNote() != null) {
@@ -4335,6 +4656,10 @@ public class ReadPoleTopEquipmentData {
 
                                 damageDetailsstreetlightTen.put(displayName, isSelected);
                             }
+                            else
+                            {
+                                damageDetailsstreetlightTen.remove(displayName);
+                            }
                         }
                 }
             } catch (JSONException e) {
@@ -4350,7 +4675,6 @@ public class ReadPoleTopEquipmentData {
         try {
             clearPicturePath();
             PoleTopEquipmentData.getInstance().transformerOne.clear();
-            PoleTopEquipmentData.getInstance().transformerOne.removeAll(PoleTopEquipmentData.getInstance().transformerOne);
             PoleTopEquipmentData.getInstance().transformerTwo.clear();
             PoleTopEquipmentData.getInstance().transformerThree.clear();
             PoleTopEquipmentData.getInstance().transformerFour.clear();

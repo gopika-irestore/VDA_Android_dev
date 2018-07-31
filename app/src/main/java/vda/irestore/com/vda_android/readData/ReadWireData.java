@@ -16,7 +16,7 @@ public class ReadWireData {
             service_wireOneTestPicturePath = null, service_wireTwoTestPicturePath = null, service_wireThreeTestPicturePath = null, service_wireFourTestPicturePath = null, service_wireFiveTestPicturePath = null, service_wireSixTestPicturePath = null, service_wireSevenTestPicturePath = null, service_wireEightTestPicturePath = null, service_wireNineTestPicturePath = null, service_wireTenTestPicturePath = null;
     ;
 
-    String addNote, addExtent,subtitle, kvaSize, displayName, testType, size;
+    String addNote, addSize_Phase,addExtent,subtitle, kvaSize, displayName, testType, size;
     boolean isSelected, isChecked, isUtilityOwned;
     public String poleTitle, primary_wireTitle, secondary_wireTitle, service_wireTitle;
 
@@ -75,6 +75,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireOneData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent = null;
         subtitle = null;
         kvaSize = null;
@@ -114,7 +115,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireOne.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireOne.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireOne.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireOne.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireOne.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireOne.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireOne.get(i).getNote() != null) {
@@ -122,6 +126,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireOne.get(i).getNote();
                         if (WireData.getInstance().primary_wireOne.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireOne.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireOne.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireOne.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireOne.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireOne.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireOne.put(subtitle, addSize_Phase);
                         }
                     }
 
@@ -174,6 +185,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireTwoData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent = null;
         subtitle = null;
         kvaSize = null;
@@ -213,7 +225,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireTwo.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireTwo.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireTwo.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireTwo.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireTwo.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireTwo.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireTwo.get(i).getNote() != null) {
@@ -228,6 +243,13 @@ public class ReadWireData {
                         addExtent = WireData.getInstance().primary_wireTwo.get(i).getExtent();
                         if (WireData.getInstance().primary_wireTwo.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireTwo.put(subtitle, addExtent);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireTwo.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireTwo.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireTwo.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireTwo.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireTwo.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireTwo.get(i).getCheckedOK() != null) {
@@ -248,6 +270,9 @@ public class ReadWireData {
                             //displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailsprimary_wireTwo.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireTwo.remove(displayName);
                         }
                     }
                 }
@@ -262,6 +287,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireThreeData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -303,7 +329,17 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireThree.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireThree.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireThree.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireThree.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireThree.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireThree.remove(subtitle);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireThree.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireThree.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireThree.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireThree.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireThree.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireThree.get(i).getNote() != null) {
@@ -338,6 +374,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsprimary_wireThree.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireThree.remove(displayName);
                         }
                     }
                 }
@@ -352,6 +391,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireFourData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -395,7 +435,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireFour.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireFour.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireFour.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireFour.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireFour.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireFour.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireFour.get(i).getNote() != null) {
@@ -403,6 +446,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireFour.get(i).getNote();
                         if (WireData.getInstance().primary_wireFour.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireFour.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireFour.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireFour.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireFour.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireFour.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireFour.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireFour.get(i).getExtent() != null) {
@@ -430,6 +480,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsprimary_wireFour.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireFour.remove(displayName);
                         }
                     }
                 }
@@ -444,6 +497,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireFiveData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -488,7 +542,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireFive.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireFive.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireFive.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireFive.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireFive.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireFive.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireFive.get(i).getNote() != null) {
@@ -496,6 +553,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireFive.get(i).getNote();
                         if (WireData.getInstance().primary_wireFive.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireFive.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireFive.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireFive.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireFive.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireFive.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireFive.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireFive.get(i).getExtent() != null) {
@@ -523,6 +587,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailsprimary_wireFive.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireFive.remove(displayName);
                         }
                     }
                 }
@@ -537,6 +604,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireSixData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -580,7 +648,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireSix.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireSix.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireSix.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireSix.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireSix.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireSix.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireSix.get(i).getNote() != null) {
@@ -588,6 +659,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireSix.get(i).getNote();
                         if (WireData.getInstance().primary_wireSix.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireSix.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireSix.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireSix.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireSix.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireSix.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireSix.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireSix.get(i).getExtent() != null) {
@@ -616,6 +694,10 @@ public class ReadWireData {
                             //  displayName = "is" + displayName;
                             damageDetailsprimary_wireSix.put(displayName, isSelected);
                         }
+                        else
+                        {
+                            damageDetailsprimary_wireSix.remove(displayName);
+                        }
                     }
                 }
             } catch (JSONException e) {
@@ -629,6 +711,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireSevenData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -674,7 +757,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireSeven.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireSeven.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireSeven.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireSeven.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireSeven.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireSeven.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireSeven.get(i).getNote() != null) {
@@ -682,6 +768,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireSeven.get(i).getNote();
                         if (WireData.getInstance().primary_wireSeven.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireSeven.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireSeven.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireSeven.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireSeven.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireSeven.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireSeven.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireSeven.get(i).getExtent() != null) {
@@ -709,6 +802,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsprimary_wireSeven.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireSeven.remove(displayName);
                         }
                     }
                 }
@@ -723,6 +819,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireEightData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -768,7 +865,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireEight.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireEight.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireEight.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireEight.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireEight.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireEight.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireEight.get(i).getNote() != null) {
@@ -776,6 +876,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireEight.get(i).getNote();
                         if (WireData.getInstance().primary_wireEight.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireEight.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireEight.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireEight.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireEight.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireEight.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireEight.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireEight.get(i).getExtent() != null) {
@@ -803,6 +910,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsprimary_wireEight.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireEight.remove(displayName);
                         }
                     }
                 }
@@ -817,6 +927,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireNineData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -861,7 +972,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireNine.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireNine.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireNine.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireNine.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireNine.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireNine.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireNine.get(i).getNote() != null) {
@@ -869,6 +983,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireNine.get(i).getNote();
                         if (WireData.getInstance().primary_wireNine.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireNine.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireNine.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireNine.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireNine.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireNine.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireNine.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireNine.get(i).getExtent() != null) {
@@ -896,6 +1017,9 @@ public class ReadWireData {
                             //   displayName = displayName.replaceAll("\\s", "");
                             //   displayName = "is" + displayName;
                             damageDetailsprimary_wireNine.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireNine.remove(displayName);
                         }
                     }
                 }
@@ -910,6 +1034,7 @@ public class ReadWireData {
 
     public JSONObject readprimary_wireTenData() {
         addNote = null;
+        addSize_Phase=null;
         addExtent =null;
         subtitle = null;
         kvaSize = null;
@@ -953,7 +1078,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().primary_wireTen.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().primary_wireTen.get(i).getKvaSize();
                         if (WireData.getInstance().primary_wireTen.get(i).getSubTitle() != null) {
-                            damageDetailsprimary_wireTen.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsprimary_wireTen.put(subtitle, kvaSize);
+                            else
+                                damageDetailsprimary_wireTen.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().primary_wireTen.get(i).getNote() != null) {
@@ -961,6 +1089,13 @@ public class ReadWireData {
                         addNote = WireData.getInstance().primary_wireTen.get(i).getNote();
                         if (WireData.getInstance().primary_wireTen.get(i).getSubTitle() != null) {
                             damageDetailsprimary_wireTen.put(subtitle, addNote);
+                        }
+                    }
+                    if (WireData.getInstance().primary_wireTen.get(i).getSize_phase() != null) {
+                        subtitle = WireData.getInstance().primary_wireTen.get(i).getSubTitle();
+                        addSize_Phase = WireData.getInstance().primary_wireTen.get(i).getSize_phase();
+                        if (WireData.getInstance().primary_wireTen.get(i).getSubTitle() != null) {
+                            damageDetailsprimary_wireTen.put(subtitle, addSize_Phase);
                         }
                     }
                     if (WireData.getInstance().primary_wireTen.get(i).getExtent() != null) {
@@ -988,6 +1123,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailsprimary_wireTen.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsprimary_wireTen.remove(displayName);
                         }
                     }
                 }
@@ -1046,7 +1184,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireOne.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireOne.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireOne.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireOne.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireOne.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireOne.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireOne.get(i).getNote() != null) {
@@ -1088,6 +1229,9 @@ public class ReadWireData {
                             //displayName = displayName.replaceAll("\\s", "");
                             //displayName = "is" + displayName;
                             damageDetailssecondary_wireOne.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireOne.remove(displayName);
                         }
                     }
                 }
@@ -1147,7 +1291,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireTwo.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireTwo.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireTwo.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireTwo.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireTwo.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireTwo.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireTwo.get(i).getNote() != null) {
@@ -1182,6 +1329,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailssecondary_wireTwo.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireTwo.remove(displayName);
                         }
                     }
                 }
@@ -1242,7 +1392,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireThree.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireThree.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireThree.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireThree.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireThree.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireThree.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireThree.get(i).getNote() != null) {
@@ -1277,6 +1430,9 @@ public class ReadWireData {
                             //   displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailssecondary_wireThree.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireThree.remove(displayName);
                         }
                     }
                 }
@@ -1337,7 +1493,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireFour.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireFour.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireFour.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireFour.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireFour.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireFour.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireFour.get(i).getNote() != null) {
@@ -1372,6 +1531,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailssecondary_wireFour.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireFour.remove(displayName);
                         }
                     }
                 }
@@ -1431,7 +1593,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireFive.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireFive.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireFive.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireFive.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireFive.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireFive.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireFive.get(i).getNote() != null) {
@@ -1466,6 +1631,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailssecondary_wireFive.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireFive.remove(displayName);
                         }
                     }
                 }
@@ -1524,7 +1692,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireSix.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireSix.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireSix.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireSix.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireSix.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireSix.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireSix.get(i).getNote() != null) {
@@ -1559,6 +1730,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailssecondary_wireSix.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireSix.remove(displayName);
                         }
                     }
                 }
@@ -1615,7 +1789,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireSeven.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireSeven.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireSeven.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireSeven.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireSeven.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireSeven.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireSeven.get(i).getNote() != null) {
@@ -1650,6 +1827,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailssecondary_wireSeven.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireSeven.remove(displayName);
                         }
                     }
                 }
@@ -1706,7 +1886,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireEight.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireEight.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireEight.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireEight.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireEight.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireEight.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireEight.get(i).getNote() != null) {
@@ -1741,6 +1924,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailssecondary_wireEight.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireEight.remove(displayName);
                         }
                     }
                 }
@@ -1797,7 +1983,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireNine.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireNine.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireNine.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireNine.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireNine.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireNine.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireNine.get(i).getNote() != null) {
@@ -1832,6 +2021,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailssecondary_wireNine.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireNine.remove(displayName);
                         }
                     }
                 }
@@ -1888,7 +2080,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().secondary_wireTen.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().secondary_wireTen.get(i).getKvaSize();
                         if (WireData.getInstance().secondary_wireTen.get(i).getSubTitle() != null) {
-                            damageDetailssecondary_wireTen.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailssecondary_wireTen.put(subtitle, kvaSize);
+                            else
+                                damageDetailssecondary_wireTen.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().secondary_wireTen.get(i).getNote() != null) {
@@ -1923,6 +2118,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailssecondary_wireTen.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailssecondary_wireTen.remove(displayName);
                         }
                     }
                 }
@@ -1981,7 +2179,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireOne.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireOne.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireOne.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireOne.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireOne.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireOne.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireOne.get(i).getNote() != null) {
@@ -2017,6 +2218,9 @@ public class ReadWireData {
                                 //   displayName = displayName.replaceAll("\\s", "");
                                 //   displayName = "is" + displayName;
                                 damageDetailsservice_wireOne.put(displayName, isSelected);
+                            }else
+                            {
+                                damageDetailsservice_wireOne.remove(displayName);
                             }
                         }
                 }
@@ -2074,7 +2278,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireTwo.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireTwo.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireTwo.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireTwo.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireTwo.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireTwo.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireTwo.get(i).getNote() != null) {
@@ -2109,6 +2316,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsservice_wireTwo.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireTwo.remove(displayName);
                         }
                     }
                 }
@@ -2166,7 +2376,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireThree.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireThree.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireThree.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireThree.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireThree.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireThree.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireThree.get(i).getNote() != null) {
@@ -2201,6 +2414,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsservice_wireThree.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireThree.remove(displayName);
                         }
                     }
                 }
@@ -2256,7 +2472,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireFour.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireFour.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireFour.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireFour.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireFour.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireFour.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireFour.get(i).getNote() != null) {
@@ -2291,6 +2510,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsservice_wireFour.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireFour.remove(displayName);
                         }
                     }
                 }
@@ -2347,7 +2569,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireFive.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireFive.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireFive.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireFive.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireFive.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireFive.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireFive.get(i).getNote() != null) {
@@ -2382,6 +2607,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsservice_wireFive.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireFive.remove(displayName);
                         }
                     }
                 }
@@ -2438,7 +2666,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireSix.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireSix.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireSix.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireSix.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireSix.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireSix.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireSix.get(i).getNote() != null) {
@@ -2473,6 +2704,9 @@ public class ReadWireData {
                             //   displayName = displayName.replaceAll("\\s", "");
                             //    displayName = "is" + displayName;
                             damageDetailsservice_wireSix.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireSix.remove(displayName);
                         }
                     }
                 }
@@ -2529,7 +2763,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireSeven.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireSeven.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireSeven.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireSeven.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireSeven.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireSeven.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireSeven.get(i).getNote() != null) {
@@ -2564,6 +2801,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailsservice_wireSeven.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireSeven.remove(displayName);
                         }
                     }
                 }
@@ -2618,7 +2858,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireEight.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireEight.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireEight.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireEight.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireEight.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireEight.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireEight.get(i).getNote() != null) {
@@ -2653,6 +2896,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailsservice_wireEight.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireEight.remove(displayName);
                         }
                     }
                 }
@@ -2709,7 +2955,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireNine.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireNine.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireNine.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireNine.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireNine.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireNine.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireNine.get(i).getNote() != null) {
@@ -2744,6 +2993,9 @@ public class ReadWireData {
                             // displayName = displayName.replaceAll("\\s", "");
                             //  displayName = "is" + displayName;
                             damageDetailsservice_wireNine.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireNine.remove(displayName);
                         }
                     }
                 }
@@ -2800,7 +3052,10 @@ public class ReadWireData {
                         subtitle = WireData.getInstance().service_wireTen.get(i).getSubTitle();
                         kvaSize = WireData.getInstance().service_wireTen.get(i).getKvaSize();
                         if (WireData.getInstance().service_wireTen.get(i).getSubTitle() != null) {
-                            damageDetailsservice_wireTen.put(subtitle, kvaSize);
+                            if(!kvaSize.equalsIgnoreCase("select"))
+                                damageDetailsservice_wireTen.put(subtitle, kvaSize);
+                            else
+                                damageDetailsservice_wireTen.remove(subtitle);
                         }
                     }
                     if (WireData.getInstance().service_wireTen.get(i).getNote() != null) {
@@ -2835,6 +3090,9 @@ public class ReadWireData {
                             //  displayName = displayName.replaceAll("\\s", "");
                             //   displayName = "is" + displayName;
                             damageDetailsservice_wireTen.put(displayName, isSelected);
+                        }else
+                        {
+                            damageDetailsservice_wireTen.remove(displayName);
                         }
                     }
                 }

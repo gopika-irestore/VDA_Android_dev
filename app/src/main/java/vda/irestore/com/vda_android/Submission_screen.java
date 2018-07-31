@@ -164,6 +164,8 @@ public class Submission_screen extends Activity {
         h.put("isAnchorBroken","Anchor/Guy wire - Broken");
         h.put("isAnchorPulled","Anchor/Guy wire - Pulled");
         h.put("extent","Extent");
+        h.put("isWireDamaged","Wire Damaged");
+        h.put("isWireArcing","Wire Arcing");
         h.put("isLeaking","Leaking");
         h.put("isInAccessible","Inaccessible");
         h.put("isLidMissing","Lid Missing");
