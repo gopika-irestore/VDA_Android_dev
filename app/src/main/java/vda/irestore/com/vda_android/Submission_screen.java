@@ -923,7 +923,7 @@ public class Submission_screen extends Activity {
                                             + File.separator + "VDA" + File.separator);
 
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage wiree");
+                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage wiree"+otherJsonList1.get(i1).getJSONArray("images").length());
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -932,7 +932,7 @@ public class Submission_screen extends Activity {
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
                                         img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
-                                        img.setImageBitmap(bmp);
+                                        img.setImageBitmap(Utils.getBitmap(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1)));
                                         img.setPadding(30, 50, 0, 0);
                                         // img.setImageResource(R.mipmap.camera);
                                         b1.addView(img);
@@ -4714,7 +4714,7 @@ public class Submission_screen extends Activity {
                     JSONObject imagesObject = new JSONObject();
                     JSONArray images = new JSONArray();
                     String pictureName = null;
-                    pictureName = ReadPoleEquipmentData.getInstance().poleTwoPicturePath;
+                    pictureName = ReadTreeData.getInstance().treeTwoPicturePath;
                     if (pictureName != null && !pictureName.isEmpty()) {
                         pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
                         String thumbnail = truncateAndAddThumbnailString(pictureName);
@@ -4738,7 +4738,7 @@ public class Submission_screen extends Activity {
                     JSONObject imagesObject = new JSONObject();
                     JSONArray images = new JSONArray();
                     String pictureName = null;
-                    pictureName = ReadPoleEquipmentData.getInstance().poleThreePicturePath;
+                    pictureName = ReadTreeData.getInstance().treeThreePicturePath;
 
                     if (pictureName != null && !pictureName.isEmpty()) {
                         pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
@@ -4750,8 +4750,8 @@ public class Submission_screen extends Activity {
                     }
                     treePartName.put("partName", treeTitle);
                     treePartName.put("damageData", tree_1);
-                    tree_1.put("POLE_3", damageDetailstree3);
-                    tree.put("POLE", treePartName);
+                    tree_1.put("TREE_3", damageDetailstree3);
+                    tree.put("TREE", treePartName);
                     treePartName.put("partDisplayName", treeTitle_name);
                     treePartName.put("numberOfParts", 3);
                     treeDamagePart.put("damagedParts", tree);
@@ -4871,7 +4871,7 @@ public class Submission_screen extends Activity {
                     JSONObject imagesObject = new JSONObject();
                     JSONArray images = new JSONArray();
                     String pictureName = null;
-                    pictureName = ReadTreeData.getInstance().treeSevenPicturePath;
+                    pictureName = ReadTreeData.getInstance().treeEightPicturePath;
                     if (pictureName != null && !pictureName.isEmpty()) {
                         pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
                         String thumbnail = truncateAndAddThumbnailString(pictureName);

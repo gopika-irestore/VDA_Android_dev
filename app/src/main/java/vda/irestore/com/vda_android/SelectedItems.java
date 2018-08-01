@@ -5245,6 +5245,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             partImage.setImageBitmap(Utils.getBitmap(picturePath));
         }else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icn_camera);
+
             partImage.setImageBitmap(icon);
         }
     }

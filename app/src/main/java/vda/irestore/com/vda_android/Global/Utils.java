@@ -169,7 +169,7 @@ public class Utils {
 
         matrix.postRotate(90);
 
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(myBitmap,myBitmap.getWidth(),myBitmap.getHeight(),true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(myBitmap,200,200,true);
 
         Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);
 
