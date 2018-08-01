@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
+   <!-- <android.support.v7.widget.Toolbar
         android:id="@+id/topToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -47,16 +47,15 @@
         app:layout_constraintLeft_toLeftOf="@+id/topToolbar"
         app:layout_constraintTop_toTopOf="@+id/topToolbar"
         app:layout_constraintRight_toRightOf="@+id/topToolbar"
-        />
+        />-->
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/topToolbar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
-        <ImageView
+        <vda.irestore.com.vda_android.customUI.PropotionalImageView
             android:id="@+id/wire"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,14 +63,14 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
 
-        <ImageView
+        <vda.irestore.com.vda_android.customUI.PropotionalImageView
             android:id="@+id/poleTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/pole_top"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
-        <ImageView
+        <vda.irestore.com.vda_android.customUI.PropotionalImageView
             android:id="@+id/splEquipment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,27 +78,27 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
 
-        <ImageView
+        <vda.irestore.com.vda_android.customUI.PropotionalImageView
             android:id="@+id/pole"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/pole"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
-        <ImageView
+        <vda.irestore.com.vda_android.customUI.PropotionalImageView
             android:id="@+id/tree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/tree"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
-        <ImageView
+        <vda.irestore.com.vda_android.customUI.PropotionalImageView
             android:id="@+id/other"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/other"
             android:adjustViewBounds="true"/>
-        <Button
+     <!--   <Button
             android:id="@+id/nextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,6 +112,15 @@
             android:enabled="false"
             android:clickable="false"
             android:gravity="clip_horizontal|center"
-            />
+            />-->
     </LinearLayout>
+    <Button android:layout_height="65dp"
+        android:layout_width="match_parent"
+        android:background="#3EA99F"
+        android:id="@+id/nextButton"
+        android:text="@string/buttonNext"
+        android:textColor="#ffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
 </android.support.constraint.ConstraintLayout>

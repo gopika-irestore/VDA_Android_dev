@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,8 +119,9 @@ public class Submission_screen extends Activity {
     JSONObject poleTopObj;
     ArrayList v = new ArrayList();
     Typeface typeFace;
-    TextView poleHeightValue,poleHeightUnit,submitterInfoLabel;
+    TextView partsLabel,scopesLabel,latLongLabel,lattitude_longitude,roadLabel,policeLabel,wireGuardLabel,poleHeightValue,poleHeightUnit,submitterInfoLabel;
     EditText submitter_email,submitter_contact;
+    Switch road_block_switch,police_fireStanding_switch,wire_gurdStanding_switch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,18 @@ public class Submission_screen extends Activity {
 
         setActionBar();
         getLocation();
+        wireGuardLabel = (TextView)findViewById(R.id.wireGuardLabel) ;
+        policeLabel = (TextView)findViewById(R.id.policeLabel);
+        roadLabel = (TextView)findViewById(R.id.roadLabel);
+        latLongLabel = (TextView)findViewById(R.id.latLongLabel);
+        lattitude_longitude = (TextView)findViewById(R.id.lattitude_longitude);
+
+        scopesLabel = (TextView)findViewById(R.id.scopesLabel);
+        partsLabel = (TextView)findViewById(R.id.partsLabel);
+
+        road_block_switch = (Switch)findViewById(R.id.road_block_switch);
+        police_fireStanding_switch = (Switch)findViewById(R.id.police_fireStanding_switch);
+        wire_gurdStanding_switch = (Switch)findViewById(R.id.wire_gurdStanding_switch);
         detailsLayout = (LinearLayout)findViewById(R.id.detailsLayout);
         poleHeightValue = (TextView)findViewById(R.id.poleHeightValue) ;
         poleHeightUnit = (TextView)findViewById(R.id.poleHeightUnit) ;
@@ -152,6 +166,16 @@ public class Submission_screen extends Activity {
 
         submitter_email.setText(sharedPref.getString("emailAddress", ""));
         submitter_contact.setText(sharedPref.getString("phoneNumber", ""));
+        lattitude_longitude.setTypeface(typeFace);
+        latLongLabel.setTypeface(typeFace);
+        roadLabel.setTypeface(typeFace);
+        policeLabel.setTypeface(typeFace);
+        wireGuardLabel.setTypeface(typeFace);
+        scopesLabel.setTypeface(typeFace);
+        partsLabel.setTypeface(typeFace);
+        road_block_switch.setTypeface(typeFace);
+        police_fireStanding_switch.setTypeface(typeFace);
+        wire_gurdStanding_switch.setTypeface(typeFace);
         submitter_contact.setTypeface(typeFace);
         submitter_email.setTypeface(typeFace);
         submitterInfoLabel.setTypeface(typeFace);
@@ -160,6 +184,7 @@ public class Submission_screen extends Activity {
 
         HashMap<String,String> h = new HashMap();
         h.put("type","Type");
+        h.put("phase","Phase");
         h.put("comments","Comment");
         h.put("isAnchorBroken","Anchor/Guy wire - Broken");
         h.put("isAnchorPulled","Anchor/Guy wire - Pulled");
@@ -357,7 +382,7 @@ public class Submission_screen extends Activity {
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "InspectionsApp");
+                                            Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
                                         internalStorage.mkdir();
                                     }
@@ -494,7 +519,7 @@ public class Submission_screen extends Activity {
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "InspectionsApp");
+                                            Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
                                         internalStorage.mkdir();
                                     }
@@ -631,7 +656,7 @@ public class Submission_screen extends Activity {
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "InspectionsApp");
+                                            Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
                                         internalStorage.mkdir();
                                     }
@@ -773,7 +798,7 @@ public class Submission_screen extends Activity {
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "InspectionsApp");
+                                            Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
                                         internalStorage.mkdir();
                                     }
@@ -888,19 +913,24 @@ public class Submission_screen extends Activity {
                                 Log.i("vidisha", "zsccccccccccc" + v.size());
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
-                                    File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "InspectionsApp");
+                                   /* File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
+                                            Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
                                         internalStorage.mkdir();
-                                    }
+                                    }*/
+                                    File internalStorage = new File(Environment
+                                            .getExternalStorageDirectory()
+                                            + File.separator + "VDA" + File.separator);
+
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
+                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage wiree");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+                                        img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
                                         img.setImageBitmap(bmp);
                                         img.setPadding(30, 50, 0, 0);
@@ -1006,7 +1036,7 @@ public class Submission_screen extends Activity {
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "InspectionsApp");
+                                            Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
                                         internalStorage.mkdir();
                                     }
@@ -1394,6 +1424,9 @@ public class Submission_screen extends Activity {
                     submittedByData.put("email", sharedPref.getString("emailAddress", ""));
                     submittedByData.put("phone", sharedPref.getString("phoneNumber", ""));
                     inspectionReport.put("submittedBy", submittedByData);
+                    inspectionReport.put("roadBlocked", road_block_switch.isChecked() ? true : false);
+                    inspectionReport.put("policeFireStandingBy", police_fireStanding_switch.isChecked() ? true : false);
+                    inspectionReport.put("wireGuardStandingBy", wire_gurdStanding_switch.isChecked() ? true : false);
                     JSONArray feederLine = new JSONArray();
 
                     feederLine.put(0, selectedFeederLine1);
@@ -1571,18 +1604,25 @@ public class Submission_screen extends Activity {
                                         setFileToUploadSPL();
                                         setFileToUploadPoleTop();
 
-
-
+                                        selectedFeederLine1=null;
+                                        selectedFeederLine2=null;
+                                        selectedPoleHeight=null;
+                                        selectedPoleNumber=null;
                                         ReadUnderGroundData.getInstance().resetAllReference();
                                         ReadUnderGroundData.getInstance().resetAllJSONObject();
+
                                         ReadPoleEquipmentData.getInstance().resetAllReference();
                                         ReadPoleEquipmentData.getInstance().resetAllJSONObject();
-                                        ReadPoleEquipmentData.getInstance().resetAllReference();
-                                        ReadPoleEquipmentData.getInstance().resetAllJSONObject();
+
+                                        ReadPoleTopEquipmentData.getInstance().resetAllReference();
+                                        ReadPoleTopEquipmentData.getInstance().resetAllJSONObject();
+
                                         ReadWireData.getInstance().resetAllReference();
                                         ReadWireData.getInstance().resetAllJSONObject();
+
                                         ReadSplEquipmentData.getInstance().resetAllReference();
                                         ReadSplEquipmentData.getInstance().resetAllJSONObject();
+
                                         ReadTreeData.getInstance().resetAllReference();
                                         ReadTreeData.getInstance().resetAllJSONObject();
                                         dialog.cancel();

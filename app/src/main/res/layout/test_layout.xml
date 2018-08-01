@@ -65,6 +65,8 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_weight="1"
+                            android:scaleType="fitXY"
+
                             android:src="@mipmap/icn_camera"
                             android:textColor="#666666" />
                     </LinearLayout>
@@ -172,6 +174,7 @@
                     android:layout_marginRight="20dp"
                     android:inputType="number"
                     android:imeOptions="actionDone"
+                    android:maxLines="1"
                     android:textColor="#666666" />
             </RelativeLayout>
             <RelativeLayout

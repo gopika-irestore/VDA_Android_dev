@@ -1,5 +1,6 @@
 package vda.irestore.com.vda_android;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -59,7 +62,7 @@ import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine2
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleHeight;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleNumber;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     ImageView wire,poleTop,splEquipment,pole,tree,other;
     Button nextButton;
     Toolbar toolBar;
@@ -75,12 +78,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         typeface = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
-        getStatusBarHeight();
-
+     //   getStatusBarHeight();
+        setActionBar();
         selectedFeederLine1=null;
         selectedFeederLine2=null;
         selectedPoleHeight=null;
         selectedPoleNumber=null;
+
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
 
@@ -107,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
         other = (ImageView)findViewById(R.id.other);
         nextButton = (Button)findViewById(R.id.nextButton);
         nextButton.setTypeface(typeface);
-
+        nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
+        nextButton.setClickable(false);
+        nextButton.setEnabled(false);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         pole.setLayoutParams(parms);
         tree.setLayoutParams(parms);
         other.setLayoutParams(parms);
-        nextButton.setLayoutParams(parms);
+       // nextButton.setLayoutParams(parms);
 
         wire.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (changeOf_imagePoleTop == 0) {
-                    poleTop.setImageResource(R.drawable.pole_top_complete);
+                    poleTop.setImageResource(R.drawable.pole_top_complete_1);
                     changeOf_imagePoleTop = 1;
                     EnableNextButton();
                 } else if (changeOf_imagePoleTop == 1) {
@@ -319,6 +325,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void setActionBar() {
+        LayoutInflater inflator = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.custom_titlebar, null);
+        v.setBackgroundColor(Color.WHITE);
+        ActionBar actionBar = getActionBar();
+        TextView title = (TextView) v.findViewById(R.id.title);
+        title.setTextColor(Color.parseColor("#333333"));
+        title.setText("VDA");
+        title.setTypeface(typeface);
+        Button nextBtn = (Button) v.findViewById(R.id.nextBtn);
+        nextBtn.setTextColor(Color.parseColor("#00A699"));
+        nextBtn.setText("Submit");
+        nextBtn.setVisibility(View.INVISIBLE);
+        nextBtn.setTypeface(typeface);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setCustomView(v);
+    }
     private void EnableNextButton()
     {
         if(ChangeOf_imageOther==1||changeOf_imageWire==1 || changeOf_imagePole==1||changeOf_imagePoleTop==1
@@ -360,6 +387,10 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         GlobalData.metadataPreferences.edit().clear().apply();
         GlobalData.metadataPreferencesEditor.clear().apply();
+        selectedFeederLine1=null;
+        selectedFeederLine2=null;
+        selectedPoleHeight=null;
+        selectedPoleNumber=null;
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
 
@@ -377,6 +408,10 @@ public class MainActivity extends AppCompatActivity {
 
         ReadTreeData.getInstance().resetAllReference();
         ReadTreeData.getInstance().resetAllJSONObject();
+
+        nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
+        nextButton.setClickable(false);
+        nextButton.setEnabled(false);
     }
 
     public void readDataFromFireBase(Context context) {

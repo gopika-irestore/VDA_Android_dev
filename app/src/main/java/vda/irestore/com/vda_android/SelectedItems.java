@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -104,7 +105,10 @@ import static vda.irestore.com.vda_android.Global.Global.S3_URL;
 
 
 public class SelectedItems extends PermissionsActivity implements View.OnClickListener{
-
+    protected boolean _taken = true;
+    File sdImageMainDirectory;
+    Uri outputFileUri;
+    protected static final String PHOTO_TAKEN = "photo_taken";
     JSONObject inspectionReport;
     InputMethodManager imm;
     private static final int CONNECTION_TIMEOUT = 6000;
@@ -120,7 +124,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     String undergroundScopeImage,poleScopeImage,picturePath, testingPicturePath, partTitle,undergroundScopeTestingImage,voltageTestKey;
     boolean isListSelected = true, isAddNoteSelected = true,isAddSize_PhaseSelected = true, isRepairSelected = true,isReplaceSelected = true, isTestingImageSelected = true, isTransTypeSelected = true;
     private ArrayList<GridItem> mGridDataJSON;
-    public int horizontalItemSelectedPosition = -1, verticalItemSelectedPosition = -1, gridPositionNew = 0, localIndexToAddNote = -1 ,localIndexToExtent = -1;
+    public int horizontalItemSelectedPosition = -1, verticalItemSelectedPosition = -1, gridPositionNew = 0, localIndexToAddNote = -1 ,localIndexToExtent = -1,localIndexToSize = -1;
     ArrayList<InspectionMetaData> localInspectionMetaData;
     RelativeLayout pendingInspectionLayout;
     ListView listView;
@@ -2083,29 +2087,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         final EditText size_phase = layoutType_size.findViewById(R.id.sizeValue);
 
 
-        size_phase
-                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId,
-                                                  KeyEvent event) {
-                        boolean handled = false;
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            if(!size_phase.getText().toString().isEmpty()) {
-                                addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
-                                isAddSize_PhaseSelected = false;
-                            }/*else
-                            {
-                                addSize_PhaseToRespectiveCountList(scope, gridTitle, "");
-                                isAddSize_PhaseSelected = true;
-                            }*/
-                            handled = true;
-                            imm = (InputMethodManager) getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(size_phase.getApplicationWindowToken(), 0);
-                        }
-                        return handled;
-                    }
-                });
 
 
         final EditText comments = view.findViewById(R.id.comments);
@@ -2137,7 +2118,26 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             }
         });
 
+        size_phase
+                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                                                  KeyEvent event) {
+                        if(actionId == EditorInfo.IME_ACTION_DONE){
+                            // Your action on done
+                            size_phase.setText(size_phase.getText().toString());
+                            addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
+                            if(size_phase.getText().toString() != null && !size_phase.getText().toString().isEmpty())
+                                isAddSize_PhaseSelected = false;
+                            imm = (InputMethodManager) getSystemService(
+                                    Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(size_phase.getApplicationWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
 
+                    }
+                });
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -2199,7 +2199,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isAddSize_PhaseSelected||!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
-
+                        /*if(!size_phase.getText().toString().isEmpty()) {
+                            addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
+                            isAddSize_PhaseSelected = false;
+                        }*/
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_top_done.png");
                         item.setInspectionDone(true);
@@ -2246,6 +2249,8 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
 
         populateListViewPoleTop(scope,mContext, item, gridPosition, horizontalItemSelectedPosition/*, chk, pendingInspectionLayout*/);
+
+
 
         if(gridTitle.equalsIgnoreCase("Transformer"))
         {
@@ -2873,6 +2878,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         final Dialog dialog = new Dialog(mContext, R.style.Theme_Dialog);
         View view = LayoutInflater.from(mContext).inflate(R.layout.test_layout, null);
         RelativeLayout layoutType = (RelativeLayout) view.findViewById(R.id.typeAsset);
+
         final Spinner typeSpinner = (Spinner) view.findViewById(R.id.typeSpinner);
         final ArrayAdapter typeAdapter = new ArrayAdapter<String>(mContext,
                 android.R.layout.simple_spinner_dropdown_item,
@@ -2882,11 +2888,17 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         horizontalListView.setLayoutManager(linearLayoutManager);
 
-
+        final TextView sizeLabel = layoutType_size.findViewById(R.id.sizeLabel);
+        sizeLabel.setText("Phase");
+        sizeLabel.setTypeface(typeFace);
+        final EditText size_phase = layoutType_size.findViewById(R.id.sizeValue);
+        size_phase.setTypeface(typeFace);
 
         final EditText comments = view.findViewById(R.id.comments);
+        comments.setTypeface(typeFace);
         final TextView repaire = view.findViewById(R.id.repair);
         final TextView replace = view.findViewById(R.id.replace);
+
         repaire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -2913,7 +2925,26 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             }
         });
 
+        size_phase
+                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                                                  KeyEvent event) {
+                        if(actionId == EditorInfo.IME_ACTION_DONE){
+                            // Your action on done
+                            size_phase.setText(size_phase.getText().toString());
+                            addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
+                            if(size_phase.getText().toString() != null && !size_phase.getText().toString().isEmpty())
+                                isAddSize_PhaseSelected = false;
+                            imm = (InputMethodManager) getSystemService(
+                                    Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(size_phase.getApplicationWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
 
+                    }
+                });
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -2973,7 +3004,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View clickView) {
-                if(!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
+                if(!isAddSize_PhaseSelected||!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
                         Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/wire_done.png");
@@ -3241,6 +3272,15 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         } else {
             comments.setText("");
         }
+
+        String sizeString = readSize_PhaseFromRespectiveCountList(scope,gridPosition);
+        if(sizeString!=null) {
+            size_phase.setText(sizeString.trim());
+        } else {
+            size_phase.setText("");
+        }
+
+
         String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
         if(extentString!=null) {
             if(extentString.equalsIgnoreCase("REPAIR")) {
@@ -3285,6 +3325,12 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 comments.setText("");
                             }
 
+                            String sizeString = readSize_PhaseFromRespectiveCountList(scope,gridPosition);
+                            if(sizeString!=null) {
+                                size_phase.setText(sizeString.trim());
+                            } else {
+                                size_phase.setText("");
+                            }
                             String extentString = readExtentFromRespectiveCountList(scope,gridPosition);
 
                             if(extentString!=null) {
@@ -4094,10 +4140,26 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 //  picturePath =item.getS3ImageName();
                 picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
+                File root = new File(Environment
+                        .getExternalStorageDirectory()
+                        + File.separator + "VDA" + File.separator);
+                root.mkdirs();
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                File reportFilePath = null;
+
+                String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+picturePath;
+                sdImageMainDirectory = new File(root, imageName+".png");
+                 outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+
+                ((SelectedItems)mContext).startActivityForResult(intent, 34);
+               /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if(mContext instanceof SelectedItems)
                     ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
-
+*/
             }
         });
 
@@ -4749,17 +4811,38 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 localInspectionMetaData = sectionalizerCabinetReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToSize_Phase(noteNew, localIndex);
             }
+            if(noteNew != null){
+                localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "size"," "," "));
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
+                arrayAdapter.notifyDataSetChanged();
+            }
         }else if(scope.equalsIgnoreCase("Pole"))
         {
             if (gridPositionNew == 0) {
                 localInspectionMetaData = poleReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToSize_Phase(noteNew, localIndex);
             }
+            if(noteNew != null){
+                localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "size"," "," "));
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
+                arrayAdapter.notifyDataSetChanged();
+            }
         }else if(scope.equalsIgnoreCase("Tree"))
         {
             if (gridPositionNew == 0) {
                 localInspectionMetaData = treeReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+            if(noteNew != null){
+                localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "size"," "," "));
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
+                arrayAdapter.notifyDataSetChanged();
             }
         }else if(scope.equalsIgnoreCase("spl"))
         {
@@ -4776,6 +4859,13 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 localInspectionMetaData = loadBreakSwitchReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToSize_Phase(noteNew, localIndex);
             }
+            if(noteNew != null){
+                localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "size"," "," "));
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
+                arrayAdapter.notifyDataSetChanged();
+            }
         }else if(scope.equalsIgnoreCase("wire"))
         {
             if (gridPositionNew == 0) {
@@ -4787,6 +4877,13 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             } else if (gridPositionNew == 2) {
                 localInspectionMetaData = serviceWireReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToSize_Phase(noteNew, localIndex);
+            }
+            if(noteNew != null){
+                localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "phase"," "," "));
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "phase"," " ," "));
+                arrayAdapter.notifyDataSetChanged();
             }
         }else if(scope.equalsIgnoreCase("poleTop"))
         {
@@ -4809,14 +4906,21 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 localInspectionMetaData = insulatorReference(horizontalItemSelectedPosition);
                 noteNew = findingIndexToSize_Phase(noteNew, localIndex);
             }
+            if(noteNew != null){
+                localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "size"," "," "));
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
+                arrayAdapter.notifyDataSetChanged();
+            }
         }
-        if(noteNew != null){
-            localInspectionMetaData.set(localIndexToExtent, new InspectionMetaData(note.trim(), title, "size"," "," "));
+       /* if(noteNew != null){
+            localInspectionMetaData.set(localIndexToSize, new InspectionMetaData(note.trim(), title, "size"," "," "));
             arrayAdapter.notifyDataSetChanged();
         } else {
             localInspectionMetaData.add(new InspectionMetaData(note.trim(), title, "size"," " ," "));
             arrayAdapter.notifyDataSetChanged();
-        }
+        }*/
     }
 
 
@@ -4847,7 +4951,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             if(titleNew == null) {
                 titleNew = localInspectionMetaData.get(i).getSize_phase();
                 inspectionMetaData = localInspectionMetaData.get(i);
-                localIndexToExtent = i;
+                localIndexToSize = i;
             }
         }
         return titleNew;
@@ -4857,6 +4961,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
+            Log.i("vidisha","Bitmap ok re");
             if (requestCode == REQUEST_CAMERA_ONE) {
                 isTestingImageSelected = false;
                 Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -4864,11 +4969,24 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 //  matrix.postRotate(90);
 
                 Bitmap b = Bitmap.createScaledBitmap(thumbnail, 200, 200, false);
+
                 Bitmap rotatedBitmap = Bitmap.createBitmap(b , 0, 0, b .getWidth(), b .getHeight(), matrix, true);
                 partImage.setImageBitmap(rotatedBitmap);
                 storeImage(b,picturePath,partTitle);
             }
+            if(requestCode==34)
+            {
+
+                try {
+
+                    StoreImage(this, outputFileUri,
+                            sdImageMainDirectory);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
     }
     private void storeImage(Bitmap image,String picturePath,String partTitle) {
         File pictureFile = getOutputMediaFile(picturePath,partTitle);
@@ -4892,7 +5010,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
         File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "InspectionsApp");
+                Environment.DIRECTORY_DCIM), "VDA");
         if (!internalStorage.exists()) {
             internalStorage.mkdir();
         }
@@ -5210,6 +5328,75 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 }
     }
 
+    public  void StoreImage(Context mContext, Uri imageLoc, File imageDir) {
+        Bitmap bm = null;
+        try {
+            if(GlobalData.underground_images_array!=null) {
+                GlobalData.underground_images_array.add(imageDir);
+            } else {
+                GlobalData.underground_images_array = new ArrayList<>();
+                GlobalData.underground_images_array.add(imageDir);
+            }
+            if(GlobalData.pole_images_array!=null) {
+                GlobalData.pole_images_array.add(imageDir);
+            } else {
+                GlobalData.pole_images_array = new ArrayList<>();
+                GlobalData.pole_images_array.add(imageDir);
+            }
 
+            if(GlobalData.tree_images_array!=null) {
+                GlobalData.tree_images_array.add(imageDir);
+            } else {
+                GlobalData.tree_images_array = new ArrayList<>();
+                GlobalData.tree_images_array.add(imageDir);
+            }
+            if(GlobalData.wire_images_array!=null) {
+                GlobalData.wire_images_array.add(imageDir);
+            } else {
+                GlobalData.wire_images_array = new ArrayList<>();
+                GlobalData.wire_images_array.add(imageDir);
+            }
+            if(GlobalData.spl_images_array!=null) {
+                GlobalData.spl_images_array.add(imageDir);
+            } else {
+                GlobalData.spl_images_array = new ArrayList<>();
+                GlobalData.spl_images_array.add(imageDir);
+            }
+            if(GlobalData.pole_top_images_array!=null) {
+                GlobalData.pole_top_images_array.add(imageDir);
+            } else {
+                GlobalData.pole_top_images_array = new ArrayList<>();
+                GlobalData.pole_top_images_array.add(imageDir);
+            }
+            addImagesToRespectiveDefects(imageDir);
+          /*  bm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageLoc);
+            Matrix matrix = new Matrix();
+            //  matrix.postRotate(90);
+
+            Bitmap b = Bitmap.createScaledBitmap(bm, 200, 200, false);
+
+            Bitmap rotatedBitmap = Bitmap.createBitmap(b , 0, 0, b .getWidth(), b .getHeight(), matrix, true);
+            partImage.setImageBitmap(rotatedBitmap);*/
+            bm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageLoc);
+            FileOutputStream out = new FileOutputStream(imageDir);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            Matrix matrix = new Matrix();
+            //  matrix.postRotate(90);
+
+            Bitmap b = Bitmap.createScaledBitmap(bm, 200, 200, false);
+
+            Bitmap rotatedBitmap = Bitmap.createBitmap(b , 0, 0, b .getWidth(), b .getHeight(), matrix, true);
+            partImage.setImageBitmap(rotatedBitmap);
+            bm.recycle();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

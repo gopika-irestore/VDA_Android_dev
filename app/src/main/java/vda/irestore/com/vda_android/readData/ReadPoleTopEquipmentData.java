@@ -167,7 +167,7 @@ public class ReadPoleTopEquipmentData {
                         if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
                             if(!addSize_Phase.toString().trim().isEmpty())
                                 damageDetailsTransOne.put(subtitle, addSize_Phase);
-                            else
+                           else
                                 damageDetailsTransOne.remove(subtitle);
                         }
                     }
@@ -265,7 +265,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getSubTitle() != null) {
-                            damageDetailsTransTwo.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransTwo.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransTwo.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTwo.get(i).getExtent() != null) {
@@ -349,7 +352,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerThree.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getSubTitle() != null) {
-                            damageDetailsTransThree.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransThree.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransThree.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerThree.get(i).getExtent() != null) {
@@ -434,7 +440,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerFour.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getSubTitle() != null) {
-                            damageDetailsTransFour.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransFour.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransFour.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFour.get(i).getExtent() != null) {
@@ -516,7 +525,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerFive.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getSubTitle() != null) {
-                            damageDetailsTransFive.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransFive.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransFive.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerFive.get(i).getExtent() != null) {
@@ -596,7 +608,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerSix.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getSubTitle() != null) {
-                            damageDetailsTransSix.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransSix.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransSix.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSix.get(i).getNote() != null) {
@@ -682,7 +697,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getSubTitle() != null) {
-                            damageDetailsTransSeven.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransSeven.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransSeven.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerSeven.get(i).getExtent() != null) {
@@ -770,7 +788,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerEight.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getSubTitle() != null) {
-                            damageDetailsTransEight.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransEight.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransEight.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerEight.get(i).getExtent() != null) {
@@ -855,7 +876,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerNine.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getSubTitle() != null) {
-                            damageDetailsTransNine.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransNine.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransNine.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerNine.get(i).getExtent() != null) {
@@ -940,7 +964,10 @@ public class ReadPoleTopEquipmentData {
                         subtitle = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerTen.get(i).getSize_phase();
                         if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getSubTitle() != null) {
-                            damageDetailsTransTen.put(subtitle, addSize_Phase);
+                            if(!addSize_Phase.toString().trim().isEmpty())
+                                damageDetailsTransTen.put(subtitle, addSize_Phase);
+                            else
+                                damageDetailsTransTen.remove(subtitle);
                         }
                     }
                     if (PoleTopEquipmentData.getInstance().transformerTen.get(i).getExtent() != null) {

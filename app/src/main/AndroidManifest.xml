@@ -85,7 +85,7 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
         <activity android:name=".signup.TermsConditions" />
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme"/>
+           />
         <activity android:name=".SelectedItems"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme"/>
