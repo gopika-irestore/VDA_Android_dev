@@ -381,11 +381,9 @@ public class Submission_screen extends Activity {
 
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
-                                    File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "VDA");
-                                    if (!internalStorage.exists()) {
-                                        internalStorage.mkdir();
-                                    }
+                                    File internalStorage = new File(Environment
+                                            .getExternalStorageDirectory()
+                                            + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
                                         Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
@@ -394,9 +392,11 @@ public class Submission_screen extends Activity {
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+                                        img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
-                                        img.setImageBitmap(bmp);
+                                        img.setImageBitmap(Utils.getBitmap(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1)));
                                         img.setPadding(30, 50, 0, 0);
+
                                         // img.setImageResource(R.mipmap.camera);
                                         b1.addView(img);
                                         // }
@@ -518,11 +518,9 @@ public class Submission_screen extends Activity {
 
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
-                                    File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "VDA");
-                                    if (!internalStorage.exists()) {
-                                        internalStorage.mkdir();
-                                    }
+                                    File internalStorage = new File(Environment
+                                            .getExternalStorageDirectory()
+                                            + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
                                         Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
@@ -531,10 +529,11 @@ public class Submission_screen extends Activity {
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+                                        img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
-                                        img.setImageBitmap(bmp);
+                                        img.setImageBitmap(Utils.getBitmap(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1)));
                                         img.setPadding(30, 50, 0, 0);
-                                        // img.setImageResource(R.mipmap.camera);
+
                                         b1.addView(img);
                                         // }
                                     }
@@ -655,11 +654,9 @@ public class Submission_screen extends Activity {
 
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
-                                    File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "VDA");
-                                    if (!internalStorage.exists()) {
-                                        internalStorage.mkdir();
-                                    }
+                                    File internalStorage = new File(Environment
+                                            .getExternalStorageDirectory()
+                                            + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
                                         Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
@@ -668,9 +665,11 @@ public class Submission_screen extends Activity {
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+                                        img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
-                                        img.setImageBitmap(bmp);
+                                        img.setImageBitmap(Utils.getBitmap(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1)));
                                         img.setPadding(30, 50, 0, 0);
+
                                         // img.setImageResource(R.mipmap.camera);
                                         b1.addView(img);
                                         // }
@@ -797,11 +796,9 @@ public class Submission_screen extends Activity {
 
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
-                                    File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "VDA");
-                                    if (!internalStorage.exists()) {
-                                        internalStorage.mkdir();
-                                    }
+                                    File internalStorage = new File(Environment
+                                            .getExternalStorageDirectory()
+                                            + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
                                         Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
@@ -810,9 +807,11 @@ public class Submission_screen extends Activity {
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+                                        img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
-                                        img.setImageBitmap(bmp);
+                                        img.setImageBitmap(Utils.getBitmap(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1)));
                                         img.setPadding(30, 50, 0, 0);
+
                                         // img.setImageResource(R.mipmap.camera);
                                         b1.addView(img);
                                         // }
@@ -1035,11 +1034,9 @@ public class Submission_screen extends Activity {
                                 Log.i("vidisha", "zsccccccccccc" + v.size());
                                 if (otherJsonList1.get(i1).has("images")) {
                                     Log.i("vidisha", "zsccccccccccc" + "has images");
-                                    File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                                            Environment.DIRECTORY_DCIM), "VDA");
-                                    if (!internalStorage.exists()) {
-                                        internalStorage.mkdir();
-                                    }
+                                    File internalStorage = new File(Environment
+                                            .getExternalStorageDirectory()
+                                            + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
                                         Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
@@ -1048,9 +1045,11 @@ public class Submission_screen extends Activity {
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
                                         img.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+                                        img.setScaleType(ImageView.ScaleType.FIT_XY);
                                         Bitmap icon = Utils.decodeSampledBitmapFromResource(getResources(), R.mipmap.icn_camera, 100, 100);
-                                        img.setImageBitmap(bmp);
+                                        img.setImageBitmap(Utils.getBitmap(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1)));
                                         img.setPadding(30, 50, 0, 0);
+
                                         // img.setImageResource(R.mipmap.camera);
                                         b1.addView(img);
                                         // }

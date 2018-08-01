@@ -119,6 +119,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     JSONObject damageDetailspadmountsOne = new JSONObject();
     Button closeBtn, closeAddNoteBtn;
     final int REQUEST_CAMERA_ONE = 41;
+    final int REQUEST_CAMERA_IMAGE = 456;
     final int REQUEST_CAMERA_TWO = 42;
     ImageView  partImage,testingImage;
     String undergroundScopeImage,poleScopeImage,picturePath, testingPicturePath, partTitle,undergroundScopeTestingImage,voltageTestKey;
@@ -846,11 +847,30 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 //  picturePath =item.getS3ImageName();
-                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+               /* picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if(mContext instanceof SelectedItems)
-                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);*/
+
+                picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
+                partTitle = item.getTitle();
+                File root = new File(Environment
+                        .getExternalStorageDirectory()
+                        + File.separator + "VDA" + File.separator);
+                root.mkdirs();
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                File reportFilePath = null;
+
+                String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+picturePath;
+                sdImageMainDirectory = new File(root, imageName+".png");
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+
+                ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
 
             }
         });
@@ -1418,9 +1438,22 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 //  picturePath =item.getS3ImageName();
                 picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
+                File root = new File(Environment
+                        .getExternalStorageDirectory()
+                        + File.separator + "VDA" + File.separator);
+                root.mkdirs();
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                File reportFilePath = null;
+
+                String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+picturePath;
+                sdImageMainDirectory = new File(root, imageName+".png");
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(mContext instanceof SelectedItems)
-                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+
+                ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
 
             }
         });
@@ -2180,9 +2213,22 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 //  picturePath =item.getS3ImageName();
                 picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
+                File root = new File(Environment
+                        .getExternalStorageDirectory()
+                        + File.separator + "VDA" + File.separator);
+                root.mkdirs();
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                File reportFilePath = null;
+
+                String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+picturePath;
+                sdImageMainDirectory = new File(root, imageName+".png");
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(mContext instanceof SelectedItems)
-                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+
+                ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
 
             }
         });
@@ -2987,9 +3033,22 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 //  picturePath =item.getS3ImageName();
                 picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
+                File root = new File(Environment
+                        .getExternalStorageDirectory()
+                        + File.separator + "VDA" + File.separator);
+                root.mkdirs();
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                File reportFilePath = null;
+
+                String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+picturePath;
+                sdImageMainDirectory = new File(root, imageName+".png");
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(mContext instanceof SelectedItems)
-                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+
+                ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
 
             }
         });
@@ -3702,9 +3761,22 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 //  picturePath =item.getS3ImageName();
                 picturePath =scope+"-DETAIL-"+item.getName()+"-"+horizontalItemSelectedPosition;
                 partTitle = item.getTitle();
+                File root = new File(Environment
+                        .getExternalStorageDirectory()
+                        + File.separator + "VDA" + File.separator);
+                root.mkdirs();
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                File reportFilePath = null;
+
+                String imageName = sharedPref.getString("phoneNumber", "") + "_" + dateFormat.format(new Date()) + "-"+picturePath;
+                sdImageMainDirectory = new File(root, imageName+".png");
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(mContext instanceof SelectedItems)
-                    ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+
+                ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
 
             }
         });
@@ -4155,7 +4227,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
 
-                ((SelectedItems)mContext).startActivityForResult(intent, 34);
+                ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_IMAGE);
                /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if(mContext instanceof SelectedItems)
                     ((SelectedItems)mContext).startActivityForResult(intent, REQUEST_CAMERA_ONE);
@@ -4974,8 +5046,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 partImage.setImageBitmap(rotatedBitmap);
                 storeImage(b,picturePath,partTitle);
             }
-            if(requestCode==34)
+            if(requestCode==REQUEST_CAMERA_IMAGE)
             {
+                isTestingImageSelected = false;
 
                 try {
 
@@ -5245,7 +5318,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             partImage.setImageBitmap(Utils.getBitmap(picturePath));
         }else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icn_camera);
-
             partImage.setImageBitmap(icon);
         }
     }
