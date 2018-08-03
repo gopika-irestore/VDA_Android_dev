@@ -62,6 +62,7 @@ import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine1
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine2;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleHeight;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleNumber;
+import static vda.irestore.com.vda_android.Global.Utils.images_array;
 
 public class MainActivity extends Activity {
     ImageView wire, poleTop, splEquipment, pole, tree, other;
@@ -92,6 +93,7 @@ public class MainActivity extends Activity {
         panoImageTaken =false;
         Utils.assetImage =null;
         Utils.panoBitmap1 =null;
+
         GlobalData.initializeSharedPrefernceData(this);
         GlobalData.scopesPreferencesEditor.clear().apply();
         GlobalData.metadataPreferencesEditor.clear().apply();

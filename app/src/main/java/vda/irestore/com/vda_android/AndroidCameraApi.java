@@ -424,7 +424,7 @@ public class AndroidCameraApi extends Activity {
 
                                 fosr.flush();
                                 fosr.close();
-                                Utils.images_array.add(imageURL1);
+
                             } catch (Exception e) {
 
                             }
@@ -549,6 +549,7 @@ public class AndroidCameraApi extends Activity {
                         intent.setClass(AndroidCameraApi.this, ShowPictureTakenActivity.class);
                        // intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
                         startActivityForResult(intent,67);
+                        Utils.images_array.add(imageURL1);
                         //  finish();//to finish the camera back activities
 
 

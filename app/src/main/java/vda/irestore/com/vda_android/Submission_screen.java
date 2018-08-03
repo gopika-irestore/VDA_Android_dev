@@ -1115,6 +1115,7 @@ public class Submission_screen extends Activity {
     }
 
     public void setFileToUploadPano() {
+        Log.i("greesham","pano Upload"+images_array);
         if(images_array!=null) {
             for (int i = 0; i < images_array.size(); i++) {
                 TransferObserver transferObserverPole = transferUtility.upload(
@@ -1133,13 +1134,13 @@ public class Submission_screen extends Activity {
         transferObserverPole.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
-
+                Log.i("greesham","pano Upload state"+state);
                 if (state == TransferState.COMPLETED) {
-                    if(images_array!=null) {
+                   /* if(images_array!=null) {
                         images_array.clear();
                         images_array = null;
 
-                    }
+                    }*/
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
                 }
             }
