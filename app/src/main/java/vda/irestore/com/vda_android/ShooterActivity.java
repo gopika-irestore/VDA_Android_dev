@@ -58,7 +58,6 @@ public class ShooterActivity extends Activity {
 	private Handler mHandler;
 	File thumbPanoFilePath_one,panoFilePath_one;
 
-	public  static List<File> images_array;
 
 	private RelativeLayout mRelativeLayoutRoot;
 	private ViewGroup mViewGroupCamera;
@@ -339,7 +338,7 @@ public class ShooterActivity extends Activity {
 			/*File equiFolder = new File(Environment.getExternalStorageDirectory() + "/" + Globals.EQUI_FOLDER_NAME + "/");
 */
 			File equiFolder = new File(Environment.getExternalStoragePublicDirectory(
-					Environment.DIRECTORY_DCIM), "SDA_DamageAssistant");
+					Environment.DIRECTORY_DCIM), "VDA");
 
 			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -351,7 +350,7 @@ public class ShooterActivity extends Activity {
 			}
 
 			if(imageNumber ==1) {
-				String fname = "2345678901" + "-" + dateFormat.format(new Date()) + "-PANO-1";
+				String fname = sharedPref.getString("phoneNumber","") + "-" + dateFormat.format(new Date()) + "-SCENE-1";
 				mEquiPath = equiFolder.getPath() + "/" + fname + ".png";
 
 				panoFilePath_one = new File(equiFolder, fname + ".png");
@@ -454,11 +453,11 @@ public class ShooterActivity extends Activity {
 
 
 
-			Intent intent = new Intent();
-			intent.setClass(ShooterActivity.this, ShowPanoPictureTaken.class);
-			editor = sharedPref.edit();
+			/*Intent intent = new Intent();
+			intent.setClass(ShooterActivity.this, ShowPanoPictureTaken.class);*/
+			 editor = sharedPref.edit();
 
-			 images_array = new ArrayList<File>();
+			 Utils.images_array = new ArrayList<File>();
 
 
 			if(imageNumber ==1) {
@@ -498,14 +497,18 @@ public class ShooterActivity extends Activity {
 						e.printStackTrace();
 					}
 				}
-				images_array.add(panoFilePath_one);
-				images_array.add(thumbPanoFilePath_one);
+				Utils.images_array.add(panoFilePath_one);
+				//images_array.add(thumbPanoFilePath_one);
 
 			}
 
 			editor.commit();
-			startActivity(intent);
-			finish();
+			Intent intent = new Intent();
+			intent.setClass(ShooterActivity.this, ShowPanoPictureTaken.class);
+			// intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+			startActivityForResult(intent,67);
+		//	startActivity(intent);
+		//	finish();
 			//toastMessage("Panorama saved in gallery");
 
 
@@ -523,6 +526,16 @@ public class ShooterActivity extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 
+		}
+
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == 67) {
+			setResult(3455);
+			finish();
 		}
 
 	}

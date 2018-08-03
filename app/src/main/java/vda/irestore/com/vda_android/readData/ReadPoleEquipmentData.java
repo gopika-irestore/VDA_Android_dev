@@ -178,13 +178,11 @@ public class ReadPoleEquipmentData {
                     }
                     if (PoleData.getInstance().poleOne.get(i).getTestingType() != null) {
                         if (PoleData.getInstance().poleOne.get(i).getIsTesttingResult() != null) {
-                            Log.i("vidisha","Testing typeeeee"+PoleData.getInstance().poleOne.get(i).getTestingType()+"  =="+PoleData.getInstance().poleOne.get(i).getIsTesttingResult());
                             damageDetailsPoleOne.put(PoleData.getInstance().poleOne.get(i).getTestingType(), PoleData.getInstance().poleOne.get(i).getIsTesttingResult());
                         }
                     }
                     if (PoleData.getInstance().poleOne.get(i).getTestingTypePass() != null) {
                         if (PoleData.getInstance().poleOne.get(i).getIsTesstingPassResult() != null) {
-                            Log.i("vidisha","Testing typeeeee111"+PoleData.getInstance().poleOne.get(i).getTestingTypePass()+"  =="+PoleData.getInstance().poleOne.get(i).getIsTesstingPassResult());
 
                             damageDetailsPoleOne.put(PoleData.getInstance().poleOne.get(i).getTestingTypePass(), PoleData.getInstance().poleOne.get(i).getIsTesstingPassResult());
 
@@ -207,7 +205,6 @@ public class ReadPoleEquipmentData {
                         if (isSelected) {
                             /*displayName = displayName.replaceAll("\\s", "");
                             displayName = "is" + displayName;*/
-                            Log.i("vidisha","helloooooooooooooo");
                             damageDetailsPoleOne.put(displayName, isSelected);
 
                         }

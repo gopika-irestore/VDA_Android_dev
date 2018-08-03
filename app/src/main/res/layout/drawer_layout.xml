@@ -12,7 +12,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:id="@+id/menuHeading"
-        android:text="CP Manager"
+        android:text="VDA"
         android:textSize="14sp"
         android:gravity="center"
         android:layout_gravity="center"

@@ -417,7 +417,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         try {
 
             String response = GlobalData.metadataPreferences.getString(key, "");
-            Log.i("vidisha","existes data"+response);
             ArrayList<GridItem> poleGridItems_ArrayList = poleGson.fromJson(response,
                     new TypeToken<List<GridItem>>() {
                     }.getType());
@@ -473,28 +472,22 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 switch (jsonKey)
                 {
                     case "othersJSON":
-                        Log.i("vidisha","1111");
                         ShowOthersDialog("Other", SelectedItems.this, item, img, position);
                         break;
                     case "poleJSON":
-                        Log.i("vidisha","2222");
                         ShowPoleDialog("Pole", SelectedItems.this, item, img, position);
                         break;
                     case "treeJSON":
-                        Log.i("vidisha","2222");
                         ShowTreeDialog("Tree", SelectedItems.this, item, img, position);
                         break;
                     case "wireeJSON":
-                        Log.i("vidisha","2222");
                         ShowWireDialog("wire", SelectedItems.this, item, img, position);
                        // ShowSplDialog("wire", SelectedItems.this, item, img, position);
                         break;
                     case "poleTopJSON":
-                        Log.i("vidisha","2222");
                         ShowPoleTopDialog("poleTop", SelectedItems.this, item, img, position);
                         break;
                     case "splJSON":
-                        Log.i("vidisha","2222");
                         ShowSplDialog("spl", SelectedItems.this, item, img, position);
                         break;
                 }
@@ -583,7 +576,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
     private boolean addRespectiveDefectCountSpl(int position, int itemPosition) {
         boolean isCountAdded = false;
-        Log.i("vidisha","hhhhhh"+isCountAdded);
         switch (itemPosition) {
             case 0:
                 if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
@@ -887,7 +879,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected|| isRepairSelected ||isReplaceSelected){
                     try {
-                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_equipment_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
@@ -895,7 +886,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     }
                 } else {
 
-                    Log.i("vidisha","imageName=="+item.getImageName());
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
@@ -962,7 +952,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
 
         }
-        Log.i("vidisha","note=="+noteString);
         if(noteString!=null) {
             comments.setText(noteString.trim());
         } else {
@@ -1044,7 +1033,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     name = listItemsN.getName();
                     imageUrl = listItemsN.getImageUrl();
                     isSelected = listItemsN.getIsSelected();
-                    Log.i("shri_LOG","name=="+listItemsN.getName());
 
                     if(!isSelected){
 //                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
@@ -1063,13 +1051,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 }
                             }
                             if (!isSelected) {
-                                Log.i("vidisha","helloo11111");
-                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
                                 isListSelected = false;
                             } else {
-                                Log.i("vidisha","helloo22222");
                                 isListSelected = true;
-                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
                             }
                         }
                     });
@@ -1279,7 +1263,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     }
     private boolean addRespectiveDefectCount(int position, int itemPosition) {
         boolean isCountAdded = false;
-        Log.i("vidisha","hhhhhh"+isCountAdded);
         switch (itemPosition) {
             case 0:
                 if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
@@ -1470,7 +1453,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
-                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/other_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
@@ -1478,7 +1460,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     }
                 } else {
 
-                    Log.i("vidisha","imageName=="+item.getImageName());
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
@@ -1628,7 +1609,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     name = listItemsN.getName();
                     imageUrl = listItemsN.getImageUrl();
                     isSelected = listItemsN.getIsSelected();
-                    Log.i("shri_LOG","name=="+listItemsN.getName());
 
                     if(!isSelected){
 //                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
@@ -1647,13 +1627,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 }
                             }
                             if (!isSelected) {
-                                Log.i("vidisha","helloo11111");
-                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
                                 isListSelected = false;
                             } else {
-                                Log.i("vidisha","helloo22222");
                                 isListSelected = true;
-                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
+
                             }
                         }
                     });
@@ -2245,11 +2222,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isAddSize_PhaseSelected||!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
-                        /*if(!size_phase.getText().toString().isEmpty()) {
-                            addSize_PhaseToRespectiveCountList(scope, gridTitle, size_phase.getText().toString());
-                            isAddSize_PhaseSelected = false;
-                        }*/
-                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
+
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_top_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
@@ -2257,7 +2230,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     }
                 } else {
 
-                    Log.i("vidisha","imageName=="+item.getImageName());
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
@@ -2323,7 +2295,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             }
         }
 
-        if(gridTitle.equalsIgnoreCase("Fused CutOut"))
+        if(gridTitle.equalsIgnoreCase("Cut Outs"))
         {
             int position;
             layoutType.setVisibility(View.VISIBLE);
@@ -2333,7 +2305,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             assetTypes.add("Branded");
 
             typeSpinner.setAdapter(typeAdapter);
-            if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+            if (gridTitle.equalsIgnoreCase("Cut Outs")) {
                 localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
                 for (int i = 0; i < localInspectionMetaData.size(); i++) {
                     try {
@@ -2403,7 +2375,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
                     }
                 }
-                if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+                if (gridTitle.equalsIgnoreCase("Cut Outs")) {
                     isTransTypeSelected = false;
                     int localIndex = -1;
                     localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
@@ -2461,7 +2433,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Log.i("vidisha", "type2");
             }
         });
 
@@ -2576,7 +2547,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 else
                                     typeSpinner.setSelection(0);
                             }
-                            if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
+                            if (gridTitle.equalsIgnoreCase("Cut Outs")) {
                                 int typePosition = -1;
                                 localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
                                 for (int i = 0; i < localInspectionMetaData.size(); i++) {
@@ -2648,7 +2619,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     name = listItemsN.getName();
                     imageUrl = listItemsN.getImageUrl();
                     isSelected = listItemsN.getIsSelected();
-                    Log.i("shri_LOG","name=="+listItemsN.getName());
 
                     if(!isSelected){
 //                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
@@ -2667,13 +2637,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 }
                             }
                             if (!isSelected) {
-                                Log.i("vidisha","helloo11111");
-                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
                                 isListSelected = false;
                             } else {
-                                Log.i("vidisha","helloo22222");
                                 isListSelected = true;
-                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
                             }
                         }
                     });
@@ -2854,7 +2820,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
     private boolean addRespectiveDefectCountWire(int position, int itemPosition) {
         boolean isCountAdded = false;
-        Log.i("vidisha","hhhhhh"+isCountAdded);
         switch (itemPosition) {
             case 0:
                 if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
@@ -3065,7 +3030,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isAddSize_PhaseSelected||!isListSelected ||!isTransTypeSelected||!isAddNoteSelected ||!isTestingImageSelected||isRepairSelected ||isReplaceSelected){
                     try {
-                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/wire_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
@@ -3073,7 +3037,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     }
                 } else {
 
-                    Log.i("vidisha","imageName=="+item.getImageName());
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
@@ -3134,55 +3097,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 }
             }
         }
-        if(gridTitle.equalsIgnoreCase("Fused CutOut"))
-        {
-            int position;
-            layoutType.setVisibility(View.VISIBLE);
-            assetTypes.add("Select");
-            assetTypes.add("Polymer");
-            assetTypes.add("Potted Porcelain");
-            assetTypes.add("Branded");
 
-            typeSpinner.setAdapter(typeAdapter);
-            if (gridTitle.equalsIgnoreCase("Fused CutOut")) {
-                localInspectionMetaData = fusedCutOutReference(horizontalItemSelectedPosition);
-                for (int i = 0; i < localInspectionMetaData.size(); i++) {
-                    try {
-                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
-                            position = localInspectionMetaData.get(i).getSelectPosition();
-                            typeSpinner.setSelection(position);
-                        }
-                    } catch (Exception e) {
 
-                    }
-                }
-            }
-        }
 
-        if(gridTitle.equalsIgnoreCase("Street Light"))
-        {
-            int position;
-            layoutType.setVisibility(View.VISIBLE);
-            assetTypes.add("Select");
-            assetTypes.add("Street Light");
-            assetTypes.add("Flood Light");
-
-            typeSpinner.setAdapter(typeAdapter);
-            if (gridTitle.equalsIgnoreCase("Street Light")) {
-                localInspectionMetaData = streetLightReference(horizontalItemSelectedPosition);
-                for (int i = 0; i < localInspectionMetaData.size(); i++) {
-                    try {
-                        if (localInspectionMetaData.get(i).getSelectPosition() != -1) {
-                            position = localInspectionMetaData.get(i).getSelectPosition();
-                            typeSpinner.setSelection(position);
-                        }
-                    } catch (Exception e) {
-
-                    }
-                }
-            }
-
-        }
         if(gridTitle.equalsIgnoreCase("Secondary"))
         {
             int position;
@@ -3320,7 +3237,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Log.i("vidisha", "type2");
             }
         });
 
@@ -3506,7 +3422,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     name = listItemsN.getName();
                     imageUrl = listItemsN.getImageUrl();
                     isSelected = listItemsN.getIsSelected();
-                    Log.i("shri_LOG","name=="+listItemsN.getName());
 
                     if(!isSelected){
 //                            imageUrl = "https://s3.amazonaws.com/restore-build-artefacts/InspectionIcons/damage_tick.png";
@@ -3525,13 +3440,9 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 }
                             }
                             if (!isSelected) {
-                                Log.i("vidisha","helloo11111");
-                                // pendingInspectionLayout.setBackgroundColor(Color.TRANSPARENT);
                                 isListSelected = false;
                             } else {
-                                Log.i("vidisha","helloo22222");
                                 isListSelected = true;
-                                //  pendingInspectionLayout.setBackgroundColor(Color.parseColor("#00A699"));
                             }
                         }
                     });
@@ -3647,7 +3558,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     }
     private boolean addRespectiveDefectCount_Pole(int position, int itemPosition) {
         boolean isCountAdded = false;
-        Log.i("vidisha","hhhhhh"+isCountAdded);
         switch (itemPosition) {
             case 0:
                 if (recyclerCountAdapter.getItemCount() == (position + 1) && position <= 9) {
@@ -3793,7 +3703,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             public void onClick(View clickView) {
                 if(!isListSelected ||!isAddNoteSelected ||!isTestingImageSelected|| isRepairSelected ||isReplaceSelected){
                     try {
-                        Log.i("vidisha","helloooooooooo"+isAddNoteSelected);
                         item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/pole_done.png");
                         item.setInspectionDone(true);
                     } catch (Exception e) {
@@ -3801,7 +3710,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     }
                 } else {
 
-                    Log.i("vidisha","imageName=="+item.getImageName());
                     item.setInspectionDone(false);
                     item.setImage("https://s3.amazonaws.com/restore-build-artefacts/VDAIcons/"+item.getImageName()+".png");
 
@@ -3861,7 +3769,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
 
         }
-        Log.i("vidisha","note=="+noteString);
         if(noteString!=null) {
             comments.setText(noteString.trim());
         } else {
@@ -3942,7 +3849,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     name = listItemsN.getName();
                     imageUrl = listItemsN.getImageUrl();
                     isSelected = listItemsN.getIsSelected();
-                    Log.i("shri_LOG","name=="+listItemsN.getName());
 
                     if(!isSelected){
                         localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
@@ -4266,18 +4172,11 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                 String key = item.getTitle()+scope+"ListJSON";
                 Gson gson = new Gson();
                 String json = gson.toJson(pole_inspectionData_list);
-           /*     String key1 = "treeKey";
-                Gson gson1 = new Gson();
-                String json1 = gson1.toJson(mGridData_pole);
-*/
-                if(GlobalData.metadataPreferencesEditor!=null) {
-                    Log.i("vidisha","hellooooin ");
+             if(GlobalData.metadataPreferencesEditor!=null) {
                     GlobalData.metadataPreferencesEditor.remove(key).commit();
                     GlobalData.metadataPreferencesEditor.putString(key, json);
                     GlobalData.metadataPreferencesEditor.commit();
-                  /*  GlobalData.metadataPreferencesEditor.remove(key1).commit();
-                    GlobalData.metadataPreferencesEditor.putString(key1, json1);
-                    GlobalData.metadataPreferencesEditor.commit();*/
+
                 }
 
 
@@ -4326,7 +4225,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
             addExtentToRespectiveCountList(scope,gridTitle, "REPAIR");
 
         }
-        Log.i("vidisha","note=="+noteString);
+
         if(noteString!=null) {
             comments.setText(noteString.trim());
         } else {
@@ -4405,7 +4304,6 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                     name = listItemsN.getName();
                     imageUrl = listItemsN.getImageUrl();
                     isSelected = listItemsN.getIsSelected();
-                    Log.i("shri_LOG","name=="+listItemsN.getName());
 
                     if(!isSelected){
                         localInspectionMetaData.set(position,new InspectionMetaData(disPlayName, name ,imageUrl, "image Name", true, item.getTitle()));
@@ -4423,10 +4321,10 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
                                 }
                             }
                             if (!isSelected) {
-                                Log.i("vidisha","helloo11111");
+
                                 isListSelected = false;
                             } else {
-                                Log.i("vidisha","helloo22222");
+
                                 isListSelected = true;
                             }
                         }
@@ -4780,6 +4678,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         String noteNew = null;
         int localIndex = -1;
 
+        Log.i("greeshma","extent == "+scope);
         if(scope.equalsIgnoreCase("other")) {
             if (gridPositionNew == 0) {
                 localInspectionMetaData = padmountsReference(horizontalItemSelectedPosition);
@@ -5033,7 +4932,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            Log.i("vidisha","Bitmap ok re");
+
             if (requestCode == REQUEST_CAMERA_ONE) {
                 isTestingImageSelected = false;
                 Bitmap thumbnail = (Bitmap) data.getExtras().get("data");

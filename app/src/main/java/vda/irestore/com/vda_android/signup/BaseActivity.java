@@ -112,7 +112,7 @@ public class BaseActivity extends PermissionsActivity {
     private void showUpdateDialog(String latestVersion){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Update Available");
-        builder.setMessage("A new version of iRestore CP Manager is available.Please update to version "+latestVersion+" now");
+        builder.setMessage("A new version of iRestore VDA is available.Please update to version "+latestVersion+" now");
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

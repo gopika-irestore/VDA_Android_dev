@@ -207,10 +207,7 @@ public class SyncActivity extends BaseActivity {
                             isTechnician = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isTechnician");
                             isSupervisor = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isSupervisor");
                             isAdmin = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isAdmin");
-
-                            Log.i("vidisha","permissionsArray_RVA"+permissionsArray_RVA.getJSONObject(0).getString("permissions"));
-                            Log.i("vidisha","permissionsArray_RVA"+permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("view"));
-                        }
+   }
                         else {
                             viewCards = false;
                             isTechnician = false;
@@ -384,7 +381,7 @@ public class SyncActivity extends BaseActivity {
                                 // Setting Dialog Title
                                 alertDialog.setTitle("Alert");
                                 // Setting Dialog Message
-                                alertDialog.setMessage("CP Manager subscription with the same phone number is active on another device.");
+                                alertDialog.setMessage("VDA subscription with the same phone number is active on another device.");
                                 alertDialog.setCancelable(false);
                                 alertDialog.show();
                             }
@@ -394,7 +391,7 @@ public class SyncActivity extends BaseActivity {
                                     // Setting Dialog Title
                                     alertDialog.setTitle("Alert");
                                     // Setting Dialog Message
-                                    alertDialog.setMessage("Your subscription to CP Manager has been revoked.  Please contact the Utility Admin for details.");
+                                    alertDialog.setMessage("Your subscription to VDA has been revoked.  Please contact the Utility Admin for details.");
                                     alertDialog.setCancelable(false);
                                     alertDialog.show();
                                 } else {
@@ -537,7 +534,7 @@ public class SyncActivity extends BaseActivity {
     private void showUpdateDialog(String latestVersion){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Update Available");
-        builder.setMessage("A new version of iRestore CP Manager is available.Please update to version "+latestVersion+" now");
+        builder.setMessage("A new version of iRestore VDA is available.Please update to version "+latestVersion+" now");
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

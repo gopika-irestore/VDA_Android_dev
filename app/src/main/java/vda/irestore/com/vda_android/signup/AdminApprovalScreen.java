@@ -198,7 +198,6 @@ public class AdminApprovalScreen extends Activity {
             String result;
             String inputLine;
             try {
-                Log.i("vidisha","AdminApproval=="+sharedPref.getString("accountKey","")+sharedPref.getString("token","")+"\n"+sharedPref.getString("userID",""));
                 //Create a URL object holding our url
                 URL myUrl = new URL(stringUrl);
                 //Create a connection
@@ -213,8 +212,7 @@ public class AdminApprovalScreen extends Activity {
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setRequestProperty("x-application", appKey);
                 connection.setRequestProperty("x-user", sharedPref.getString("phoneNumber",""));
-                Log.i("vidisha","hello token  admin==="+sharedPref.getString("token",""));
-                Log.i("vidisha","hello token  admin==="+sharedPref.getString("accountKey",""));
+
                 //Connect to our url
                 connection.connect();
                 //Create a new InputStreamReader
@@ -278,7 +276,7 @@ public class AdminApprovalScreen extends Activity {
                         editor.commit();
                     }else if(status.equalsIgnoreCase("rejected")||status.equalsIgnoreCase("revoked"))
                     {
-                        Toast.makeText(AdminApprovalScreen.this, "Your request for CP Manager Subscription has been declined. Please contact the Utility Admin for details.",
+                        Toast.makeText(AdminApprovalScreen.this, "Your request for VDA Subscription has been declined. Please contact the Utility Admin for details.",
                                 Toast.LENGTH_SHORT).show();
                         if (Global.progress.isShowing()) {
                             Global.stopProgressBar();
@@ -287,7 +285,7 @@ public class AdminApprovalScreen extends Activity {
                     }
                     else
                     {
-                        Toast.makeText(AdminApprovalScreen.this, "Your request for CP Manager Subscription is waiting for Admin Approval.",
+                        Toast.makeText(AdminApprovalScreen.this, "Your request for VDA Subscription is waiting for Admin Approval.",
                                 Toast.LENGTH_SHORT).show();
                         if (Global.progress.isShowing()) {
                             Global.stopProgressBar();

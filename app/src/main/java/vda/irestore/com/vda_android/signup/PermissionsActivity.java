@@ -348,7 +348,6 @@ public class PermissionsActivity extends Activity implements
                 return;
             }
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            Log.i("vidisha1111","cumCurrentLocation"+mCurrentLocation);
             Global.currentLocation = mCurrentLocation;
             startLocationUpdates();
         }
@@ -439,7 +438,6 @@ public class PermissionsActivity extends Activity implements
             @Override
             protected void onPostExecute(String result) {
 
-                  Log.i("vidisha","onpost"+result);
 
                 try {
                     JSONObject responseObject = new JSONObject(result);

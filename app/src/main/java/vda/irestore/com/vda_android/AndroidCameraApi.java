@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -55,6 +56,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -115,13 +118,16 @@ public class AndroidCameraApi extends Activity {
     Uri uri;
     Cursor c1 = null;
     private int count =1;
-
+    SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_android_camera_api);
         //    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         typeFace = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
+
+        sharedPref = getSharedPreferences(getString(
+                R.string.preference_file_key), Context.MODE_PRIVATE);
 
         //  setActionBar();
         textureView = (TextureView) findViewById(R.id.textureview);
@@ -198,72 +204,7 @@ public class AndroidCameraApi extends Activity {
 
     }
 
-    /*  @Override
-      protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-          if (requestCode == 2) {
 
-              if (data != null) {
-
-                    *//*  if(imageNumber==count) {
-                        Log.i("shrinika","111111"+data.getData());
-
-                    bitmapOne = ImagePicker.getImageFromResult(this, resultCode, data);
-                    uri = data.getData();
-                    thumbnailURL1 = new File(uri.toString());
-
-                    }*//*
-                File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DCIM), "YellowCards");
-                if (!internalStorage.exists()) {
-                    internalStorage.mkdir();
-                }
-                Random generator = new Random();
-                int n = 100000;
-                n = generator.nextInt(n);
-                String fname = "Image-" + n;
-
-                File reportFilePath = new File(internalStorage, fname + "_" + count + ".png");
-
-
-                if (imageNumber == count) {
-                    Log.i("shrinika", "111111" + data.getData());
-
-                    bitmapOne = ImagePicker.getImageFromResult(this, resultCode, data);
-                    uri = data.getData();
-
-                    try {
-                        FileOutputStream out = new FileOutputStream(reportFilePath);
-                        bitmapOne.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        out.flush();
-                        out.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    thumbnailURL1 = reportFilePath;
-
-                    // thumbnailURL1 =
-
-                    // thumbnailURL1 = new File(uri.toString());
-                   *//* thumbnailURL1.renameTo(thumbreportFilePath);
-                    thumbnailURL1  = thumbnailURL1;*//*
-
-                }
-
-                Intent intent = new Intent();
-                intent.setClass(AndroidCameraApi_pinchZoom.this, ShowPictureTakenActivity.class);
-                startActivity(intent);
-                finish();
-
-                  *//*  Intent intent = new Intent(AndroidCameraApi.this, ShowPictureTakenActivity.class);
-                    startActivityForResult(intent, 8);*//* //for update
-            }
-        }
-        *//*if (requestCode == 8 && resultCode == RESULT_OK) {
-            Log.i("vidisha","hello11111");
-            setResult(resultCode, data);
-            finish();
-        }*//*
-    }*/
     private float getFingerSpacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -360,7 +301,6 @@ public class AndroidCameraApi extends Activity {
             }*/
             final int rotation = cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
             // final int rotation= getWindowManager().getDefaultDisplay().getRotation();
-            Log.i("vidisha", "when" + rotation+"  "+CameraCharacteristics.SENSOR_ORIENTATION);
            /* captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, rotation);
             int rotation= getWindowManager().getDefaultDisplay().getRotation();*/
             //  capturebuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
@@ -375,8 +315,21 @@ public class AndroidCameraApi extends Activity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
 
+                        File equiFolder = new File(Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_DCIM), "VDA");
 
-                        File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
+                        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+
+
+
+                        if(equiFolder.exists() == false) {
+                            equiFolder.mkdir();
+                        }
+
+                        String fname = sharedPref.getString("phoneNumber","") + "-" + dateFormat.format(new Date()) + "-SCENE-1";
+
+                        /*File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
                                 Environment.DIRECTORY_DCIM), "DamageAssistant");
                         if (!internalStorage.exists()) {
                             internalStorage.mkdir();
@@ -384,10 +337,13 @@ public class AndroidCameraApi extends Activity {
                         Random generator = new Random();
                         int n = 100000;
                         n = generator.nextInt(n);
-                        String fname = "Image-" + n ;
+                        String fname = "Image-" + n ;*/
 
-                        File reportFilePath = new File(internalStorage, fname + ".png");
-                        File thumbreportFilePath = new File(internalStorage, fname + "_thumb.png");
+                        File reportFilePath = new File(equiFolder, fname + ".png");
+                        File thumbreportFilePath = new File(equiFolder, fname + "-thumbnail.png");
+
+
+
 
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         ;
@@ -468,6 +424,7 @@ public class AndroidCameraApi extends Activity {
 
                                 fosr.flush();
                                 fosr.close();
+                                Utils.images_array.add(imageURL1);
                             } catch (Exception e) {
 
                             }
@@ -590,7 +547,8 @@ public class AndroidCameraApi extends Activity {
 
                         Intent intent = new Intent();
                         intent.setClass(AndroidCameraApi.this, ShowPictureTakenActivity.class);
-                        startActivity(intent);
+                       // intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+                        startActivityForResult(intent,67);
                         //  finish();//to finish the camera back activities
 
 
@@ -814,5 +772,16 @@ public class AndroidCameraApi extends Activity {
         File thumbreportFilePath = new File(mediaStorageDir, fname + "_thumbnail.png");
 
         return reportFilePath;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == 67) {
+                setResult(3455);
+                finish();
+            }
+
     }
 }

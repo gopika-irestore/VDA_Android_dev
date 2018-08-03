@@ -39,7 +39,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         editor = sharedPref.edit();
         editor.putString("pushNotificationToken",refreshedToken);
         editor.commit();
-        Log.i("vidisha","token=="+sharedPref.getString("pushNotificationToken",""));
 
     }
     // [END refresh_token]

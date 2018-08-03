@@ -114,7 +114,6 @@ public class EnterOTP extends Activity {
         nextOnClick();
         resendOTPClick();
 
-        Log.i("vidisha","enterOtp Image Name=="+sharedPref.getString("imageURL",""));
 
 
         timer = (TextView) findViewById(R.id.otptimer);
@@ -199,7 +198,6 @@ public class EnterOTP extends Activity {
                              if(sharedPref.getBoolean("adminApprovalRequired",false)) {
                                  if (!sharedPref.getString("subscriptionStatus", "").equals("approved")) {
 
-                                     Log.i("vidisha","userID"+sharedPref.getString("userID", ""));
 
                                      if (sharedPref.getString("userID", "").equals("0")) {
                                          Intent i = new Intent(EnterOTP.this, MyProfile.class);
@@ -238,7 +236,6 @@ public class EnterOTP extends Activity {
                                          Global.reportSubmitted = true;
 
                                      } else {
-                                         Log.i("vidisha","8888888888888");
                                          String deviceString = UUID.randomUUID().toString();
                                          SharedPreferences.Editor editor = sharedPref.edit();
                                          // editor.putBoolean("ACCEPTANCE", acceptance);
@@ -274,7 +271,6 @@ public class EnterOTP extends Activity {
                                              deviceParam.put("deviceString", deviceString);
                                              deviceParam.put("version", EnterOTP.this.getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
                                              deviceParam.put("pushNotificationToken", sharedPref.getString("pushNotificationToken",""));
-                        Log.i("vidisha","token1111=="+sharedPref.getString("pushNotificationToken",""));
 
                                          } catch (Exception e) {
                                              e.printStackTrace();
@@ -314,7 +310,6 @@ public class EnterOTP extends Activity {
                                          editor.putBoolean("adminApprovalStatus", true);
                                          editor.putString("deviceString",deviceString);
                                          editor.putString("newDeviceString",deviceString);
-                                         Log.i("vidisha","token2222"+sharedPref.getString("pushNotificationToken",""));
                                          editor.commit();
                                          startActivity(i);
                                          Global.reportSubmitted = true;
@@ -324,7 +319,6 @@ public class EnterOTP extends Activity {
                              {
                                  if (!sharedPref.getString("subscriptionStatus", "").equals("approved")) {
 
-                                     Log.i("vidisha","userID"+sharedPref.getString("userID", ""));
 
                                      if (sharedPref.getString("userID", "").equals("0")) {
                                          Intent i = new Intent(EnterOTP.this, MyProfile.class);
@@ -623,9 +617,6 @@ public class EnterOTP extends Activity {
                     if (Log.isLoggable("STAsyncHttpConnection", Log.INFO)) {
                         Log.i("STAsyncHttpConnection", "POST parameters: " + httpPostData);
                     }
-
-                    Log.i("vidisha","tok=="+sharedPref.getString("tenantName",""));
-                    Log.i("vidisha","tok=="+sharedPref.getString("tenantName",""));
 
                     urlConnection.setRequestProperty ("x-account-key", sharedPref.getString("tenantName",""));
                     urlConnection.setRequestProperty ("x-access-token", sharedPref.getString("authToken",""));

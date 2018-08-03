@@ -158,13 +158,9 @@ public class ReadWireData {
                     if (WireData.getInstance().primary_wireOne.get(i).getIsSelected() != null) {
                         isSelected = WireData.getInstance().primary_wireOne.get(i).getIsSelected();
                         displayName = WireData.getInstance().primary_wireOne.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + WireData.getInstance().primary_wireOne.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + WireData.getInstance().primary_wireOne.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + WireData.getInstance().primary_wireOne.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailsprimary_wireOne.put(displayName, isSelected);
                         }
                         else

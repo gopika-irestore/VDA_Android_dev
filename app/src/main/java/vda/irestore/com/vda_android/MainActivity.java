@@ -50,6 +50,7 @@ import java.util.List;
 
 import vda.irestore.com.vda_android.Global.Global;
 import vda.irestore.com.vda_android.Global.GlobalData;
+import vda.irestore.com.vda_android.Global.Utils;
 import vda.irestore.com.vda_android.readData.ReadPoleEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadPoleTopEquipmentData;
 import vda.irestore.com.vda_android.readData.ReadSplEquipmentData;
@@ -63,28 +64,37 @@ import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleHeight;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleNumber;
 
 public class MainActivity extends Activity {
-    ImageView wire,poleTop,splEquipment,pole,tree,other;
+    ImageView wire, poleTop, splEquipment, pole, tree, other;
     Button nextButton;
     Toolbar toolBar;
     int changeOf_imageWire = 0;
-    int changeOf_imagePole= 0;
+    int changeOf_imagePole = 0;
     int changeOf_imagePoleTop = 0;
     int changeOf_imageTree = 0;
     int changeOf_imageSplEquipment = 0;
     int ChangeOf_imageOther = 0;
     Typeface typeface;
+    BottomSheetDialog dialog;
+    ImageView photo;
+    View mView;
+    public static boolean panoImageTaken =false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         typeface = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
-     //   getStatusBarHeight();
+        //   getStatusBarHeight();
         setActionBar();
-        selectedFeederLine1=null;
-        selectedFeederLine2=null;
-        selectedPoleHeight=null;
-        selectedPoleNumber=null;
-
+        selectedFeederLine1 = null;
+        selectedFeederLine2 = null;
+        selectedPoleHeight = null;
+        selectedPoleNumber = null;
+        panoImageTaken =false;
+        Utils.assetImage =null;
+        Utils.panoBitmap1 =null;
+        GlobalData.initializeSharedPrefernceData(this);
+        GlobalData.scopesPreferencesEditor.clear().apply();
+        GlobalData.metadataPreferencesEditor.clear().apply();
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
 
@@ -103,13 +113,13 @@ public class MainActivity extends Activity {
         ReadTreeData.getInstance().resetAllReference();
         ReadTreeData.getInstance().resetAllJSONObject();
 
-        wire = (ImageView)findViewById(R.id.wire);
-        poleTop = (ImageView)findViewById(R.id.poleTop);
-        splEquipment = (ImageView)findViewById(R.id.splEquipment);
-        pole = (ImageView)findViewById(R.id.pole);
-        tree = (ImageView)findViewById(R.id.tree);
-        other = (ImageView)findViewById(R.id.other);
-        nextButton = (Button)findViewById(R.id.nextButton);
+        wire = (ImageView) findViewById(R.id.wire);
+        poleTop = (ImageView) findViewById(R.id.poleTop);
+        splEquipment = (ImageView) findViewById(R.id.splEquipment);
+        pole = (ImageView) findViewById(R.id.pole);
+        tree = (ImageView) findViewById(R.id.tree);
+        other = (ImageView) findViewById(R.id.other);
+        nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setTypeface(typeface);
         nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
         nextButton.setClickable(false);
@@ -117,12 +127,12 @@ public class MainActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                //    AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
 
-                BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.simulator,null);
+                dialog = new BottomSheetDialog(MainActivity.this);
+                mView = getLayoutInflater().inflate(R.layout.simulator, null);
                 Spinner spinner = mView.findViewById(R.id.spinner);
-                ImageView photo = mView.findViewById(R.id.camera);
+                photo = mView.findViewById(R.id.camera);
                 final EditText pole_number = mView.findViewById(R.id.pole_number);
                 final EditText feeder_line1 = mView.findViewById(R.id.feeder_line1);
                 final EditText feeder_line2 = mView.findViewById(R.id.feeder_line2);
@@ -137,14 +147,17 @@ public class MainActivity extends Activity {
                 photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(panorama_switch.isChecked()) {
+                        if (panorama_switch.isChecked()) {
+                            panoImageTaken = true;
                             Intent intent = new Intent(MainActivity.this, ShooterActivity.class);
-                            startActivity(intent);
-                        }else
-                        {
+                            startActivityForResult(intent,3455);
+                            //startActivity(intent);
+
+                        } else {
+                            panoImageTaken = false;
                             Intent intent = new Intent(MainActivity.this, AndroidCameraApi.class);
-                            startActivity(intent);
-                          //  Toast.makeText(MainActivity.this,"normal image",Toast.LENGTH_LONG).show();
+                            startActivityForResult(intent,3455);
+                            //  Toast.makeText(MainActivity.this,"normal image",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -155,46 +168,45 @@ public class MainActivity extends Activity {
                 heights.add("45");
                 heights.add("50");
                 heights.add("55");
-                final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, heights);
+                final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, heights);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(dataAdapter);
-               /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                         String selectedItem = dataAdapter.getItem(position);
                         selectedPoleHeight = selectedItem;
-                        Log.i("vidisha","selected Pole Height=="+selectedPoleHeight);
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });*/
+                });
                 Button nextButton_inDialog = mView.findViewById(R.id.nextButton_inDialog);
                 nextButton_inDialog.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int value=0;
+                        int value = 0;
 
                         selectedPoleNumber = pole_number.getText().toString();
                         selectedFeederLine1 = feeder_line1.getText().toString();
                         selectedFeederLine2 = feeder_line2.getText().toString();
-                        Intent intent = new Intent(MainActivity.this,SelectedItems.class);
-                        if(changeOf_imageWire == 1)
-                            intent.putExtra("wireImage",R.drawable.wire_sub);
-                        intent.putExtra("wireId",value);
-                        if(changeOf_imagePoleTop == 1)
-                            intent.putExtra("poletopImage",R.drawable.pole_sub1);
-                        if(changeOf_imageSplEquipment == 1)
-                            intent.putExtra("splImage",R.drawable.spl_sub);
-                        if(changeOf_imagePole == 1)
-                            intent.putExtra("poleImage",R.drawable.pole_sub);
-                        if(changeOf_imageTree == 1)
-                            intent.putExtra("treeImage",R.drawable.tree_sub);
-                        if(ChangeOf_imageOther == 1)
-                            intent.putExtra("otherImage",R.drawable.other_sub);
+                        Intent intent = new Intent(MainActivity.this, SelectedItems.class);
+                        if (changeOf_imageWire == 1)
+                            intent.putExtra("wireImage", R.drawable.wire_sub);
+                        intent.putExtra("wireId", value);
+                        if (changeOf_imagePoleTop == 1)
+                            intent.putExtra("poletopImage", R.drawable.pole_sub1);
+                        if (changeOf_imageSplEquipment == 1)
+                            intent.putExtra("splImage", R.drawable.spl_sub);
+                        if (changeOf_imagePole == 1)
+                            intent.putExtra("poleImage", R.drawable.pole_sub);
+                        if (changeOf_imageTree == 1)
+                            intent.putExtra("treeImage", R.drawable.tree_sub);
+                        if (ChangeOf_imageOther == 1)
+                            intent.putExtra("otherImage", R.drawable.other_sub);
                         startActivity(intent);
                     }
                 });
@@ -219,13 +231,13 @@ public class MainActivity extends Activity {
         // action bar height
         int actionBarHeight = 0;
         final TypedArray styledAttributes = getApplicationContext().getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize }
+                new int[]{android.R.attr.actionBarSize}
         );
         actionBarHeight = (int) styledAttributes.getDimension(0, 0);
         styledAttributes.recycle();
-        int applicationRunningAreaHeight = height-actionBarHeight;
-        int imageviewHeight = (applicationRunningAreaHeight)/7;
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,imageviewHeight);
+        int applicationRunningAreaHeight = height - actionBarHeight;
+        int imageviewHeight = (applicationRunningAreaHeight) / 7;
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width, imageviewHeight);
 
         wire.setLayoutParams(parms);
         poleTop.setLayoutParams(parms);
@@ -233,7 +245,7 @@ public class MainActivity extends Activity {
         pole.setLayoutParams(parms);
         tree.setLayoutParams(parms);
         other.setLayoutParams(parms);
-       // nextButton.setLayoutParams(parms);
+        // nextButton.setLayoutParams(parms);
 
         wire.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +262,7 @@ public class MainActivity extends Activity {
 
             }
         });
+
         poleTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -346,17 +359,14 @@ public class MainActivity extends Activity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setCustomView(v);
     }
-    private void EnableNextButton()
-    {
-        if(ChangeOf_imageOther==1||changeOf_imageWire==1 || changeOf_imagePole==1||changeOf_imagePoleTop==1
-                ||changeOf_imageSplEquipment==1||changeOf_imageTree==1)
-        {
+
+    private void EnableNextButton() {
+        if (ChangeOf_imageOther == 1 || changeOf_imageWire == 1 || changeOf_imagePole == 1 || changeOf_imagePoleTop == 1
+                || changeOf_imageSplEquipment == 1 || changeOf_imageTree == 1) {
             nextButton.setBackgroundColor(Color.parseColor("#00A699"));
             nextButton.setClickable(true);
             nextButton.setEnabled(true);
-        }
-        else
-        {
+        } else {
             nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
             nextButton.setClickable(false);
             nextButton.setEnabled(false);
@@ -370,7 +380,7 @@ public class MainActivity extends Activity {
                 "status_bar_height", "dimen", "android");
         if (idStatusBarHeight > 0) {
             height = getResources().getDimensionPixelSize(idStatusBarHeight);
-        }else{
+        } else {
             height = 0;
             Toast.makeText(this,
                     "Resources NOT found",
@@ -381,42 +391,48 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onRestart()
-    {
-        Log.i("vidisha","clear data");
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onRestart() {
         super.onRestart();
-        GlobalData.metadataPreferences.edit().clear().apply();
         GlobalData.metadataPreferencesEditor.clear().apply();
-        selectedFeederLine1=null;
-        selectedFeederLine2=null;
-        selectedPoleHeight=null;
-        selectedPoleNumber=null;
+        GlobalData.metadataPreferencesEditor.clear().apply();
+        selectedFeederLine1 = null;
+        selectedFeederLine2 = null;
+        selectedPoleHeight = null;
+        selectedPoleNumber = null;
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
-
         ReadPoleEquipmentData.getInstance().resetAllReference();
         ReadPoleEquipmentData.getInstance().resetAllJSONObject();
-
         ReadPoleTopEquipmentData.getInstance().resetAllReference();
         ReadPoleTopEquipmentData.getInstance().resetAllJSONObject();
-
         ReadWireData.getInstance().resetAllReference();
         ReadWireData.getInstance().resetAllJSONObject();
-
         ReadSplEquipmentData.getInstance().resetAllReference();
         ReadSplEquipmentData.getInstance().resetAllJSONObject();
-
         ReadTreeData.getInstance().resetAllReference();
         ReadTreeData.getInstance().resetAllJSONObject();
 
         nextButton.setBackgroundColor(Color.parseColor("#D3D3D3"));
         nextButton.setClickable(false);
         nextButton.setEnabled(false);
+        wire.setImageResource(R.drawable.wire);
+        poleTop.setImageResource(R.drawable.pole_top);
+        splEquipment.setImageResource(R.drawable.pole_equip);
+        pole.setImageResource(R.drawable.pole);
+        tree.setImageResource(R.drawable.tree);
+        other.setImageResource(R.drawable.other);
+        readDataFromFireBase(this);
     }
 
     public void readDataFromFireBase(Context context) {
-        GlobalData.initializeSharedPrefernceData(context);
-        final FirebaseDatabase database = FirebaseDatabase.getInstance(Global.FIREBASE_URL);
+        // GlobalData.initializeSharedPrefernceData(context);
+        FirebaseDatabase database = FirebaseDatabase.getInstance(Global.FIREBASE_URL);
         DatabaseReference firebaseUserDataReference = database.getReference("Scopes");
 
         firebaseUserDataReference.addValueEventListener(new ValueEventListener() {
@@ -432,13 +448,13 @@ public class MainActivity extends Activity {
                 String treeJSON = gson.toJson(dataSnapshot.child("Tree").child("parts").getValue());
                 String splJSON = gson.toJson(dataSnapshot.child("SPLEquipment").child("parts").getValue());
 
-               try {
+                try {
 
                     JSONObject otherObject = new JSONObject(othersJSON);
                     Iterator othersX = otherObject.keys();
                     JSONArray jsonArray = new JSONArray();
 
-                    while (othersX.hasNext()){
+                    while (othersX.hasNext()) {
                         String key = (String) othersX.next();
                         jsonArray.put(otherObject.get(key));
                     }
@@ -449,17 +465,16 @@ public class MainActivity extends Activity {
                         otherJsonList.add(jsonArray.getJSONObject(i));
                     }
 
-                    Collections.sort( otherJsonList, new Comparator<JSONObject>() {
+                    Collections.sort(otherJsonList, new Comparator<JSONObject>() {
 
                         public int compare(JSONObject a, JSONObject b) {
-                            Integer valA =0 ;
-                            Integer valB =0;
+                            Integer valA = 0;
+                            Integer valB = 0;
 
                             try {
                                 valA = (Integer) a.get("displayOrder");
                                 valB = (Integer) b.get("displayOrder");
-                            }
-                            catch (JSONException e) {
+                            } catch (JSONException e) {
                                 //do something
                             }
 
@@ -476,11 +491,11 @@ public class MainActivity extends Activity {
 
                     //JSONObject poleTopObject= null;
 
-                JSONObject poleTopObject= new JSONObject(poleTopJSON);
+                    JSONObject poleTopObject = new JSONObject(poleTopJSON);
                     Iterator poleTopX = poleTopObject.keys();
                     JSONArray poleTopJsonArray = new JSONArray();
 
-                    while (poleTopX.hasNext()){
+                    while (poleTopX.hasNext()) {
                         String key = (String) poleTopX.next();
                         poleTopJsonArray.put(poleTopObject.get(key));
                     }
@@ -491,17 +506,16 @@ public class MainActivity extends Activity {
                         poleTopJsonList.add(poleTopJsonArray.getJSONObject(i));
                     }
 
-                    Collections.sort( poleTopJsonList, new Comparator<JSONObject>() {
+                    Collections.sort(poleTopJsonList, new Comparator<JSONObject>() {
 
                         public int compare(JSONObject a, JSONObject b) {
-                            Integer valA =0 ;
-                            Integer valB =0;
+                            Integer valA = 0;
+                            Integer valB = 0;
 
                             try {
                                 valA = (Integer) a.get("displayOrder");
                                 valB = (Integer) b.get("displayOrder");
-                            }
-                            catch (JSONException e) {
+                            } catch (JSONException e) {
                                 //do something
                             }
 
@@ -515,7 +529,6 @@ public class MainActivity extends Activity {
                     }
 
 
-
                     /// pole
 
 
@@ -525,7 +538,7 @@ public class MainActivity extends Activity {
                     Iterator poleX = poleObject.keys();
                     JSONArray poleJsonArray = new JSONArray();
 
-                    while (poleX.hasNext()){
+                    while (poleX.hasNext()) {
                         String key = (String) poleX.next();
                         poleJsonArray.put(poleObject.get(key));
                     }
@@ -536,17 +549,16 @@ public class MainActivity extends Activity {
                         poleJsonList.add(poleJsonArray.getJSONObject(i));
                     }
 
-                    Collections.sort( poleJsonList, new Comparator<JSONObject>() {
+                    Collections.sort(poleJsonList, new Comparator<JSONObject>() {
 
                         public int compare(JSONObject a, JSONObject b) {
-                            Integer valA =0 ;
-                            Integer valB =0;
+                            Integer valA = 0;
+                            Integer valB = 0;
 
                             try {
                                 valA = (Integer) a.get("displayOrder");
                                 valB = (Integer) b.get("displayOrder");
-                            }
-                            catch (JSONException e) {
+                            } catch (JSONException e) {
                                 //do something
                             }
 
@@ -560,13 +572,11 @@ public class MainActivity extends Activity {
                     }
 
 
-
-
                     /// poletop
 
                     // JSONObject undergroundObject= null;
 
-                   JSONObject wireeObject = new JSONObject(wireeJSON);
+                    JSONObject wireeObject = new JSONObject(wireeJSON);
                     Iterator wireeX = wireeObject.keys();
                     JSONArray wireeJsonArray = new JSONArray();
 
@@ -604,95 +614,89 @@ public class MainActivity extends Activity {
                     }
 
 
+                    JSONObject splObject = new JSONObject(splJSON);
+                    Iterator splX = splObject.keys();
+                    JSONArray splJsonArray = new JSONArray();
 
-                   JSONObject splObject = new JSONObject(splJSON);
-                   Iterator splX = splObject.keys();
-                   JSONArray splJsonArray = new JSONArray();
+                    while (splX.hasNext()) {
+                        String key = (String) splX.next();
+                        splJsonArray.put(splObject.get(key));
+                    }
 
-                   while (splX.hasNext()) {
-                       String key = (String) splX.next();
-                       splJsonArray.put(splObject.get(key));
-                   }
+                    JSONArray sortedsplJsonArray = new JSONArray();
+                    List<JSONObject> splJsonList = new ArrayList<JSONObject>();
+                    for (int i = 0; i < splJsonArray.length(); i++) {
+                        splJsonList.add(splJsonArray.getJSONObject(i));
+                    }
 
-                   JSONArray sortedsplJsonArray = new JSONArray();
-                   List<JSONObject> splJsonList = new ArrayList<JSONObject>();
-                   for (int i = 0; i < splJsonArray.length(); i++) {
-                       splJsonList.add(splJsonArray.getJSONObject(i));
-                   }
+                    Collections.sort(splJsonList, new Comparator<JSONObject>() {
 
-                   Collections.sort(splJsonList, new Comparator<JSONObject>() {
+                        public int compare(JSONObject a, JSONObject b) {
+                            Integer valA = 0;
+                            Integer valB = 0;
 
-                       public int compare(JSONObject a, JSONObject b) {
-                           Integer valA = 0;
-                           Integer valB = 0;
+                            try {
+                                valA = (Integer) a.get("displayOrder");
+                                valB = (Integer) b.get("displayOrder");
+                            } catch (JSONException e) {
+                                //do something
+                            }
 
-                           try {
-                               valA = (Integer) a.get("displayOrder");
-                               valB = (Integer) b.get("displayOrder");
-                           } catch (JSONException e) {
-                               //do something
-                           }
+                            return valA.compareTo(valB);
+                        }
+                    });
 
-                           return valA.compareTo(valB);
-                       }
-                   });
+                    for (int i = 0; i < splJsonArray.length(); i++) {
+                        sortedsplJsonArray.put(splJsonList.get(i));
 
-                   for (int i = 0; i < splJsonArray.length(); i++) {
-                       sortedsplJsonArray.put(splJsonList.get(i));
-
-                   }
-
+                    }
 
 
-                   JSONObject treeObject = new JSONObject(treeJSON);
-                   Iterator treeX = treeObject.keys();
-                   JSONArray treeJsonArray = new JSONArray();
+                    JSONObject treeObject = new JSONObject(treeJSON);
+                    Iterator treeX = treeObject.keys();
+                    JSONArray treeJsonArray = new JSONArray();
 
-                   while (treeX.hasNext()) {
-                       String key = (String) treeX.next();
-                       treeJsonArray.put(treeObject.get(key));
-                   }
+                    while (treeX.hasNext()) {
+                        String key = (String) treeX.next();
+                        treeJsonArray.put(treeObject.get(key));
+                    }
 
-                   JSONArray sortedtreeJsonArray = new JSONArray();
-                   List<JSONObject> treeJsonList = new ArrayList<JSONObject>();
-                   for (int i = 0; i < treeJsonArray.length(); i++) {
-                       treeJsonList.add(treeJsonArray.getJSONObject(i));
-                   }
+                    JSONArray sortedtreeJsonArray = new JSONArray();
+                    List<JSONObject> treeJsonList = new ArrayList<JSONObject>();
+                    for (int i = 0; i < treeJsonArray.length(); i++) {
+                        treeJsonList.add(treeJsonArray.getJSONObject(i));
+                    }
 
-                   Collections.sort(treeJsonList, new Comparator<JSONObject>() {
+                    Collections.sort(treeJsonList, new Comparator<JSONObject>() {
 
-                       public int compare(JSONObject a, JSONObject b) {
-                           Integer valA = 0;
-                           Integer valB = 0;
+                        public int compare(JSONObject a, JSONObject b) {
+                            Integer valA = 0;
+                            Integer valB = 0;
 
-                           try {
-                               valA = (Integer) a.get("displayOrder");
-                               valB = (Integer) b.get("displayOrder");
-                           } catch (JSONException e) {
-                               //do something
-                           }
+                            try {
+                                valA = (Integer) a.get("displayOrder");
+                                valB = (Integer) b.get("displayOrder");
+                            } catch (JSONException e) {
+                                //do something
+                            }
 
-                           return valA.compareTo(valB);
-                       }
-                   });
+                            return valA.compareTo(valB);
+                        }
+                    });
 
-                   for (int i = 0; i < treeJsonArray.length(); i++) {
-                       sortedtreeJsonArray.put(treeJsonList.get(i));
+                    for (int i = 0; i < treeJsonArray.length(); i++) {
+                        sortedtreeJsonArray.put(treeJsonList.get(i));
 
-                   }
+                    }
 
-                   GlobalData.scopesPreferencesEditor.putString("othersJSON", sortedOthersJsonArray.toString());
-                   GlobalData.scopesPreferencesEditor.putString("poleTopJSON", sortedPOleTopJsonArray.toString());
-                   GlobalData.scopesPreferencesEditor.putString("poleJSON", sortedPOleJsonArray.toString());
-                   GlobalData.scopesPreferencesEditor.putString("wireeJSON", sortedwireeJsonArray.toString());
-                   GlobalData.scopesPreferencesEditor.putString("splJSON", sortedsplJsonArray.toString());
-                   GlobalData.scopesPreferencesEditor.putString("treeJSON", sortedtreeJsonArray.toString());
-                 /*  Log.i("vidisha","poleJSON==="+sortedPOleJsonArray.toString());
-                   Log.i("vidisha","othersJSON==="+sortedOthersJsonArray.toString());
-                   Log.i("vidisha","poleTopJSON==="+sortedPOleTopJsonArray.toString());
-                   Log.i("vidisha","wireeJSON==="+wireeJSON.toString());
-*/
-                   GlobalData.scopesPreferencesEditor.commit();
+                    GlobalData.scopesPreferencesEditor.putString("othersJSON", sortedOthersJsonArray.toString());
+                    GlobalData.scopesPreferencesEditor.putString("poleTopJSON", sortedPOleTopJsonArray.toString());
+                    GlobalData.scopesPreferencesEditor.putString("poleJSON", sortedPOleJsonArray.toString());
+                    GlobalData.scopesPreferencesEditor.putString("wireeJSON", sortedwireeJsonArray.toString());
+                    GlobalData.scopesPreferencesEditor.putString("splJSON", sortedsplJsonArray.toString());
+                    GlobalData.scopesPreferencesEditor.putString("treeJSON", sortedtreeJsonArray.toString());
+
+                    GlobalData.scopesPreferencesEditor.commit();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -709,5 +713,17 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+       // if (resultCode == RESULT_OK) {
 
+        if (Utils.assetImage != null) {
+            photo.setImageBitmap(Utils.assetImage);
+        }
+        if (Utils.panoBitmap1 != null) {
+            photo.setImageBitmap(Utils.panoBitmap1);
+        }
+
+    }
 }

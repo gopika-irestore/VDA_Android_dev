@@ -87,11 +87,20 @@ import vda.irestore.com.vda_android.readData.ReadUnderGroundData;
 import vda.irestore.com.vda_android.readData.ReadWireData;
 import vda.irestore.com.vda_android.readData.TreeData;
 
+import static vda.irestore.com.vda_android.AndroidCameraApi.imageName1;
 import static vda.irestore.com.vda_android.Global.Global.S3_URL;
+import static vda.irestore.com.vda_android.Global.GlobalData.pole_images_array;
+import static vda.irestore.com.vda_android.Global.GlobalData.pole_top_images_array;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine1;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedFeederLine2;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleHeight;
 import static vda.irestore.com.vda_android.Global.GlobalData.selectedPoleNumber;
+import static vda.irestore.com.vda_android.Global.GlobalData.spl_images_array;
+import static vda.irestore.com.vda_android.Global.GlobalData.tree_images_array;
+import static vda.irestore.com.vda_android.Global.GlobalData.underground_images_array;
+import static vda.irestore.com.vda_android.Global.GlobalData.wire_images_array;
+import static vda.irestore.com.vda_android.Global.Utils.images_array;
+import static vda.irestore.com.vda_android.MainActivity.panoImageTaken;
 
 public class Submission_screen extends Activity {
     TextView submit,lat_long,spinner;
@@ -123,6 +132,7 @@ public class Submission_screen extends Activity {
     EditText submitter_email,submitter_contact;
     Switch road_block_switch,police_fireStanding_switch,wire_gurdStanding_switch;
 
+    ImageView damageImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,11 +144,20 @@ public class Submission_screen extends Activity {
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         typeFace = Typeface.createFromAsset(getAssets(), "AvenirLTStd-Book.otf");
         poleScope = new JSONObject();
-        amazonS3Setup(this);
-        Log.i("vidisha","selectedFeederLine1"+selectedFeederLine1+" "+selectedFeederLine2+" "+selectedPoleNumber);
+
+
 
         setActionBar();
         getLocation();
+        amazonS3Setup(this);
+        damageImage = findViewById(R.id.damageImage);
+        if(Utils.panoBitmap1!=null)
+            damageImage.setImageBitmap(Utils.panoBitmap1);
+        if(Utils.assetImage!=null)
+        {
+            damageImage.setImageBitmap(Utils.assetImage);
+        }
+
         wireGuardLabel = (TextView)findViewById(R.id.wireGuardLabel) ;
         policeLabel = (TextView)findViewById(R.id.policeLabel);
         roadLabel = (TextView)findViewById(R.id.roadLabel);
@@ -356,8 +375,6 @@ public class Submission_screen extends Activity {
 
                                 for (Map.Entry<String, Object> entry : categoryicons.entrySet()) {
 
-
-                                    Log.i("vidisha", "dds" + entry.getKey() + ":" + entry.getValue());
                                     if (entry.getValue().toString().equalsIgnoreCase("true")) {
                                         v.add(h.get(entry.getKey()) + ": " + "Yes");
                                     } else if (entry.getValue().toString().equalsIgnoreCase("false")) {
@@ -377,15 +394,11 @@ public class Submission_screen extends Activity {
                                         android.R.layout.simple_spinner_item, v);
                                 lv.setAdapter(adapter);
 
-                                Log.i("vidisha", "zsccccccccccc" + v.size());
-
                                 if (otherJsonList1.get(i1).has("images")) {
-                                    Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment
                                             .getExternalStorageDirectory()
                                             + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -493,8 +506,6 @@ public class Submission_screen extends Activity {
 
                                 for (Map.Entry<String, Object> entry : categoryicons.entrySet()) {
 
-
-                                    Log.i("vidisha", "dds" + entry.getKey() + ":" + entry.getValue());
                                     if (entry.getValue().toString().equalsIgnoreCase("true")) {
                                         v.add(h.get(entry.getKey()) + ": " + "Yes");
                                     } else if (entry.getValue().toString().equalsIgnoreCase("false")) {
@@ -514,15 +525,12 @@ public class Submission_screen extends Activity {
                                         android.R.layout.simple_spinner_item, v);
                                 lv.setAdapter(adapter);
 
-                                Log.i("vidisha", "zsccccccccccc" + v.size());
 
                                 if (otherJsonList1.get(i1).has("images")) {
-                                    Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment
                                             .getExternalStorageDirectory()
                                             + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -629,8 +637,6 @@ public class Submission_screen extends Activity {
 
                                 for (Map.Entry<String, Object> entry : categoryicons.entrySet()) {
 
-
-                                    Log.i("vidisha", "dds" + entry.getKey() + ":" + entry.getValue());
                                     if (entry.getValue().toString().equalsIgnoreCase("true")) {
                                         v.add(h.get(entry.getKey()) + ": " + "Yes");
                                     } else if (entry.getValue().toString().equalsIgnoreCase("false")) {
@@ -650,15 +656,12 @@ public class Submission_screen extends Activity {
                                         android.R.layout.simple_spinner_item, v);
                                 lv.setAdapter(adapter);
 
-                                Log.i("vidisha", "zsccccccccccc" + v.size());
 
                                 if (otherJsonList1.get(i1).has("images")) {
-                                    Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment
                                             .getExternalStorageDirectory()
                                             + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -771,7 +774,6 @@ public class Submission_screen extends Activity {
                                 for (Map.Entry<String, Object> entry : categoryicons.entrySet()) {
 
 
-                                    Log.i("vidisha", "dds" + entry.getKey() + ":" + entry.getValue());
                                     if (entry.getValue().toString().equalsIgnoreCase("true")) {
                                         v.add(h.get(entry.getKey()) + ": " + "Yes");
                                     } else if (entry.getValue().toString().equalsIgnoreCase("false")) {
@@ -792,15 +794,12 @@ public class Submission_screen extends Activity {
 
                                 lv.setAdapter(adapter);
 
-                                Log.i("vidisha", "zsccccccccccc" + v.size());
 
                                 if (otherJsonList1.get(i1).has("images")) {
-                                    Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment
                                             .getExternalStorageDirectory()
                                             + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -891,7 +890,6 @@ public class Submission_screen extends Activity {
                                 Gson gson = new Gson();
                                 Map<String, Object> categoryicons = gson.fromJson(otherJsonList1.get(i1).getJSONObject("damageDetails").toString(), mapType);
                                 for (Map.Entry<String, Object> entry : categoryicons.entrySet()) {
-                                    Log.i("vidisha", "dds" + entry.getKey() + ":" + entry.getValue());
                                     if (entry.getValue().toString().equalsIgnoreCase("true")) {
                                         v.add(h.get(entry.getKey()) + ": " + "Yes");
                                     } else if (entry.getValue().toString().equalsIgnoreCase("false")) {
@@ -909,9 +907,7 @@ public class Submission_screen extends Activity {
                                 Simple<String> adapter = new Simple<String>(this,
                                         android.R.layout.simple_spinner_item, v);
                                 lv.setAdapter(adapter);
-                                Log.i("vidisha", "zsccccccccccc" + v.size());
                                 if (otherJsonList1.get(i1).has("images")) {
-                                    Log.i("vidisha", "zsccccccccccc" + "has images");
                                    /* File internalStorage = new File(Environment.getExternalStoragePublicDirectory(
                                             Environment.DIRECTORY_DCIM), "VDA");
                                     if (!internalStorage.exists()) {
@@ -922,7 +918,6 @@ public class Submission_screen extends Activity {
                                             + File.separator + "VDA" + File.separator);
 
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage wiree"+otherJsonList1.get(i1).getJSONArray("images").length());
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -1013,7 +1008,6 @@ public class Submission_screen extends Activity {
                                 Gson gson = new Gson();
                                 Map<String, Object> categoryicons = gson.fromJson(otherJsonList1.get(i1).getJSONObject("damageDetails").toString(), mapType);
                                 for (Map.Entry<String, Object> entry : categoryicons.entrySet()) {
-                                    Log.i("vidisha", "dds" + entry.getKey() + ":" + entry.getValue());
                                     if (entry.getValue().toString().equalsIgnoreCase("true")) {
                                         v.add(h.get(entry.getKey()) + ": " + "Yes");
                                     } else if (entry.getValue().toString().equalsIgnoreCase("false")) {
@@ -1031,14 +1025,11 @@ public class Submission_screen extends Activity {
                                 Simple<String> adapter = new Simple<String>(this,
                                         android.R.layout.simple_spinner_item, v);
                                 lv.setAdapter(adapter);
-                                Log.i("vidisha", "zsccccccccccc" + v.size());
                                 if (otherJsonList1.get(i1).has("images")) {
-                                    Log.i("vidisha", "zsccccccccccc" + "has images");
                                     File internalStorage = new File(Environment
                                             .getExternalStorageDirectory()
                                             + File.separator + "VDA" + File.separator);
                                     if (internalStorage.exists()) {
-                                        Log.i("vidisha", "zsccccccccccc" + "has internalStorage");
                                         Bitmap bmp = BitmapFactory.decodeFile(internalStorage.getAbsolutePath() + "/" + otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").substring(otherJsonList1.get(i1).getJSONArray("images").getJSONObject(0).getString("original").lastIndexOf("/") + 1));
                                         // clientLogo.setImageBitmap(bmp);
                                         ImageView img = new ImageView(this);
@@ -1120,15 +1111,57 @@ public class Submission_screen extends Activity {
     public void setTransferUtility(Context mContect) {
         transferUtility = new TransferUtility(s3, mContect);
     }
-    public void setFileToUploadPole() {
-        if(GlobalData.pole_images_array!=null) {
-            for (int i = 0; i < GlobalData.pole_images_array.size(); i++) {
-                Log.i("amazT_vidisha", "images_array==" + GlobalData.pole_images_array.get(i).getName());
+
+    public void setFileToUploadPano() {
+        if(images_array!=null) {
+            for (int i = 0; i < images_array.size(); i++) {
                 TransferObserver transferObserverPole = transferUtility.upload(
                         sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
                         //"irestore-ir-dev/dev",     /* The bucket to upload to */
-                        GlobalData.pole_images_array.get(i).getName(),      /* The key for the uploaded object */
-                        GlobalData.pole_images_array.get(i) , CannedAccessControlList.PublicRead     /* The file where the data to upload exists */
+                        images_array.get(i).getName(),      /* The key for the uploaded object */
+                        images_array.get(i) , CannedAccessControlList.PublicRead     /* The file where the data to upload exists */
+                );
+                transferObserverListenerPano(transferObserverPole/*,synProcess*/);
+
+            }
+        }
+    }
+    public void transferObserverListenerPano(final TransferObserver transferObserverPole/*,String progress*/) {
+        //  final String syncProgress  = progress;
+        transferObserverPole.setTransferListener(new TransferListener() {
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+
+                if (state == TransferState.COMPLETED) {
+                    if(images_array!=null) {
+                        images_array.clear();
+                        images_array = null;
+
+                    }
+//                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                int percentage = (int) (bytesCurrent / bytesTotal * 100);
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                Log.e("error", "error");
+            }
+        });
+    }
+
+    public void setFileToUploadPole() {
+        if(pole_images_array!=null) {
+            for (int i = 0; i < pole_images_array.size(); i++) {
+                TransferObserver transferObserverPole = transferUtility.upload(
+                        sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
+                        //"irestore-ir-dev/dev",     /* The bucket to upload to */
+                        pole_images_array.get(i).getName(),      /* The key for the uploaded object */
+                        pole_images_array.get(i) , CannedAccessControlList.PublicRead     /* The file where the data to upload exists */
                 );
                 transferObserverListenerPole(transferObserverPole/*,synProcess*/);
 
@@ -1140,15 +1173,11 @@ public class Submission_screen extends Activity {
         transferObserverPole.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
-                Log.i("amazT_vidisha", "upload" + GlobalData.scopesPreferences.getString(transferObserverPole.getKey(), ""));
-                Log.e("state", state + "" + id);
-                Log.i("amazT_vidisha", "state==" + state);
-                Log.i("amazT_vidisha", "total==" + transferObserverPole.getBytesTotal());
-                Log.i("amazT_vidisha", "transfered==" + transferObserverPole.getBytesTransferred());
+
                 if (state == TransferState.COMPLETED) {
-                    if(GlobalData.pole_images_array!=null) {
-                        GlobalData.pole_images_array.clear();
-                        GlobalData.pole_images_array = null;
+                    if(pole_images_array!=null) {
+                        pole_images_array.clear();
+                        pole_images_array = null;
 
                     }
 //                    Toast.makeText(PoleTopActivity_Hardcoded.this, "transfer Succeded! for ", Toast.LENGTH_LONG).show();
@@ -1158,7 +1187,6 @@ public class Submission_screen extends Activity {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
             }
 
             @Override
@@ -1170,10 +1198,7 @@ public class Submission_screen extends Activity {
 
     public void setFileToUploadPoleTop() {
         if(GlobalData.pole_top_images_array!=null) {
-            Log.i("amazT_vidisha1111", "images_array==" + GlobalData.pole_top_images_array.size());
             for (int i = 0; i < GlobalData.pole_top_images_array.size(); i++) {
-                Log.i("amazT_vidisha2222", "images_array==" + GlobalData.pole_top_images_array.get(i).getName());
-                Log.i("amazT_vidisha3333", "images_array==" + GlobalData.pole_top_images_array.get(i));
                 TransferObserver transferObserver = transferUtility.upload(
                         sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
                         /* "irestore-ir-dev/dev", */    /* The bucket to upload to */
@@ -1203,7 +1228,6 @@ public class Submission_screen extends Activity {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
             }
 
             @Override
@@ -1216,7 +1240,6 @@ public class Submission_screen extends Activity {
     public void setFileToUploadTree() {
         if(GlobalData.tree_images_array!=null) {
             for (int i = 0; i < GlobalData.tree_images_array.size(); i++) {
-                Log.i("amazT_vidisha", "images_array==" + GlobalData.tree_images_array.get(i).getName());
                 TransferObserver transferObserverOthers = transferUtility.upload(
                         //  "irestore-ir-dev/dev",     /* The bucket to upload to */
                         sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
@@ -1233,11 +1256,7 @@ public class Submission_screen extends Activity {
         transferObserverOthers.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
-                Log.i("amazT_vidisha", "upload" + GlobalData.scopesPreferences.getString(transferObserverOthers.getKey(), ""));
-                Log.e("state", state + "" + id);
-                Log.i("amazT_vidisha", "state==" + state);
-                Log.i("amazT_vidisha", "total==" + transferObserverOthers.getBytesTotal());
-                Log.i("amazT_vidisha", "transfered==" + transferObserverOthers.getBytesTransferred());
+
                 if (state == TransferState.COMPLETED) {
                     if(GlobalData.tree_images_array!=null) {
                         GlobalData.tree_images_array.clear();
@@ -1251,7 +1270,7 @@ public class Submission_screen extends Activity {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
+
             }
 
             @Override
@@ -1264,7 +1283,6 @@ public class Submission_screen extends Activity {
     public void setFileToUploadWire() {
         if(GlobalData.wire_images_array!=null) {
             for (int i = 0; i < GlobalData.wire_images_array.size(); i++) {
-                Log.i("amazT_vidisha", "images_array==" + GlobalData.wire_images_array.get(i).getName());
                 TransferObserver transferObserverOthers = transferUtility.upload(
                         //  "irestore-ir-dev/dev",     /* The bucket to upload to */
                         sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
@@ -1281,11 +1299,7 @@ public class Submission_screen extends Activity {
         transferObserverOthers.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
-                Log.i("amazT_vidisha", "upload" + GlobalData.scopesPreferences.getString(transferObserverOthers.getKey(), ""));
-                Log.e("state", state + "" + id);
-                Log.i("amazT_vidisha", "state==" + state);
-                Log.i("amazT_vidisha", "total==" + transferObserverOthers.getBytesTotal());
-                Log.i("amazT_vidisha", "transfered==" + transferObserverOthers.getBytesTransferred());
+
                 if (state == TransferState.COMPLETED) {
                     if(GlobalData.wire_images_array!=null) {
                         GlobalData.wire_images_array.clear();
@@ -1299,7 +1313,6 @@ public class Submission_screen extends Activity {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
             }
 
             @Override
@@ -1312,7 +1325,6 @@ public class Submission_screen extends Activity {
     public void setFileToUploadUnderground() {
         if(GlobalData.underground_images_array!=null) {
             for (int i = 0; i < GlobalData.underground_images_array.size(); i++) {
-                Log.i("amazT_vidisha", "images_array==" + GlobalData.underground_images_array.get(i).getName());
                 TransferObserver transferObserverUnderground = transferUtility.upload(
                         sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
                         // "irestore-ir-dev/dev",     /* The bucket to upload to */
@@ -1329,11 +1341,7 @@ public class Submission_screen extends Activity {
         transferObserverUnderground.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
-                Log.i("amazT_vidisha", "upload" + GlobalData.scopesPreferences.getString(transferObserverUnderground.getKey(), ""));
-                Log.e("state", state + "" + id);
-                Log.i("amazT_vidisha", "state==" + state);
-                Log.i("amazT_vidisha", "total==" + transferObserverUnderground.getBytesTotal());
-                Log.i("amazT_vidisha", "transfered==" + transferObserverUnderground.getBytesTransferred());
+
                 if (state == TransferState.COMPLETED) {
                     if(GlobalData.underground_images_array!=null) {
                         GlobalData.underground_images_array.clear();
@@ -1347,7 +1355,6 @@ public class Submission_screen extends Activity {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
             }
 
             @Override
@@ -1361,7 +1368,6 @@ public class Submission_screen extends Activity {
     public void setFileToUploadSPL() {
         if(GlobalData.spl_images_array!=null) {
             for (int i = 0; i < GlobalData.spl_images_array.size(); i++) {
-                Log.i("amazT_vidisha", "images_array==" + GlobalData.spl_images_array.get(i).getName());
                 TransferObserver transferObserverPole = transferUtility.upload(
                         sharedPref.getString("s3Bucket","")+"/"+sharedPref.getString("accountKey",""),
                         //"irestore-ir-dev/dev",     /* The bucket to upload to */
@@ -1390,7 +1396,6 @@ public class Submission_screen extends Activity {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                Log.e("amazT_percent_pole_top", percentage + "");
             }
 
             @Override
@@ -1423,6 +1428,20 @@ public class Submission_screen extends Activity {
                     submittedByData.put("email", sharedPref.getString("emailAddress", ""));
                     submittedByData.put("phone", sharedPref.getString("phoneNumber", ""));
                     inspectionReport.put("submittedBy", submittedByData);
+                    JSONArray sceneImages = new JSONArray();
+                    JSONObject imagesObject = new JSONObject();
+                    if(panoImageTaken)
+                    imagesObject.put("isPanorama",true);
+                    else
+                        imagesObject.put("isPanorama",false);
+
+                    imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + imageName1);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                    imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + imageName1); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+
+                    sceneImages.put(imagesObject);
+
+                    if(images_array!=null)
+                      inspectionReport.put("sceneImages", sceneImages);
                     inspectionReport.put("roadBlocked", road_block_switch.isChecked() ? true : false);
                     inspectionReport.put("policeFireStandingBy", police_fireStanding_switch.isChecked() ? true : false);
                     inspectionReport.put("wireGuardStandingBy", wire_gurdStanding_switch.isChecked() ? true : false);
@@ -1596,6 +1615,7 @@ public class Submission_screen extends Activity {
                                         Intent intent = new Intent(Submission_screen.this, MainActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
+                                        setFileToUploadPano();
                                         setFileToUploadPole();
                                         setFileToUploadWire();
                                         setFileToUploadUnderground();
@@ -1607,6 +1627,7 @@ public class Submission_screen extends Activity {
                                         selectedFeederLine2=null;
                                         selectedPoleHeight=null;
                                         selectedPoleNumber=null;
+
                                         ReadUnderGroundData.getInstance().resetAllReference();
                                         ReadUnderGroundData.getInstance().resetAllJSONObject();
 
@@ -1858,7 +1879,6 @@ public class Submission_screen extends Activity {
                 damageDetails2.put("damageDetails", transTwoData);
                 pictureName = null;
                 pictureName = ReadPoleTopEquipmentData.getInstance().transTwoPicturePath;
-                Log.i("shagun", "picturePath111111==" + pictureName);
                 if (pictureName != null && !pictureName.isEmpty()) {
                     pictureName = pictureName.substring(pictureName.lastIndexOf("/") + 1);
                     String thumbnail = truncateAndAddThumbnailString(pictureName);

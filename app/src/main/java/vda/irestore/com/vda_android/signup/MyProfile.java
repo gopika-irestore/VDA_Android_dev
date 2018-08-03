@@ -146,10 +146,6 @@ public class MyProfile extends BaseActivity {
         city.setText(registeredCity);
         county.setText(rigisteredCounty);
         state.setText(registeredState);
-        Log.i("vidisha","chittor"+sharedPref.getBoolean("userProfileCreated", false));
-
-
-
 
         email.setTypeface(typeFace);
         phone.setTypeface(typeFace);
@@ -164,17 +160,14 @@ public class MyProfile extends BaseActivity {
         File myDir = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/VDA/" +  sharedPref.getString("userID","")+".png");
 
         if(myDir.exists()) {
-            Log.i("vidisha","exists!!!");
             File f = new File(Environment.getExternalStorageDirectory().toString()+ "/DCIM/VDA/" + sharedPref.getString("userID", "") + ".png");
             Bitmap b = null;
             try {
                 b = BitmapFactory.decodeStream(new FileInputStream(f));
-                Log.i("vidisha","exists!!!"+b);
                 profileImg.setImageBitmap(b);
                 profileImg.setEnabled(true);
                 uploadPhotoLabel.setText("Edit Photo");
             } catch (FileNotFoundException e) {
-                Log.i("vidisha","exists!!!"+b);
                 e.printStackTrace();
             }
 
@@ -467,7 +460,6 @@ public class MyProfile extends BaseActivity {
             CropIntent.putExtra("scale", true);
             CropIntent.putExtra("circleCrop", new String(""));
             String deviceMan = android.os.Build.MANUFACTURER;
-            Log.i("vidisha","deviceMan"+deviceMan);
             if(deviceMan.equalsIgnoreCase("LGE")||deviceMan.equalsIgnoreCase("Xiaomi")||deviceMan.equalsIgnoreCase("motorola")||deviceMan.contains("Xiaomi")||deviceMan.contains("Redmi")||deviceMan.contains("Mi")) {
 
                 CropIntent.putExtra("return-data", true);
@@ -507,7 +499,6 @@ public class MyProfile extends BaseActivity {
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
             profileImageUrl = mypath.toString();
-            Log.i("vidisha","profile=="+profileImageUrl);
             editor.putString("profileImage",profileImageUrl);
             editor.commit();
 
@@ -591,7 +582,6 @@ public class MyProfile extends BaseActivity {
             // Create imageDir
             File profilePicPath=new File(directory,sharedPref.getString("phoneNumber","") + ".png");
 
-            Log.i("vidisha","hello"+profilePicPath.getName());
 
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(profilePicPath));
             if (b != null) {
@@ -694,11 +684,6 @@ public class MyProfile extends BaseActivity {
                     if (Log.isLoggable("STAsyncHttpConnection", Log.INFO)) {
                         Log.i("STAsyncHttpConnection", "POST parameters: " + httpPostData);
                     }
-
-                    Log.i("iRestore","authToken=="+authToken);
-                    Log.i("iRestore","tenantName=="+tenantName);
-                    Log.i("vidisha","hello token  myprofile==="+sharedPref.getString("token",""));
-                    Log.i("vidisha","hello token  myprofile==="+sharedPref.getString("accountKey",""));
 
                    /* urlConnection.setRequestProperty ("x-account-key", tenantName);
                     urlConnection.setRequestProperty ("x-access-token", authToken);*/
@@ -805,17 +790,13 @@ public class MyProfile extends BaseActivity {
 
                             JSONArray permissionsArray_RVA = responseObj.getJSONArray("Permissions");
 
-                            Log.i("vidisha","permissionsArray_RVA 1111"+permissionsArray_RVA.length());
                             if(permissionsArray_RVA.length()!=0)
                             {
                                 viewCards = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("view");
                                 isTechnician = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isTechnician");
                                 isSupervisor = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isSupervisor");
                                 isAdmin = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isAdmin");
-
-                                Log.i("vidisha","permissionsArray_RVA"+permissionsArray_RVA.getJSONObject(0).getString("permissions"));
-                                Log.i("vidisha","permissionsArray_RVA"+permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("view"));
-                            }
+ }
                             else {
                                 viewCards = false;
                                 isTechnician = false;

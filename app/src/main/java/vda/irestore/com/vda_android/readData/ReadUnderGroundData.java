@@ -152,8 +152,6 @@ public class ReadUnderGroundData {
                     if (UnderGroundData.getInstance().padmountsOne.get(i).getIsSelected() != null) {
                         isSelected = UnderGroundData.getInstance().padmountsOne.get(i).getIsSelected();
                         displayName = UnderGroundData.getInstance().padmountsOne.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + UnderGroundData.getInstance().padmountsOne.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + UnderGroundData.getInstance().padmountsOne.get(i).getName()+" ");
 
                         if (isSelected) {
 

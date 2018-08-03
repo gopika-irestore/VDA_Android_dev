@@ -141,7 +141,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
     }
     private boolean checkAndRequestPermissions() {
 
-        Log.i("vidisha","chk permissions");
         int writepermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readpermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         int cameraPermissions = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
@@ -175,9 +174,7 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
        /* if (flashLight != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.FLASHLIGHT);
         }*/
-        Log.i("vidisha","listPermissionsNeeded33333"+listPermissionsNeeded.size());
         if (!listPermissionsNeeded.isEmpty()) {
-            Log.i("vidisha","listPermissionsNeeded"+listPermissionsNeeded.size());
             ActivityCompat.requestPermissions(activity,listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
@@ -244,10 +241,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 editor.putString("emailAddress", email.getText().toString());
                 editor.commit();//to skip otp
                 if (!utilitySelectedOne) {
-
-
-
-                    Log.i("vidisha", "phonenumger===" + phoneNo);
 
                     if (email.getText().toString().isEmpty()) {
                         Toast.makeText(Main3Activity.this, getResources().getString(R.string.empty_email),
@@ -415,7 +408,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
 
             permissionsArray_RVA = responseData.getJSONArray("Permissions");
 
-            Log.i("vidisha","permissionsArray_RVA 1111"+permissionsArray_RVA.length());
             if(permissionsArray_RVA.length()!=0)
             {
                 viewCards = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("view");
@@ -423,8 +415,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 isSupervisor = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isSupervisor");
                 isAdmin = permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("isAdmin");
 
-                Log.i("vidisha","permissionsArray_RVA"+permissionsArray_RVA.getJSONObject(0).getString("permissions"));
-                Log.i("vidisha","permissionsArray_RVA"+permissionsArray_RVA.getJSONObject(0).getJSONObject("permissions").getJSONObject("yellowCards").getBoolean("view"));
             }
             else {
                 viewCards = false;
@@ -464,10 +454,8 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 }
                 for(int i=0;i<tenantsArray.length();i++)
                 {
-                    Log.i("vidisha","1111111111");
                     if(tenantsArray.getJSONObject(i).getString("emailDomains").contains(emailC))
                     {
-                        Log.i("vidisha","222222");
                         sel=i;
                         emailDomainFound = true;
 
@@ -478,14 +466,10 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
 
                 if(emailDomainFound)
                 {
-                    Log.i("vidisha","email domain Found");
                     accountKey = tenantsArray.getJSONObject(sel).getString("accountKey");
-                    Log.i("vidisha","email domain Found"+accountKey);
                     logo = tenantsArray.getJSONObject(sel).getString("logo");
                     token = tenantsArray.getJSONObject(sel).getString("token");
-                    Log.i("vidisha","hello token");
                     configuration =  tenantsArray.getJSONObject(sel).getString("configuration");
-                    Log.i("vidisha","hello configuration");
                     JSONObject configuration = new JSONObject(tenantsArray.getJSONObject(sel).getString("configuration"));
                     if(configuration.has("safetyMessage"))
                     safetyMessage = configuration.getString("safetyMessage");
@@ -644,11 +628,9 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                     editor.putString("userID", "0");
 
 
-                Log.i("vidisha","userID"+userArray.getJSONObject(0).getString("userId"));
 
 
 
-                Log.i("vidisha","email domain Found");
                 accountKey = tenantsArray.getJSONObject(0).getString("accountKey");
 
                 logo = tenantsArray.getJSONObject(0).getString("logo");
@@ -660,12 +642,10 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 imageName = tenantsArray.getJSONObject(0).getString("logo").
                         substring(tenantsArray.getJSONObject(0).getString("logo").lastIndexOf("/") + 1);
 
-                Log.i("vidisha","DownloadLogo name "+imageName);
 
                 configuration =  tenantsArray.getJSONObject(0).getString("configuration");
 
                 JSONObject configuration = new JSONObject(tenantsArray.getJSONObject(0).getString("configuration"));
-                Log.i("vidisha","hello configuration 1111 ");
                 if(configuration.has("safetyMessage"))
                 safetyMessage = configuration.getString("safetyMessage");
                 s3Bucket = configuration.getString("s3Bucket");
@@ -965,7 +945,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
             if(i!=0) {
 
                     selectedTenant = tenantsArray.getJSONObject(i-1);
-                Log.i("vidisha","hello"+selectedTenant);
 
 
                 if(item.equalsIgnoreCase(selectedTenant.getString("name")))
@@ -1009,7 +988,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                     editor.putString("userID","0");
                     editor.putString("imageURL",logoURL);
 
-                    Log.i("vidisha","Imageurl1111"+token);
 
                     JSONObject json = new JSONObject();
                     json.put("serviceEndpoint", accountKey+".irestore.info");
@@ -1162,7 +1140,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
         }
 
         private void SaveImage(Bitmap finalBitmap, String imageName) {
-            Log.i("vidisha","Saving Image");
 
             String root = Environment.getExternalStorageDirectory().toString();
             File myDir = new File(root + "/DCIM/VDA/TenantLogo");
@@ -1206,7 +1183,6 @@ public class Main3Activity extends BaseActivity implements AdapterView.OnItemSel
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setRequestProperty("x-application", appKey);
                 connection.setRequestProperty("x-user", sharedPref.getString("phoneNumber",""));
-                Log.i("vidisha","hello token ==="+sharedPref.getString("token",""));
                 //Connect to our url
                 connection.connect();
                 //Create a new InputStreamReader

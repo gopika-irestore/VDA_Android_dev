@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -72,7 +73,7 @@ public class ShowPictureTakenActivity extends BaseActivity {
     public void buttonOnClick(View v) {
         switch (v.getId()) {
             case R.id.keepPhoto:
-                if(count<2) {
+                if(count<1) {
 
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(ShowPictureTakenActivity.this);
@@ -106,8 +107,12 @@ public class ShowPictureTakenActivity extends BaseActivity {
                 {
                     Intent intent = new Intent();
                     Utils.currentLocation = gps.getLocation();
-                    intent.setClass(ShowPictureTakenActivity.this, MainActivity.class);
-                    startActivity(intent);
+                  /*  setResult(3455);
+                    finish();*/
+                    //intent.setClass(ShowPictureTakenActivity.this, MainActivity.class);
+                    //startActivityForResult(intent, 456);
+                   // startActivity(intent);
+                    setResult(3455);
                     finish();
                 }
 
@@ -118,5 +123,15 @@ public class ShowPictureTakenActivity extends BaseActivity {
         }
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == 456) {
+
+            }
+        }
+    }
 }

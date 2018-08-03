@@ -36,7 +36,7 @@
     <string name="invalid_field_length1">can not contain more than 150 characters</string>
     <!--Strings related to Welcome Screen -->
     <string name="welcomeAppName">Maintenance Activity Card</string>
-    <string name="welcomeMsg">Welcome to CP Manager</string>
+    <string name="welcomeMsg">Welcome to VDA</string>
     <string name="welcomeInfo">Use this app to document service referrals \nand other deficiencies in the field.</string>
     <string name="dontAskAgain">Don\'t show this again</string>
     <string name="documentConditions">Document conditions</string>
@@ -48,7 +48,7 @@
     <string name="no_location">Fetching location, try again!</string>
     <string name="select_utility">Please select the Utility</string>
     <string name="error">Server Error, please try again later</string>
-    <string name="enable_location">Please enable location services for iRestore CP Manager. </string>
+    <string name="enable_location">Please enable location services for iRestore VDA. </string>
     <string name="admin_approval">Thank you for registering for iRestore.</string>
     <string name="admin_approval_utility">Administrator will respond to your request within 48 hours and you will be notified of the response.</string>
     <!--Strings related to submit new card Screen -->

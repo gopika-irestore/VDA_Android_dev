@@ -840,7 +840,6 @@ public class SelectedItems_Old extends AppCompatActivity {
 
             Gson poleMetadataGsonList = new Gson();
             String response = metadataPreferences.getString(key, "");
-            Log.i("vidisha","Item selected 111:::"+item.getTitle());
 
             final ArrayList<InspectionMetaData> poleListItems_ArrayList = poleMetadataGsonList.fromJson(response,
                     new TypeToken<List<InspectionMetaData>>() {
@@ -859,7 +858,6 @@ public class SelectedItems_Old extends AppCompatActivity {
                 poleMetadataJsonArrayList = j;
             }
 
-            Log.i("vidisha","metadataPreferences :::"+poleMetadataJsonArrayList);
             for (int s = 0; s < poleMetadataJsonArrayList.length(); s++) {
                 String displayName = poleMetadataJsonArrayList.getJSONObject(s).get("displayName").toString();
 

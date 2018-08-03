@@ -163,7 +163,6 @@ public class ReadPoleTopEquipmentData {
                     if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSize_phase() != null) {
                         subtitle = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle();
                         addSize_Phase = PoleTopEquipmentData.getInstance().transformerOne.get(i).getSize_phase();
-                        Log.i("vidisha","addsize=="+addSize_Phase);
                         if (PoleTopEquipmentData.getInstance().transformerOne.get(i).getSubTitle() != null) {
                             if(!addSize_Phase.toString().trim().isEmpty())
                                 damageDetailsTransOne.put(subtitle, addSize_Phase);

@@ -35,7 +35,6 @@ public class MyFirebaseApp extends Application {
 
 
 
-        Log.i("vidisha","MyFirebaseApp");
 
        // FirebaseDatabase.getInstance().getApp().setAutomaticResourceManagementEnabled(true);
         FirebaseDatabase.getInstance("https://vda-ios.firebaseio.com/").setPersistenceEnabled(true);

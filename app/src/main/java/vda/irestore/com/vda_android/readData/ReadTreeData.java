@@ -84,11 +84,8 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeOne.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeOne.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeOne.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeOne.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeOne.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeOne.get(i).getName()+" ");
                             //  displayName = displayName.replaceAll("\\s", "");
                             // displayName = "is" + displayName;
                             damageDetailstreeOne.put(displayName, isSelected);
@@ -157,13 +154,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeTwo.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeTwo.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeTwo.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeTwo.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeTwo.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeTwo.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeTwo.put(displayName, isSelected);
                         }
                         else
@@ -230,13 +223,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeThree.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeThree.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeThree.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeThree.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeThree.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeThree.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeThree.put(displayName, isSelected);
                         }
                         else
@@ -303,13 +292,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeFour.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeFour.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeFour.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeFour.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeFour.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeFour.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeFour.put(displayName, isSelected);
                         }
                         else
@@ -376,13 +361,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeFive.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeFive.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeFive.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeFive.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeFive.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeFive.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeFive.put(displayName, isSelected);
                         }
                         else
@@ -450,13 +431,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeSix.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeSix.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeSix.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeSix.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeSix.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeSix.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeSix.put(displayName, isSelected);
                         }
                         else
@@ -524,13 +501,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeSeven.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeSeven.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeSeven.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeSeven.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeSeven.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeSeven.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeSeven.put(displayName, isSelected);
                         }
                         else
@@ -599,13 +572,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeEight.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeEight.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeEight.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeEight.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeEight.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeEight.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeEight.put(displayName, isSelected);
                         }
                         else
@@ -674,13 +643,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeNine.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeNine.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeNine.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeNine.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeNine.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeNine.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeNine.put(displayName, isSelected);
                         }
                         else
@@ -749,13 +714,9 @@ public class ReadTreeData {
                     if (TreeData.getInstance().treeTen.get(i).getIsSelected() != null) {
                         isSelected = TreeData.getInstance().treeTen.get(i).getIsSelected();
                         displayName = TreeData.getInstance().treeTen.get(i).getName();
-                        Log.i("Shri_LOG", "Display Name = " + TreeData.getInstance().treeTen.get(i).getDisplayName()+" ");
-                        Log.i("Shri_LOG", "Name = " + TreeData.getInstance().treeTen.get(i).getName()+" ");
 
                         if (isSelected) {
-                            Log.i("Shri_LOG111", "Name = " + TreeData.getInstance().treeTen.get(i).getName()+" ");
-                            //  displayName = displayName.replaceAll("\\s", "");
-                            // displayName = "is" + displayName;
+
                             damageDetailstreeTen.put(displayName, isSelected);
                         }
                         else

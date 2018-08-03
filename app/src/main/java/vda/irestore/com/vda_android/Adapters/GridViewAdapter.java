@@ -149,7 +149,6 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
     }
     public static Bitmap getBitmapFromURL(String imageUrl) {
 
-        Log.i("shakti","download"+imageUrl);
         try {
             URL url = new URL(imageUrl);
             HttpURLConnection connection = (HttpURLConnection)

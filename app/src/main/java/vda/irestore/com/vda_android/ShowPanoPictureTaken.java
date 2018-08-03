@@ -84,14 +84,16 @@ public class ShowPanoPictureTaken extends BaseActivity {
             case R.id.keepPhoto:
 
                             Utils.currentLocation = gps.getLocation();
-                            Intent intent = new Intent();
+                           // Intent intent = new Intent();
                          //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setClass(ShowPanoPictureTaken.this, MainActivity.class);
+                           // intent.setClass(ShowPanoPictureTaken.this, MainActivity.class);
                             editor = sharedPref.edit();
                             editor.putString("captionOne",caption.getText().toString().trim());
                             editor.commit();
-                            startActivity(intent);
-                            finish();
+                           // startActivity(intent);
+                           // finish();
+                setResult(3455);
+                finish();
 
                 break;
             case R.id.discardPhoto:
@@ -99,6 +101,18 @@ public class ShowPanoPictureTaken extends BaseActivity {
                 break;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == 456) {
+
+            }
+        }
     }
 
 }

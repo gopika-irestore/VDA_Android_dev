@@ -96,19 +96,16 @@ public class GPSTracker extends Service implements LocationListener {
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             Global.currentLocation = location;
-                            Log.i("vidisha","11111"+Global.currentLocation);
                             if (location != null) {
                                 if (isBetterLocation(location, Global.currentLocation)) {
                                     latitude = Global.currentLocation.getLatitude();
                                     longitude =  Global.currentLocation.getLongitude();
                                     String url;
 
-                                    Log.i("vidisha","111111111"+latitude + longitude);
 
                                     url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="
                                             + latitude + "," + longitude + "&sensor=false";
 
-                                    Log.i("vidisha","111111111"+url);
 
                                     DownloadTask downloadTask = new DownloadTask();
 
@@ -135,7 +132,6 @@ public class GPSTracker extends Service implements LocationListener {
                                 location = locationManager
                                         .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                                 Global.currentLocation = location;
-                                Log.i("vidisha","22222"+Global.currentLocation);
                                 if (location != null) {
                                     if (isBetterLocation(location, Global.currentLocation)) {
                                         latitude = Global.currentLocation.getLatitude();
@@ -147,7 +143,6 @@ public class GPSTracker extends Service implements LocationListener {
 
                                         url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="
                                                 + latitude + "," + longitude + "&sensor=false";
-                                        Log.i("vidisha","2222222url"+url);
 
 
                                         DownloadTask downloadTask = new DownloadTask();
@@ -169,7 +164,6 @@ public class GPSTracker extends Service implements LocationListener {
 
                                         url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="
                                                 + latitude + "," + longitude + "&sensor=false";
-                                        Log.i("vidisha","2222222url"+url);
 
 
                                         DownloadTask downloadTask = new DownloadTask();

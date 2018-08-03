@@ -89,7 +89,7 @@ public class MyreportAdapter extends ArrayAdapter {
         String isUnderground = myReportData.UNDERGROUND;
         String isOthers = myReportData.OTHER;
 
-        Log.i("vidisha","isPoleTop=="+isPoleTop);
+
         if (isPoleTop.equalsIgnoreCase("false"))
             viewHolder.inspectionImage1.setImageResource(R.drawable.poletop_sub);
         else

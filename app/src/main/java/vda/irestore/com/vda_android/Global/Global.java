@@ -85,7 +85,6 @@ public class Global {
 
     public static String AWS_URL = "https://irestore-yc-";
     public static String S3_URL = ".s3.amazonaws.com/";
-    public  static List<File> images_array = new ArrayList<File>();
     public  static List<File> update_images_array = new ArrayList<File>();
     public static List<String> images_comment = new ArrayList<>();
 
