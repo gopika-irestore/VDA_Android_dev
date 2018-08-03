@@ -101,6 +101,7 @@ import static vda.irestore.com.vda_android.Global.GlobalData.underground_images_
 import static vda.irestore.com.vda_android.Global.GlobalData.wire_images_array;
 import static vda.irestore.com.vda_android.Global.Utils.images_array;
 import static vda.irestore.com.vda_android.MainActivity.panoImageTaken;
+import static vda.irestore.com.vda_android.ShooterActivity.panoImageURL1;
 
 public class Submission_screen extends Activity {
     TextView submit,lat_long,spinner;
@@ -158,6 +159,7 @@ public class Submission_screen extends Activity {
             damageImage.setImageBitmap(Utils.assetImage);
         }
 
+        Log.i("vidisha","panoImageTaken"+panoImageTaken);
         wireGuardLabel = (TextView)findViewById(R.id.wireGuardLabel) ;
         policeLabel = (TextView)findViewById(R.id.policeLabel);
         roadLabel = (TextView)findViewById(R.id.roadLabel);
@@ -1430,18 +1432,26 @@ public class Submission_screen extends Activity {
                     inspectionReport.put("submittedBy", submittedByData);
                     JSONArray sceneImages = new JSONArray();
                     JSONObject imagesObject = new JSONObject();
-                    if(panoImageTaken)
-                    imagesObject.put("isPanorama",true);
-                    else
-                        imagesObject.put("isPanorama",false);
 
-                    imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + imageName1);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
-                    imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + imageName1); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                    if(Utils.panoBitmap1!=null) {
+                        imagesObject.put("isPanorama", true);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + panoImageURL1.getName());//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + panoImageURL1.getName()); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        sceneImages.put(imagesObject);
+                        inspectionReport.put("sceneImages", sceneImages);
+                    }
+                    else if(Utils.assetImage!=null) {
+                        imagesObject.put("isPanorama", false);
+                        imagesObject.put("thumbnail", "https://" + sharedPref.getString("s3Bucket", "") + "-thumbnails" + S3_URL + sharedPref.getString("accountKey", "") + "/" + imageName1);//9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1-thumbnail.png"
+                        imagesObject.put("original", "https://" + sharedPref.getString("s3Bucket", "") + S3_URL + sharedPref.getString("accountKey", "") + "/" + imageName1); //9900075770_20171120121232-PoleTopEquipment-DETAIL-TRANSFORMER-1.png
+                        sceneImages.put(imagesObject);
+                        inspectionReport.put("sceneImages", sceneImages);
+                    }
 
-                    sceneImages.put(imagesObject);
 
-                    if(images_array!=null)
-                      inspectionReport.put("sceneImages", sceneImages);
+
+
+
                     inspectionReport.put("roadBlocked", road_block_switch.isChecked() ? true : false);
                     inspectionReport.put("policeFireStandingBy", police_fireStanding_switch.isChecked() ? true : false);
                     inspectionReport.put("wireGuardStandingBy", wire_gurdStanding_switch.isChecked() ? true : false);
@@ -1627,6 +1637,8 @@ public class Submission_screen extends Activity {
                                         selectedFeederLine2=null;
                                         selectedPoleHeight=null;
                                         selectedPoleNumber=null;
+                                        Utils.panoBitmap1=null;
+                                        Utils.assetImage =null;
 
                                         ReadUnderGroundData.getInstance().resetAllReference();
                                         ReadUnderGroundData.getInstance().resetAllJSONObject();

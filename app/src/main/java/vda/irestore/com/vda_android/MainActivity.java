@@ -405,6 +405,7 @@ public class MainActivity extends Activity {
         selectedFeederLine2 = null;
         selectedPoleHeight = null;
         selectedPoleNumber = null;
+
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
         ReadPoleEquipmentData.getInstance().resetAllReference();

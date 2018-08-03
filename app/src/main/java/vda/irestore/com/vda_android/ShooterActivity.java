@@ -497,7 +497,7 @@ public class ShooterActivity extends Activity {
 						e.printStackTrace();
 					}
 				}
-				Utils.images_array.add(panoFilePath_one);
+				Utils.images_array.add(panoImageURL1);
 				//images_array.add(thumbPanoFilePath_one);
 
 			}
