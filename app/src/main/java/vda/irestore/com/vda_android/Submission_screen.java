@@ -287,6 +287,7 @@ public class Submission_screen extends Activity {
             fourthimage = bundle.getInt("poleImage");
             fifthimage = bundle.getInt("treeImage");
             sixthimage = bundle.getInt("otherImage");
+
             final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.imageGallery);
             final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(5, 0, 5, 0);

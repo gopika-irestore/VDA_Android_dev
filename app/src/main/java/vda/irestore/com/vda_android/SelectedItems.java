@@ -157,7 +157,7 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
     RecyclerView horizontalListView;
     CountAdapter recyclerCountAdapter;
     TextView nextButton;
-
+    int firstimage,secondimage,thirdimage,fourthimage,fifthimage,sixthimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,12 +189,12 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
          nextButton.setOnClickListener(this);
 
         if(bundle != null) {
-            int firstimage = bundle.getInt("wireImage");
-            int secondimage = bundle.getInt("poletopImage");
-            int thirdimage = bundle.getInt("splImage");
-            int fourthimage = bundle.getInt("poleImage");
-            int fifthimage = bundle.getInt("treeImage");
-            int sixthimage = bundle.getInt("otherImage");
+             firstimage = bundle.getInt("wireImage");
+             secondimage = bundle.getInt("poletopImage");
+             thirdimage = bundle.getInt("splImage");
+             fourthimage = bundle.getInt("poleImage");
+             fifthimage = bundle.getInt("treeImage");
+             sixthimage = bundle.getInt("otherImage");
 
             final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.imageGallery);
             final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -5290,12 +5290,20 @@ public class SelectedItems extends PermissionsActivity implements View.OnClickLi
 
                 Intent intent = new Intent(SelectedItems.this, Submission_screen.class);
 
-                    intent.putExtra("wireImage",R.drawable.wire_sub);
-                    intent.putExtra("poletopImage",R.drawable.pole_sub1);
-                    intent.putExtra("splImage",R.drawable.spl_sub);
-                    intent.putExtra("poleImage",R.drawable.pole_sub);
-                    intent.putExtra("treeImage",R.drawable.tree_sub);
-                    intent.putExtra("otherImage",R.drawable.other_sub);
+
+                    if(firstimage!=0)
+                        intent.putExtra("wireImage",R.drawable.wire_sub);
+                    if(secondimage!=0)
+                        intent.putExtra("poletopImage",R.drawable.pole_sub1);
+                    if(thirdimage!=0)
+                         intent.putExtra("splImage",R.drawable.spl_sub);
+                    if(fourthimage!=0)
+                        intent.putExtra("poleImage",R.drawable.pole_sub);
+                    if(fifthimage!=0)
+                        intent.putExtra("treeImage",R.drawable.tree_sub);
+                    if(sixthimage!=0)
+                         intent.putExtra("otherImage",R.drawable.other_sub);
+
                 startActivity(intent);
                 }
     }

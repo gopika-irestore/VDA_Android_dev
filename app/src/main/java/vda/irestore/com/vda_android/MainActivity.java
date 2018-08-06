@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -343,18 +344,18 @@ public class MainActivity extends Activity {
     public void setActionBar() {
         LayoutInflater inflator = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.custom_titlebar, null);
+        View v = inflator.inflate(R.layout.custom_titlebarhome, null);
         v.setBackgroundColor(Color.WHITE);
         ActionBar actionBar = getActionBar();
         TextView title = (TextView) v.findViewById(R.id.title);
         title.setTextColor(Color.parseColor("#333333"));
         title.setText("VDA");
         title.setTypeface(typeface);
-        Button nextBtn = (Button) v.findViewById(R.id.nextBtn);
-        nextBtn.setTextColor(Color.parseColor("#00A699"));
-        nextBtn.setText("Submit");
-        nextBtn.setVisibility(View.INVISIBLE);
-        nextBtn.setTypeface(typeface);
+        ImageButton nextBtn = (ImageButton) v.findViewById(R.id.nextBtn);
+
+       // nextBtn.setTextColor(Color.parseColor("#00A699"));
+       // nextBtn.setText("Submit");
+      //  nextBtn.setVisibility(View.INVISIBLE);
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -407,7 +408,12 @@ public class MainActivity extends Activity {
         selectedFeederLine2 = null;
         selectedPoleHeight = null;
         selectedPoleNumber = null;
-
+        changeOf_imageWire =0;
+        changeOf_imagePole =0;
+        changeOf_imagePoleTop =0;
+        changeOf_imageTree=0;
+        changeOf_imageSplEquipment=0;
+        changeOf_imageWire=0;
         ReadUnderGroundData.getInstance().resetAllReference();
         ReadUnderGroundData.getInstance().resetAllJSONObject();
         ReadPoleEquipmentData.getInstance().resetAllReference();
